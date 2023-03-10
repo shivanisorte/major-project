@@ -1,7 +1,7 @@
 import React from "react";
 
 function DefaultPage() {
-  return <div>Student DefaultPage</div>;
+  return <div>Guide DefaultPage</div>;
 }
 
 export default DefaultPage;

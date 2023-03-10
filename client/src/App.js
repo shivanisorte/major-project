@@ -2,13 +2,19 @@ import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import StudentApp from "./student/App";
 import LandingPage from "./LandingPage";
-import StudentDashboard from "./student/pages/Dashboard";
+import GuideApp from "./guide/App";
+import CoordinatorApp from "./coordinator/App";
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<LandingPage></LandingPage>}></Route>
       <Route path="/student/*" element={<StudentApp></StudentApp>}></Route>
+      <Route path="/guide/*" element={<GuideApp></GuideApp>}></Route>
+      <Route
+        path="/coordinator/*"
+        element={<CoordinatorApp></CoordinatorApp>}
+      ></Route>
     </Routes>
   );
 }

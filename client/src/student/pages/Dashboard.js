@@ -1,4 +1,4 @@
 function Dashboard() {
-  return <div>This is dashboard</div>;
+  return <div>This is Student dashboard</div>;
 }
 export default Dashboard;
