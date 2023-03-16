@@ -1,4 +1,10 @@
+import AppNav from "../../components/AppNav";
+
 function Dashboard() {
-  return <div>This is Student dashboard</div>;
+  return (
+    <>
+      <AppNav category={"student"}></AppNav>
+    </>
+  );
 }
 export default Dashboard;
