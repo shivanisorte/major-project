@@ -4,7 +4,7 @@ import {Box, HStack, Link, Flex, Button, Image} from '@chakra-ui/react'
 
 const LandNav = () => {
   return (
-    <Box as='nav' bg="black" color='white' py='4'>
+    <Box as='nav' bg="black" color='white' minH={'10vh'} paddingTop='1rem' >
       <Box>
 
         <HStack spacing='10'>

@@ -1,4 +1,4 @@
-import { Box, Heading, VStack , Text, HStack, Button} from '@chakra-ui/react'
+import { Box, Heading, VStack , Text, HStack, Button, Center} from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import {BiChevronRight} from 'react-icons/bi'
 import {Link} from 'react-router-dom'
@@ -26,8 +26,8 @@ const Hero = () => {
 
 
   return (
-    <Box bg='black'>
-        <VStack color='white' textAlign='center' spacing='10' py='196'>
+    <Center bg='black' minH={'90vh'} flex>
+        <VStack color='white' textAlign='center' spacing='10'>
             <Heading as='h1' fontSize={['3xl','3xl','7xl', '7xl']}
             maxW={{base:'lg', md:'xl', lg:'2xl'}}
             >
@@ -67,7 +67,7 @@ const Hero = () => {
             </VStack>
         </VStack>
 
-    </Box>
+    </Center>
   )
 }
 
