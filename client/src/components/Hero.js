@@ -44,24 +44,24 @@ const Hero = () => {
             </Text>
             <HStack spacing='6' display={['none', 'none','block', 'block']}>
             <Link to='/student'>
-                <Button rightIcon={<BiChevronRight/>} colorScheme='purple' fontSize={['l','l','2xl', '2xl']}>Student</Button>
+                <Button width='2xs' rightIcon={<BiChevronRight/>} colorScheme='purple' fontSize={['l','l','2xl', '2xl']}>Student</Button>
               </Link>
               <Link to='/guide'>
-                <Button rightIcon={<BiChevronRight/>} colorScheme='purple' fontSize={['l','l','2xl', '2xl']}>Guide</Button>
+                <Button width='2xs' rightIcon={<BiChevronRight/>} colorScheme='purple' fontSize={['l','l','2xl', '2xl']}>Guide</Button>
               </Link>
               <Link to='/coordinator'>
-                <Button rightIcon={<BiChevronRight/>} colorScheme='purple' fontSize={['l','l','2xl', '2xl']}>Coordinator</Button>
+                <Button width='2xs' rightIcon={<BiChevronRight/>} colorScheme='purple' fontSize={['l','l','2xl', '2xl']}>Coordinator</Button>
               </Link>
             </HStack>
             <VStack spacing='6' display={['block', 'block','none', 'none']}>
               <Link to='/student'>
-                <Button display={'block'} rightIcon={<BiChevronRight/>} colorScheme='purple' fontSize={['l','l','2xl', '2xl']}>Student</Button>
+                <Button width='3xs' display={'block'} rightIcon={<BiChevronRight/>} colorScheme='purple' fontSize={['l','l','2xl', '2xl']}>Student</Button>
               </Link>
               <Link to='/guide'>
-                <Button display={'block'} rightIcon={<BiChevronRight/>} colorScheme='purple' fontSize={['l','l','2xl', '2xl']}>Guide</Button>
+                <Button width='3xs' display={'block'} rightIcon={<BiChevronRight/>} colorScheme='purple' fontSize={['l','l','2xl', '2xl']}>Guide</Button>
               </Link>
               <Link to='/coordinator'>
-                <Button display={'block'} rightIcon={<BiChevronRight/>} colorScheme='purple' fontSize={['l','l','2xl', '2xl']}>Coordinator</Button>
+                <Button width='3xs' display={'block'} rightIcon={<BiChevronRight/>} colorScheme='purple' fontSize={['l','l','2xl', '2xl']}>Coordinator</Button>
               </Link>
 
             </VStack>

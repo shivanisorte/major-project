@@ -41,7 +41,7 @@ const LandNav = () => {
                 background:'transparent',
                 borderColor:'white',
               }}
-              >Get Started</Button>
+              >Get in touch</Button>
             </HStack>
 
 
