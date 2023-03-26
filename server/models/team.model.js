@@ -14,13 +14,13 @@ const TeamSchema = new Schema({
   },
   projectTitle: {
     type: String,
-    required: [true, "project title is required "],
+    // required: [true, "project title is required "],
   },
   commits: [], // not sure what this would look like lmao
   tasks: [], // not sure what this would look like lmao
   domain: {
     type: String,
-    required: true,
+    // required: true,
   },
 });
 

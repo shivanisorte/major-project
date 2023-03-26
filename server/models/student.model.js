@@ -10,12 +10,12 @@ const StudentSchema = new Schema({
     type: String,
     unique: true,
     required: true,
-    validate: {
-      validator: function (v) {
-        return /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/.test(v);
-      },
-      message: (props) => `${props.value} is not a valid email id!`,
-    },
+    // validate: {
+    //   validator: function (v) {
+    //     return /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/.test(v);
+    //   },
+    //   message: (props) => `${props.value} is not a valid email id!`,
+    // },
   },
   erno: {
     type: String,
