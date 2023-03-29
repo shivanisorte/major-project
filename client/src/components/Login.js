@@ -1,9 +1,8 @@
 import React from 'react'
 import LandNav from './LandNav'
-import logo from './../assets/coordinator.png'
 import { Box, Heading, Text, VStack, Image, FormControl, FormLabel, Input, Checkbox, Button, HStack, Flex } from '@chakra-ui/react'
 
-const Login = () => {
+const Login = ({role, image}) => {
   return (
     <div>
         <LandNav colors={['white','black', 'purple.600']}/>
@@ -16,7 +15,7 @@ const Login = () => {
                 // w='full'
                 h='90%'
                 opacity='0.95'
-                src={logo}
+                src={image}
                 />
             </Flex>
 
@@ -32,7 +31,7 @@ const Login = () => {
         >
             <VStack spacing={4} w='full' align='flex-end'>
                 <VStack spacing={1} align={['flex-start','center']} w='full'>
-                    <Heading>Hi <Text display='inline' color='purple.600'>Student!</Text></Heading>
+                    <Heading>Hi <Text display='inline' color='purple.600'>{role}!</Text></Heading>
                     <Text>Enter your phone number and OTP to login</Text>
                 </VStack>
 
