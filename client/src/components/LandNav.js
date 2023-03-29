@@ -1,10 +1,10 @@
 import React from 'react'
 
-import {Box, HStack, Link, Flex, Button, Image} from '@chakra-ui/react'
+import {Box, HStack, Link, Flex, Button} from '@chakra-ui/react'
 
-const LandNav = () => {
+const LandNav = ({colors}) => {
   return (
-    <Box as='nav' bg="black" color='white' minH={'10vh'} paddingTop='1rem' >
+    <Box as='nav' bg={colors[0]} color={colors[1]} minH={'10vh'} paddingTop='1rem' >
       <Box>
 
         <HStack spacing='10'>
@@ -17,7 +17,7 @@ const LandNav = () => {
               marginLeft='30px'
               fontWeight='bold'
               _hover={{
-                color: 'orange.600', 
+                color: colors[2], 
               }}
               to="/">
                 Motion
@@ -28,7 +28,7 @@ const LandNav = () => {
               <Link
               fontWeight='bold'
               _hover={{
-                color: 'orange.600', 
+                color: colors[2], 
               }}>
                 About App
               </Link>
@@ -36,7 +36,7 @@ const LandNav = () => {
               variant='outline' 
               fontSize={['l','l','2xl', '2xl']}
               fontWeight='bold'
-              borderColor='orange.600'
+              borderColor= {colors[2]}
               _hover={{
                 background:'transparent',
                 borderColor:'white',

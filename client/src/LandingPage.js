@@ -4,7 +4,7 @@ import Hero from './components/Hero.js';
 function LandingPage() {
   return (
     <div>
-      <LandNav/>
+      <LandNav colors={['black','white', 'orange.600']}/>
       <Hero/>
     </div>
   )
