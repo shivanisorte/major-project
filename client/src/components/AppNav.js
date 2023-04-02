@@ -1,7 +1,5 @@
 import {
   Flex,
-  Avatar,
-  Icon,
   IconButton,
   Modal,
   ModalOverlay,
