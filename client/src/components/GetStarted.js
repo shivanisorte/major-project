@@ -1,6 +1,6 @@
 import React from 'react'
 import AppNav from './AppNav'
-import { Box, Flex, Heading,Image,Button,Stack, Center} from "@chakra-ui/react";
+import { Box, Flex, Heading,Image,Button,Stack} from "@chakra-ui/react";
 import { BiChevronRight } from "react-icons/bi";
   
 
