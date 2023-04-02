@@ -16,20 +16,20 @@ import Logo from "./Logo";
 import { IoMdSettings, IoIosNotifications } from "react-icons/io";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import { BsFillPersonFill } from "react-icons/bs";
-function AppNav({ category }) {
+function AppNav() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
       {" "}
       <Flex
         justify={"space-between"}
-        bg="brand.blue2"
+        bg="black"
         w="100%"
-        p={3}
+        minH={"10vh"}
         color="white"
         align={"center"}
       >
-        <Logo category={category}></Logo>
+        <Logo></Logo>
 
         <Flex
           display={["none", "none", "flex", "flex"]}
@@ -41,16 +41,25 @@ function AppNav({ category }) {
             colorScheme="none"
             boxSize={6}
             as={BsFillPersonFill}
+            _hover={{
+              color: 'purple.400', 
+            }}
           ></IconButton>
           <IconButton
             colorScheme="none"
             boxSize={6}
             as={IoMdSettings}
+            _hover={{
+              color: 'purple.400', 
+            }}
           ></IconButton>
           <IconButton
             colorScheme="none"
             boxSize={6}
             as={IoIosNotifications}
+            _hover={{
+              color: 'purple.400', 
+            }}
           ></IconButton>
         </Flex>
         <IconButton
