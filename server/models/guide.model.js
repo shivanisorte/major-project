@@ -2,13 +2,9 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const guideSchema = Schema({
-  firstName: {
+  name: {
     type: String,
-    required: [true, "first name is required "],
-  },
-  lastName: {
-    type: String,
-    required: [true, "last name is required "],
+    required: [true, "name is required "],
   },
   phno: {
     type: Number,
@@ -40,4 +36,4 @@ const guideSchema = Schema({
 });
 
 const Guide = mongoose.model("Guide", guideSchema);
-module.exports = { Guide };
+module.exports = Guide;
