@@ -2,13 +2,21 @@ const express = require("express");
 const app = express();
 const port = 3001;
 const bodyParser = require("body-parser");
+const cors = require("cors");
 const indexRouter = require("./routes/index");
 const coordinatorRouter = require("./routes/coordinator/index");
 const authRouter = require("./routes/auth");
 const { initializeDBConnection } = require("./db/db.connect");
-const {
-  verificationMiddleware,
-} = require("./middlewares/verificationMiddleware");
+
+const whitelist = ["http://localhost:3000"];
+
+const corsOptions = {
+  origin: whitelist,
+  optionsSuccessStatus: 200,
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
 
 initializeDBConnection();
 
