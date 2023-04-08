@@ -11,19 +11,45 @@ const GetStartedCoord = ({ image, buttonText, heading }) => {
     const [guideSelectedFile, setguideSelectedFile] = useState(null);
     const [isGuideModalOpen, setIsGuideModalOpen] = useState(false);
 
+    //student form uploading
+    const [isStudDataLoading, setIsStudDataLoading] = useState(false);
+
+    //guide form uploading
+    const [isGuideDataLoading, setIsGuideDataLoading] = useState(false);
+
+
+
 
     const handleStudentFileSelect = (event) => {
-        console.log("i'm here");
-        console.log(event.target.files[0]);
+      setIsStudDataLoading(true);
+      // Simulate file upload delay
+      setTimeout(() => {
         setstudentSelectedFile(event.target.files[0]);
-        setIsStudentModalOpen(false);
-      };
+        setIsStudDataLoading(false);
+      }, 2000);
+      console.log(studentSelectedFile.name);
+    };
 
     const handleGuideFileSelect = (event) => {
-        console.log("i'm here");
-        console.log(event.target.files[0]);
+      setIsGuideDataLoading(true);
+      // Simulate file upload delay
+      setTimeout(() => {
         setguideSelectedFile(event.target.files[0]);
-        setIsGuideModalOpen(false);
+        setIsGuideDataLoading(false);
+      }, 2000);
+      console.log(guideSelectedFile.name);
+    };
+
+      const handleSubmitStudent = () => {
+        // Handle form submission here
+        console.log(`Submitted file: ${studentSelectedFile.name}`);
+        setIsStudentModalOpen(false)
+      };
+
+      const handleSubmitGuide = () => {
+        // Handle form submission here
+        console.log(`Submitted file: ${guideSelectedFile.name}`);
+        setIsGuideModalOpen(false)
       };
 
   return (
@@ -58,13 +84,25 @@ const GetStartedCoord = ({ image, buttonText, heading }) => {
             >
               {buttonText[0]}
             </Button>
-            <Modal isCentered isOpen={isStudentModalOpen} onClose={() => setIsStudentModalOpen(false)} size={['xs','lg','lg','lg']}>
+            <Modal isCentered isOpen={isStudentModalOpen} size={['xs','lg','lg','lg']} onClose={() => setIsStudentModalOpen(false)} >
             <ModalOverlay />
             <ModalContent>
             <ModalHeader color={"purple.600"}>Upload the Student XLSX file</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-                <input type="file" accept=".xlsx" onChange={handleStudentFileSelect} />
+                <input type="file" accept=".xlsx" onChange={handleStudentFileSelect} disabled={isStudDataLoading} />
+                {isStudDataLoading ? (
+              <Box mt={4}>Loading...</Box>
+            ) : studentSelectedFile ? (
+              <Box mt={4}>Selected file: {studentSelectedFile.name}</Box>
+            ) : null}
+            {studentSelectedFile && (
+              <Box mt={4}>
+                <Button colorScheme="green" onClick={handleSubmitStudent}>
+                  Submit
+                </Button>
+              </Box>
+            )}
             </ModalBody>
             </ModalContent>
             </Modal>
@@ -83,7 +121,19 @@ const GetStartedCoord = ({ image, buttonText, heading }) => {
             <ModalHeader color={"purple.600"}>Upload the Guide XLSX file</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-                <input type="file" accept=".xlsx" onChange={handleGuideFileSelect} />
+            <input type="file" accept=".xlsx" onChange={handleGuideFileSelect} disabled={isGuideDataLoading} />
+                {isGuideDataLoading ? (
+              <Box mt={4}>Loading...</Box>
+            ) : guideSelectedFile ? (
+              <Box mt={4}>Selected file: {guideSelectedFile.name}</Box>
+            ) : null}
+            {guideSelectedFile && (
+              <Box mt={4}>
+                <Button colorScheme="green" onClick={handleSubmitGuide}>
+                  Submit
+                </Button>
+              </Box>
+            )}
             </ModalBody>
             </ModalContent>
             </Modal>
