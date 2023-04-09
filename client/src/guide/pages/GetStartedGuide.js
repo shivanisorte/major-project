@@ -3,6 +3,17 @@ import AppNav from "./../../components/AppNav";
 import { Box, Flex, Heading, Image, Button, Stack } from "@chakra-ui/react";
 import { BiChevronRight } from "react-icons/bi";
 
+function handleEmailClick() {
+    const email = "sssorte1428@gmail.com";
+    const subject = "Request for assistance with ...";
+    const body = `I hope this email finds you well. I am writing to follow up on the status of ...
+
+Best Regards,
+    `;
+    const mailtoUrl = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = mailtoUrl;
+  }
+
 const GetStartedGuide = ({ image, buttonText, heading }) => {
   return (
     <div>
@@ -40,6 +51,7 @@ const GetStartedGuide = ({ image, buttonText, heading }) => {
               rightIcon={<BiChevronRight />}
               colorScheme="purple"
               fontSize={["l", "l", "xl", "xl"]}
+              onClick={handleEmailClick}
             >
               {buttonText[1]}
             </Button>
