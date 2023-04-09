@@ -3,6 +3,8 @@ import AppNav from "./../../components/AppNav";
 import { Box, Flex, Heading, Image, Button, Stack } from "@chakra-ui/react";
 import { BiChevronRight } from "react-icons/bi";
 
+import { Link } from 'react-router-dom';
+
 function handleEmailClick() {
     const email = "sssorte1428@gmail.com";
     const subject = "Request for assistance with ...";
@@ -38,6 +40,7 @@ const GetStartedGuide = ({ image, buttonText, heading }) => {
             align={"center"}
           >
             {" "}
+            <Link to='../projecthub'>
             <Button
               width="2xs"
               rightIcon={<BiChevronRight />}
@@ -46,6 +49,7 @@ const GetStartedGuide = ({ image, buttonText, heading }) => {
             >
               {buttonText[0]}
             </Button>
+            </Link>
             <Button
               width="2xs"
               rightIcon={<BiChevronRight />}
