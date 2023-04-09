@@ -49,9 +49,11 @@ function ProjectHub() {
       description: description,
       technologies: technologies,
       contact: contact,
+      status: 'Open'
     };
     setProjects([...projects, newProject]);
     onClose();
+    console.log(newProject)
   };
 
   const ProjectCard = ({ project }) => {
@@ -114,7 +116,7 @@ function ProjectHub() {
       </Center>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent mx={4}>
           <ModalHeader>Add Project</ModalHeader>
           <ModalBody>
             <form onSubmit={handleSubmit}>
@@ -136,9 +138,16 @@ function ProjectHub() {
                   onChange={(e) => setDomain(e.target.value)}
                   isRequired
                 >
-                  <option value="ml">Machine Learning</option>
-                  <option value="webdev">Web Development</option>
-                  <option value="android">Android Development</option>
+                <option value="Artificial Intelligence">Machine Learning</option>
+                <option value="Data Science">Data Science</option>
+                <option value="Web Development">Web Development</option>
+                <option value="Android Development">Android Development</option>
+                <option value="IOT">Internet of Things</option>
+                <option value="Algorithms">Algorithms</option>
+                <option value="Compilers">Compilers</option>
+                <option value="Blockchain">Blockchain</option>
+                <option value="Cloud">Cloud</option>
+                <option value="Others">Others</option>
                 </Select>
               </FormControl>
               <FormControl>
@@ -170,7 +179,7 @@ function ProjectHub() {
                   isRequired
                 />
               </FormControl>
-              <Button type="submit">Add</Button>
+              <Button type="submit" my={4} colorScheme='green'>Add</Button>
             </form>
           </ModalBody>
         </ModalContent>

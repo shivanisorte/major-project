@@ -71,17 +71,28 @@ const FormA = () => {
             </FormControl>
 
             <FormControl mt={4} isRequired mb={4}>
-              <FormLabel color={textColor} fontWeight="bold">Domain Expertise</FormLabel>
+              <FormLabel color={textColor} fontWeight="bold">Project Domain</FormLabel>
               <Select
-                placeholder="Select the domain expertise"
+                placeholder="Select the project domain"
                 bg="white"
                 name="domain"
                 value={project.domain}
                 onChange={(event) => handleSelectChange(event, index)}
               >
-                <option value="ML">Machine Learning</option>
-              <option value="webdev">Web Development</option>
-              <option value="android">Android Development</option>
+              <option value="Artificial Intelligence">Machine Learning</option>
+              <option value="Data Science">Data Science</option>
+              <option value="Web Development">Web Development</option>
+              <option value="Android Development">Android Development</option>
+              <option value="IOT">Internet of Things</option>
+              <option value="Algorithms">Algorithms</option>
+              <option value="Compilers">Compilers</option>
+              <option value="Blockchain">Blockchain</option>
+              <option value="Cloud">Cloud</option>
+              <option value="Others">Others</option>
+              
+
+
+
               </Select>
             </FormControl>
 
