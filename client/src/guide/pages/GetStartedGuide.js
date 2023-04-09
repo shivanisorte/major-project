@@ -1,9 +1,9 @@
 import React from "react";
-import AppNav from "./AppNav";
+import AppNav from "./../../components/AppNav";
 import { Box, Flex, Heading, Image, Button, Stack } from "@chakra-ui/react";
 import { BiChevronRight } from "react-icons/bi";
 
-const GetStarted = ({ image, buttonText, heading }) => {
+const GetStartedGuide = ({ image, buttonText, heading }) => {
   return (
     <div>
       <AppNav />
@@ -50,4 +50,4 @@ const GetStarted = ({ image, buttonText, heading }) => {
   );
 };
 
-export default GetStarted;
+export default GetStartedGuide;
