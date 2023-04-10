@@ -1,9 +1,36 @@
 import AppNav from "../../components/AppNav";
+import GetStarted from "../../components/GetStarted";
+import gsimage from "../../assets/gSStudent.png";
+import { useEffect, useState } from "react";
+import { Spinner, useToast } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
+import getStudent from "../../utils/getStudent";
 
 function Dashboard() {
+  const [student, setStudent] = useState(null);
+  const navigate = useNavigate();
+  const toast = useToast();
+
+  useEffect(() => {
+    getStudent(navigate, toast, setStudent);
+  }, []);
+
   return (
     <>
-      <AppNav category={"student"}></AppNav>
+      <AppNav></AppNav>
+      {student ? (
+        student.isTopicFinalised === true ? (
+          "Hello student"
+        ) : (
+          <GetStarted
+            heading={"Your project has not been finalized yet"}
+            image={gsimage}
+            buttonText={["Go To Project Hub", "Submit 3 ideas"]}
+          ></GetStarted>
+        )
+      ) : (
+        <Spinner />
+      )}
     </>
   );
 }
