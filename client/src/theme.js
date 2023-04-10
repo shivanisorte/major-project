@@ -5,6 +5,11 @@ const fonts = {
   body: "Chillax Variable",
   mono: `monospace`,
 };
+// const fonts = {
+//   heading: `'Open Sans', sans-serif`,
+//   body: `'Raleway', sans-serif`,
+//   mono: `monospace`,
+// };
 
 const breakpoints = {
   sm: "40em",

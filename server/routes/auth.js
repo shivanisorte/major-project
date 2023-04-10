@@ -16,13 +16,18 @@ router.post("/send-otp", async (req, res) => {
       await client.verify.v2
         .services(serviceSid)
         .verifications.create({ to: "+91" + phno, channel: "sms" });
-      res.json({ success: true, message: entity + " found, otp sent!" });
+      res
+        .status(200)
+        .json({ success: true, message: entity + " found, otp sent!" });
     } else {
-      res.json({ success: false, message: entity + " not registered!" });
+      res.status(404).json({
+        success: false,
+        message: entity.toLowerCase() + " is not registered!",
+      });
     }
   } catch (error) {
     console.log(error);
-    res.json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: error.message });
   }
 });
 
@@ -37,18 +42,18 @@ router.post("/verify", (req, res) => {
         const token = createToken(phno);
         console.log("token", token);
         res.cookie("token", token);
-        res.json({ success: true, status: status });
+        res.status(200).json({ success: true, status: status });
       } else if (status === "pending") {
-        res.json({ success: false, status: status });
+        res.status(408).json({ success: false, status: status });
       } else if (status === "canceled") {
-        res.json({ success: false, status: status });
+        res.status(401).json({ success: false, status: status });
       } else {
-        res.json({ success: false });
+        res.status(401).json({ success: false, status: "no status" });
       }
     })
     .catch((err) => {
       console.log(err);
-      res.json({ success: false, message: err.message });
+      res.status(500).json({ success: false, message: err.message });
     });
 });
 

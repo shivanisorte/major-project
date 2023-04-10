@@ -1,6 +1,6 @@
 const Excel = require("exceljs");
-const { Student } = require("../models/student.model");
-const { Team } = require("../models/team.model");
+const Student = require("../models/student.model");
+const Team = require("../models/team.model");
 
 async function readSheet(filename) {
   const workbook = new Excel.Workbook();
@@ -24,6 +24,7 @@ async function readSheet(filename) {
           rno: row.findCell(2).value,
           github: row.findCell(7).value,
           phno: row.findCell(5).value,
+          isTopicFinalised: false,
         });
         students.push(student);
         if (currentGroup == row.findCell(1).value) {
