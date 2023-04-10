@@ -1,5 +1,4 @@
 import React from "react";
-import AppNav from "./../../components/AppNav";
 import { Box, Flex, Heading, Image, Button, Stack } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { BiChevronRight } from "react-icons/bi";
@@ -34,15 +33,15 @@ const GetStartedStud = ({ image, buttonText, heading }) => {
             >
               {buttonText[0]}
             </Button>
-            <Link to='../formA'>
-            <Button
-              width="2xs"
-              rightIcon={<BiChevronRight />}
-              colorScheme="purple"
-              fontSize={["l", "l", "xl", "xl"]}
-            >
-              {buttonText[1]}
-            </Button>
+            <Link to="../formA">
+              <Button
+                width="2xs"
+                rightIcon={<BiChevronRight />}
+                colorScheme="purple"
+                fontSize={["l", "l", "xl", "xl"]}
+              >
+                {buttonText[1]}
+              </Button>
             </Link>
           </Stack>
         </Box>
