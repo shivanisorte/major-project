@@ -63,7 +63,7 @@ const Hero = () => {
         </Text>
         <Stack direction={["column", "column", "row", "row"]} spacing={"20px"}>
           {" "}
-          <Link to="/student">
+          <Link to="/student/login">
             <Button
               width="3xs"
               rightIcon={<BiChevronRight />}
@@ -73,7 +73,7 @@ const Hero = () => {
               Student
             </Button>
           </Link>
-          <Link to="/guide">
+          <Link to="/guide/login">
             <Button
               width="3xs"
               rightIcon={<BiChevronRight />}
@@ -83,7 +83,7 @@ const Hero = () => {
               Guide
             </Button>
           </Link>
-          <Link to="/coordinator">
+          <Link to="/coordinator/login">
             <Button
               width="3xs"
               rightIcon={<BiChevronRight />}

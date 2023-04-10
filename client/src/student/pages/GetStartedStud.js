@@ -7,8 +7,6 @@ import { BiChevronRight } from "react-icons/bi";
 const GetStartedStud = ({ image, buttonText, heading }) => {
   return (
     <div>
-      <AppNav />
-
       <Flex minH="90vh" justify="center" direction="column">
         <Box maxW="lg" mx="auto" textAlign="center">
           <Heading fontSize={{ base: "3xl", md: "3xl", lg: "3xl" }}>

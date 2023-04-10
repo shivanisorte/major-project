@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import LandNav from "./LandNav";
 import {
   Box,
@@ -13,9 +13,26 @@ import {
   Button,
   HStack,
   Flex,
+  InputGroup,
+  InputLeftAddon,
+  useToast,
+  Spinner,
 } from "@chakra-ui/react";
+import { TbPassword } from "react-icons/tb";
+import sendOtp from "../utils/sendOtp";
+import verifyOtp from "../utils/verifyOtp";
+import { useNavigate } from "react-router-dom";
 
 const Login = ({ role, image }) => {
+  const [phno, setPhno] = useState("");
+  const [otp, setOtp] = useState("");
+  const [otpSent, setOtpSent] = useState(false);
+  const [showSpinner, setShowSpinner] = useState(false);
+
+  const toast = useToast();
+
+  const navigate = useNavigate();
+
   return (
     <div>
       <LandNav colors={["white", "black", "purple.600"]} />
@@ -48,26 +65,52 @@ const Login = ({ role, image }) => {
 
               <FormControl>
                 <FormLabel> Phone number </FormLabel>
-                <Input
-                  focusBorderColor="purple.600"
-                  rounded="none"
-                  variant="filled"
-                  type="tel"
-                  placeholder="Phone number"
-                />
+                <InputGroup>
+                  <InputLeftAddon children="+91" />
+                  <Input
+                    value={phno}
+                    onChange={(event) => setPhno(event.target.value)}
+                    focusBorderColor="purple.600"
+                    rounded="none"
+                    variant="filled"
+                    type="tel"
+                    placeholder="Phone number"
+                  />
+                </InputGroup>
               </FormControl>
-              <Button variant="link" colorScheme="purple" alignSelf={"end"}>
-                Send OTP
-              </Button>
+              {showSpinner ? (
+                <Spinner color="purple.600"></Spinner>
+              ) : (
+                <Button
+                  isDisabled={phno.length !== 10 || otpSent === true}
+                  variant="link"
+                  colorScheme="purple"
+                  alignSelf={"end"}
+                  onClick={() =>
+                    sendOtp(phno, role, setOtpSent, toast, setShowSpinner)
+                  }
+                >
+                  Send OTP
+                </Button>
+              )}
 
               <FormControl>
                 <FormLabel> OTP </FormLabel>
-                <Input
-                  focusBorderColor="purple.600"
-                  rounded="none"
-                  variant="filled"
-                  placeholder="OTP"
-                />
+
+                <InputGroup>
+                  <InputLeftAddon children={<TbPassword />}></InputLeftAddon>
+                  <Input
+                    value={otp}
+                    onChange={(event) => setOtp(event.target.value)}
+                    focusBorderColor="purple.600"
+                    rounded="none"
+                    variant="filled"
+                    placeholder="OTP"
+                    type="password"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                  />
+                </InputGroup>
               </FormControl>
 
               <Checkbox colorScheme="purple">Remember me</Checkbox>
@@ -77,6 +120,9 @@ const Login = ({ role, image }) => {
                 colorScheme="purple"
                 w="full"
                 alignSelf="end"
+                onClick={() =>
+                  verifyOtp(otp, phno, navigate, toast, setOtpSent)
+                }
               >
                 Login
               </Button>

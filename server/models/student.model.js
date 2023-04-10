@@ -41,6 +41,9 @@ const StudentSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Guide",
   },
+  isTopicFinalised: {
+    type: Boolean,
+  },
 });
 
 const Student = mongoose.model("Student", StudentSchema);
