@@ -1,5 +1,5 @@
 import AppNav from "../../components/AppNav";
-import GetStarted from "../../components/GetStarted";
+import GetStartedStud from "../pages/GetStartedStud";
 import gsimage from "../../assets/gSStudent.png";
 import { useEffect, useState } from "react";
 import { Spinner, useToast } from "@chakra-ui/react";
@@ -22,11 +22,11 @@ function Dashboard() {
         student.isTopicFinalised === true ? (
           "Hello student"
         ) : (
-          <GetStarted
+          <GetStartedStud
             heading={"Your project has not been finalized yet"}
             image={gsimage}
             buttonText={["Go To Project Hub", "Submit 3 ideas"]}
-          ></GetStarted>
+          ></GetStartedStud>
         )
       ) : (
         <Spinner />

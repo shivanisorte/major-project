@@ -5,6 +5,8 @@ import Login from "../components/Login";
 
 import logo from "./../assets/student.png";
 
+import FormA from "./pages/FormA";
+
 function App() {
   return (
     <>
@@ -15,6 +17,7 @@ function App() {
           element={<Login role={"Student"} image={logo}></Login>}
         ></Route>
         <Route path="/dashboard" element={<Dashboard></Dashboard>}></Route>
+        <Route path="/formA" element={<FormA></FormA>}></Route>
       </Routes>
     </>
   );
