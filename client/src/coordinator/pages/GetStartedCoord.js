@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import AppNav from "./../../components/AppNav";
+import uploadStudentCsv from "../../utils/uploadStudentCsv";
 import {
   Box,
   Flex,
@@ -13,8 +13,10 @@ import {
   ModalHeader,
   ModalCloseButton,
   ModalBody,
+  useToast
 } from "@chakra-ui/react";
 import { BiChevronRight } from "react-icons/bi";
+import { useNavigate } from "react-router-dom";
 
 const GetStartedCoord = ({ image, buttonText, heading }) => {
   //for student
@@ -37,7 +39,6 @@ const GetStartedCoord = ({ image, buttonText, heading }) => {
       setstudentSelectedFile(event.target.files[0]);
       setIsStudDataLoading(false);
     }, 2000);
-    console.log(studentSelectedFile.name);
   };
 
   const handleGuideFileSelect = (event) => {
@@ -47,13 +48,13 @@ const GetStartedCoord = ({ image, buttonText, heading }) => {
       setguideSelectedFile(event.target.files[0]);
       setIsGuideDataLoading(false);
     }, 2000);
-    console.log(guideSelectedFile.name);
+    console.log(guideSelectedFile);
   };
 
   const handleSubmitStudent = () => {
     // Handle form submission here
-    console.log(`Submitted file: ${studentSelectedFile.name}`);
     setIsStudentModalOpen(false);
+    uploadStudentCsv(studentSelectedFile, navigate, toast);
   };
 
   const handleSubmitGuide = () => {
@@ -61,6 +62,10 @@ const GetStartedCoord = ({ image, buttonText, heading }) => {
     console.log(`Submitted file: ${guideSelectedFile.name}`);
     setIsGuideModalOpen(false);
   };
+
+  const navigate = useNavigate();
+
+  const toast = useToast();
 
   return (
     <div>

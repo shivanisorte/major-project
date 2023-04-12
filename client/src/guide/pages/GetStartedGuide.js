@@ -2,6 +2,8 @@ import React from "react";
 import { Box, Flex, Heading, Image, Button, Stack } from "@chakra-ui/react";
 import { BiChevronRight } from "react-icons/bi";
 import { Link } from "react-router-dom";
+
+
 function handleEmailClick() {
   const email = "sssorte1428@gmail.com";
   const subject = "Request for assistance with ...";

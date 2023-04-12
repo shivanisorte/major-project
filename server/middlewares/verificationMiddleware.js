@@ -3,7 +3,7 @@ function verificationMiddleware(req, res, next) {
   const cookieString = req.headers.cookie
     ? req.headers.cookie.split("=")[1]
     : null;
-
+console.log(cookieString);
   const user = cookieString != null ? verifyToken(cookieString) : false;
   if (user !== false) {
     req.user = user;
