@@ -1,9 +1,13 @@
 const verifyToken = require("../utils/verifyToken");
 function verificationMiddleware(req, res, next) {
-  const cookieString = req.headers.cookie
-    ? req.headers.cookie.split("=")[1]
-    : null;
-console.log(cookieString);
+
+  const token = req.headers.cookie
+  ? req.headers.cookie.split(";").find(cookie => cookie.trim().startsWith("token="))
+  : null;
+
+  const cookieString = token ? token.split("=")[1] : null;
+
+
   const user = cookieString != null ? verifyToken(cookieString) : false;
   if (user !== false) {
     req.user = user;
