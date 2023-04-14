@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import uploadStudentCsv from "../../utils/uploadStudentCsv";
+import uploadGuideCsv from "../../utils/uploadGuideCsv";
 import {
   Box,
   Flex,
@@ -16,7 +17,7 @@ import {
   useToast
 } from "@chakra-ui/react";
 import { BiChevronRight } from "react-icons/bi";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 const GetStartedCoord = ({ image, buttonText, heading }) => {
   //for student
@@ -54,16 +55,17 @@ const GetStartedCoord = ({ image, buttonText, heading }) => {
   const handleSubmitStudent = () => {
     // Handle form submission here
     setIsStudentModalOpen(false);
-    uploadStudentCsv(studentSelectedFile, navigate, toast);
+    uploadStudentCsv(studentSelectedFile, toast);
   };
 
   const handleSubmitGuide = () => {
     // Handle form submission here
     console.log(`Submitted file: ${guideSelectedFile.name}`);
     setIsGuideModalOpen(false);
+    uploadGuideCsv(guideSelectedFile, toast);
   };
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const toast = useToast();
 

@@ -2,7 +2,7 @@ const Excel = require("exceljs");
 const Student = require("../models/student.model");
 const Team = require("../models/team.model");
 
-async function readSheet(filename) {
+async function readStudentSheet(filename) {
   const workbook = new Excel.Workbook();
   await workbook.xlsx.readFile(filename);
   const worksheet = workbook.getWorksheet("ISA");
@@ -52,4 +52,4 @@ async function readSheet(filename) {
   }
 }
 
-module.exports = readSheet;
+module.exports = readStudentSheet;
