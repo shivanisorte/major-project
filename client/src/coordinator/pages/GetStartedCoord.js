@@ -13,7 +13,7 @@ import {
   ModalHeader,
   ModalCloseButton,
   ModalBody,
-  useToast
+  useToast,
 } from "@chakra-ui/react";
 import { BiChevronRight } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
@@ -26,29 +26,12 @@ const GetStartedCoord = ({ image, buttonText, heading }) => {
   const [guideSelectedFile, setguideSelectedFile] = useState(null);
   const [isGuideModalOpen, setIsGuideModalOpen] = useState(false);
 
-  //student form uploading
-  const [isStudDataLoading, setIsStudDataLoading] = useState(false);
-
-  //guide form uploading
-  const [isGuideDataLoading, setIsGuideDataLoading] = useState(false);
-
   const handleStudentFileSelect = (event) => {
-    setIsStudDataLoading(true);
-    // Simulate file upload delay
-    setTimeout(() => {
-      setstudentSelectedFile(event.target.files[0]);
-      setIsStudDataLoading(false);
-    }, 2000);
+    setstudentSelectedFile(event.target.files[0]);
   };
 
   const handleGuideFileSelect = (event) => {
-    setIsGuideDataLoading(true);
-    // Simulate file upload delay
-    setTimeout(() => {
-      setguideSelectedFile(event.target.files[0]);
-      setIsGuideDataLoading(false);
-    }, 2000);
-    console.log(guideSelectedFile);
+    setguideSelectedFile(event.target.files[0]);
   };
 
   const handleSubmitStudent = () => {
@@ -81,7 +64,6 @@ const GetStartedCoord = ({ image, buttonText, heading }) => {
             my={3}
             ml={4}
           />
-
           <Stack
             direction={["column", "row", "row", "row"]}
             spacing={"20px"}
@@ -114,15 +96,12 @@ const GetStartedCoord = ({ image, buttonText, heading }) => {
                     type="file"
                     accept=".xlsx"
                     onChange={handleStudentFileSelect}
-                    disabled={isStudDataLoading}
                   />
-                  {isStudDataLoading ? (
-                    <Box mt={4}>Loading...</Box>
-                  ) : studentSelectedFile ? (
+                  {studentSelectedFile ? (
                     <Box mt={4}>Selected file: {studentSelectedFile.name}</Box>
                   ) : null}
                   {studentSelectedFile && (
-                    <Box mt={4}>
+                    <Box textAlign={"right"} mt={4}>
                       <Button colorScheme="green" onClick={handleSubmitStudent}>
                         Submit
                       </Button>
@@ -157,15 +136,12 @@ const GetStartedCoord = ({ image, buttonText, heading }) => {
                     type="file"
                     accept=".xlsx"
                     onChange={handleGuideFileSelect}
-                    disabled={isGuideDataLoading}
                   />
-                  {isGuideDataLoading ? (
-                    <Box mt={4}>Loading...</Box>
-                  ) : guideSelectedFile ? (
+                  {guideSelectedFile ? (
                     <Box mt={4}>Selected file: {guideSelectedFile.name}</Box>
                   ) : null}
                   {guideSelectedFile && (
-                    <Box mt={4}>
+                    <Box textAlign={"right"} mt={4}>
                       <Button colorScheme="green" onClick={handleSubmitGuide}>
                         Submit
                       </Button>
