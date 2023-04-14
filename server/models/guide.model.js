@@ -27,7 +27,7 @@ const guideSchema = Schema({
     required: true,
     enum: ["WEB", "ML", "AR/VR", "UI/UX"],
   },
-  team: [
+  teams: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Team",
