@@ -1,5 +1,5 @@
 import axios from "axios";
-const addProject = async (projectData, toast ) => {
+const addProject = async (projectData, toast, setProjects ) => {
   try {
     const response = await axios.post(
       "http://localhost:3001/projectHub",
@@ -11,6 +11,9 @@ const addProject = async (projectData, toast ) => {
       
     );
     if (response.data.success === true) {
+      setProjects(projects=>
+        [...projects, projectData]
+      );
       toast({
         title: "Successfully added",
         description: response.data.message,

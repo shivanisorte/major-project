@@ -2,8 +2,14 @@ const ProjectHub = require("../models/projectHub.model");
 const express = require("express");
 const router = express.Router();
  
-router.get("/", (req, res) => {
-    
+router.get("/", async (req, res) => {
+    try {
+        const projects = await ProjectHub.find();
+        res.status(200).json(projects);
+    } catch (error) {
+        console.error('Error getting projects:', error);
+        res.status(500).json({ message: 'Server error ' + error.message });
+    }
 });
 
 router.post("/", async (req, res) => {

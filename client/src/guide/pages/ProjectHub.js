@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import addProject from '../../utils/addProject';
 import AppNav from '../../components/AppNav';
 import {
@@ -23,6 +23,8 @@ import {
   useToast,
 } from '@chakra-ui/react';
 
+import axios from 'axios';
+
 
 function ProjectHub() {
   const [projects, setProjects] = useState([]);
@@ -35,15 +37,24 @@ function ProjectHub() {
   const [otherDetails, setOtherDetails] = useState('');
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  
-
-
   const [showAddProjectModal, setShowAddProjectModal] = useState(false);
 
 
-  const handleCloseModal = () => {
-    setShowAddProjectModal(false);
-  };
+  useEffect(()=>{
+    const fetchData = async()=>{
+    const resp = await axios.get("http://localhost:3001/projectHub");
+    console.log(resp);
+    setProjects(resp.data);
+    }
+
+    fetchData();
+
+  },[])
+
+
+  // const handleCloseModal = () => {
+  //   setShowAddProjectModal(false);
+  // };
 
 
   const handleSubmit = (event) => {
@@ -59,11 +70,10 @@ function ProjectHub() {
       otherDetails:otherDetails,
       status: 'Open'
     };
-    setProjects([...projects, newProject]);
     onClose();
-    console.log(newProject)
 
-    addProject(newProject,toast);
+
+    addProject(newProject,toast, setProjects);
 
   };
 
