@@ -57,8 +57,8 @@ const guideSchema = Schema({
     required: true,
   },
   bachelors: {
-    // type: Boolean,
-    // //required: true,
+     type: Boolean,
+     required: true,
   },
   masters: {
     type: Boolean,
@@ -73,7 +73,7 @@ const guideSchema = Schema({
     required: true,
   },
 
-  team: [
+  teams: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Team",

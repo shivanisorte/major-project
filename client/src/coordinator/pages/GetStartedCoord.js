@@ -20,7 +20,13 @@ import {
 import { BiChevronRight } from "react-icons/bi";
 // import { useNavigate } from "react-router-dom";
 
-const GetStartedCoord = ({ image, buttonText, heading }) => {
+const GetStartedCoord = ({
+  image,
+  buttonText,
+  heading,
+  isStudSubmitted,
+  isGuideSubmitted,
+}) => {
   //for student
   const [studentSelectedFile, setstudentSelectedFile] = useState(null);
   const [isStudentModalOpen, setIsStudentModalOpen] = useState(false);
@@ -80,7 +86,9 @@ const GetStartedCoord = ({ image, buttonText, heading }) => {
               rightIcon={<BiChevronRight />}
               colorScheme="purple"
               fontSize={["l", "l", "xl", "xl"]}
-              isDisabled={isLoading}
+
+              isDisabled={isLoading || isStudSubmitted}
+              
             >
               {buttonText[0]}
             </Button>
@@ -122,6 +130,7 @@ const GetStartedCoord = ({ image, buttonText, heading }) => {
               colorScheme="purple"
               isDisabled={isLoading}
               fontSize={["l", "l", "xl", "xl"]}
+              isDisabled={isGuideSubmitted}
             >
               {buttonText[1]}
             </Button>
