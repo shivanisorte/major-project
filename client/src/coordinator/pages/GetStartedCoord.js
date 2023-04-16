@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import AppNav from "./../../components/AppNav";
+import uploadStudentCsv from "../../utils/uploadStudentCsv";
+import uploadGuideCsv from "../../utils/uploadGuideCsv";
 import {
   Box,
   Flex,
@@ -13,8 +14,11 @@ import {
   ModalHeader,
   ModalCloseButton,
   ModalBody,
+  useToast,
+  Spinner,
 } from "@chakra-ui/react";
 import { BiChevronRight } from "react-icons/bi";
+// import { useNavigate } from "react-router-dom";
 
 const GetStartedCoord = ({
   image,
@@ -30,43 +34,32 @@ const GetStartedCoord = ({
   const [guideSelectedFile, setguideSelectedFile] = useState(null);
   const [isGuideModalOpen, setIsGuideModalOpen] = useState(false);
 
-  //student form uploading
-  const [isStudDataLoading, setIsStudDataLoading] = useState(false);
-
-  //guide form uploading
-  const [isGuideDataLoading, setIsGuideDataLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleStudentFileSelect = (event) => {
-    setIsStudDataLoading(true);
-    // Simulate file upload delay
-    setTimeout(() => {
-      setstudentSelectedFile(event.target.files[0]);
-      setIsStudDataLoading(false);
-    }, 2000);
-    console.log(studentSelectedFile.name);
+    setstudentSelectedFile(event.target.files[0]);
   };
 
   const handleGuideFileSelect = (event) => {
-    setIsGuideDataLoading(true);
-    // Simulate file upload delay
-    setTimeout(() => {
-      setguideSelectedFile(event.target.files[0]);
-      setIsGuideDataLoading(false);
-    }, 2000);
-    console.log(guideSelectedFile.name);
+    setguideSelectedFile(event.target.files[0]);
   };
 
   const handleSubmitStudent = () => {
     // Handle form submission here
-    console.log(`Submitted file: ${studentSelectedFile.name}`);
     setIsStudentModalOpen(false);
+    uploadStudentCsv(studentSelectedFile, toast, setIsLoading);
   };
 
   const handleSubmitGuide = () => {
     // Handle form submission here
     console.log(`Submitted file: ${guideSelectedFile.name}`);
     setIsGuideModalOpen(false);
+    uploadGuideCsv(guideSelectedFile, toast, setIsLoading);
   };
+
+  // const navigate = useNavigate();
+
+  const toast = useToast();
 
   return (
     <div>
@@ -80,9 +73,7 @@ const GetStartedCoord = ({
             src={image}
             alt="get started coordinator img"
             my={3}
-            ml={4}
           />
-
           <Stack
             direction={["column", "row", "row", "row"]}
             spacing={"20px"}
@@ -95,7 +86,9 @@ const GetStartedCoord = ({
               rightIcon={<BiChevronRight />}
               colorScheme="purple"
               fontSize={["l", "l", "xl", "xl"]}
-              isDisabled={isStudSubmitted}
+
+              isDisabled={isLoading || isStudSubmitted}
+              
             >
               {buttonText[0]}
             </Button>
@@ -116,15 +109,12 @@ const GetStartedCoord = ({
                     type="file"
                     accept=".xlsx"
                     onChange={handleStudentFileSelect}
-                    disabled={isStudDataLoading}
                   />
-                  {isStudDataLoading ? (
-                    <Box mt={4}>Loading...</Box>
-                  ) : studentSelectedFile ? (
+                  {studentSelectedFile ? (
                     <Box mt={4}>Selected file: {studentSelectedFile.name}</Box>
                   ) : null}
                   {studentSelectedFile && (
-                    <Box mt={4}>
+                    <Box textAlign={"right"} mt={4}>
                       <Button colorScheme="green" onClick={handleSubmitStudent}>
                         Submit
                       </Button>
@@ -138,8 +128,8 @@ const GetStartedCoord = ({
               width="2xs"
               rightIcon={<BiChevronRight />}
               colorScheme="purple"
+              isDisabled={isLoading || isGuideSubmitted}
               fontSize={["l", "l", "xl", "xl"]}
-              isDisabled={isGuideSubmitted}
             >
               {buttonText[1]}
             </Button>
@@ -160,15 +150,12 @@ const GetStartedCoord = ({
                     type="file"
                     accept=".xlsx"
                     onChange={handleGuideFileSelect}
-                    disabled={isGuideDataLoading}
                   />
-                  {isGuideDataLoading ? (
-                    <Box mt={4}>Loading...</Box>
-                  ) : guideSelectedFile ? (
+                  {guideSelectedFile ? (
                     <Box mt={4}>Selected file: {guideSelectedFile.name}</Box>
                   ) : null}
                   {guideSelectedFile && (
-                    <Box mt={4}>
+                    <Box textAlign={"right"} mt={4}>
                       <Button colorScheme="green" onClick={handleSubmitGuide}>
                         Submit
                       </Button>
@@ -178,6 +165,13 @@ const GetStartedCoord = ({
               </ModalContent>
             </Modal>
           </Stack>
+
+          <Spinner
+            mt={"1rem"}
+            visibility={isLoading ? "visible" : "hidden"}
+            size="lg"
+            color="purple.600"
+          ></Spinner>
         </Box>
       </Flex>
     </div>
