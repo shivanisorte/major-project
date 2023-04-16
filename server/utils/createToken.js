@@ -9,7 +9,8 @@ const createToken = (phno) => {
     },
     secret,
     {
-      expiresIn: "20d",
+      expiresIn: "30d",
+
     }
   );
 };
