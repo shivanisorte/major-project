@@ -2,9 +2,9 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const guideSchema = Schema({
-  empid:{
+  empid: {
     type: String,
-    required: [true,"employee id is required "]
+    required: [true, "employee id is required "],
   },
 
   name: {
@@ -16,12 +16,12 @@ const guideSchema = Schema({
     type: Number,
     required: [true, "phone number is required "],
     validate: {
-      validator: function(v) {
+      validator: function (v) {
         const re = /^\d{10}$/;
         return re.test(v);
       },
-      message: props => `${props.value} is not a valid phone number`
-    }
+      message: (props) => `${props.value} is not a valid phone number`,
+    },
   },
 
   email: {
@@ -36,16 +36,21 @@ const guideSchema = Schema({
     // },
   },
 
-  // specialization: {
-  //   type: [String],
-  //   //required: true,,
-  //   enum: ["WEB", "ML", "AR/VR", "UI/UX"],
-  // },
-
   domain: {
     type: String,
     required: true,
-    enum: ["Artificial Intelligence", "Data Science", "Web Development", "Android Development", "IOT", "Algorithms", "Compilers", "Blockchain", "Cloud", "Others"]
+    enum: [
+      "Artificial Intelligence",
+      "Data Science",
+      "Web Development",
+      "Android Development",
+      "IOT",
+      "Algorithms",
+      "Compilers",
+      "Blockchain",
+      "Cloud",
+      "Others",
+    ],
   },
   experienceYrs: {
     type: Number,
@@ -68,7 +73,6 @@ const guideSchema = Schema({
     required: true,
   },
 
-
   team: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -76,7 +80,6 @@ const guideSchema = Schema({
     },
   ],
 });
-
 
 const Guide = mongoose.model("Guide", guideSchema);
 module.exports = Guide;

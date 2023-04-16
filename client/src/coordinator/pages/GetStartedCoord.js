@@ -15,6 +15,7 @@ import {
   ModalCloseButton,
   ModalBody,
   useToast,
+  Spinner,
 } from "@chakra-ui/react";
 import { BiChevronRight } from "react-icons/bi";
 // import { useNavigate } from "react-router-dom";
@@ -27,6 +28,8 @@ const GetStartedCoord = ({ image, buttonText, heading }) => {
   const [guideSelectedFile, setguideSelectedFile] = useState(null);
   const [isGuideModalOpen, setIsGuideModalOpen] = useState(false);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleStudentFileSelect = (event) => {
     setstudentSelectedFile(event.target.files[0]);
   };
@@ -38,14 +41,14 @@ const GetStartedCoord = ({ image, buttonText, heading }) => {
   const handleSubmitStudent = () => {
     // Handle form submission here
     setIsStudentModalOpen(false);
-    uploadStudentCsv(studentSelectedFile, toast);
+    uploadStudentCsv(studentSelectedFile, toast, setIsLoading);
   };
 
   const handleSubmitGuide = () => {
     // Handle form submission here
     console.log(`Submitted file: ${guideSelectedFile.name}`);
     setIsGuideModalOpen(false);
-    uploadGuideCsv(guideSelectedFile, toast);
+    uploadGuideCsv(guideSelectedFile, toast, setIsLoading);
   };
 
   // const navigate = useNavigate();
@@ -64,7 +67,6 @@ const GetStartedCoord = ({ image, buttonText, heading }) => {
             src={image}
             alt="get started coordinator img"
             my={3}
-            ml={4}
           />
           <Stack
             direction={["column", "row", "row", "row"]}
@@ -78,6 +80,7 @@ const GetStartedCoord = ({ image, buttonText, heading }) => {
               rightIcon={<BiChevronRight />}
               colorScheme="purple"
               fontSize={["l", "l", "xl", "xl"]}
+              isDisabled={isLoading}
             >
               {buttonText[0]}
             </Button>
@@ -117,6 +120,7 @@ const GetStartedCoord = ({ image, buttonText, heading }) => {
               width="2xs"
               rightIcon={<BiChevronRight />}
               colorScheme="purple"
+              isDisabled={isLoading}
               fontSize={["l", "l", "xl", "xl"]}
             >
               {buttonText[1]}
@@ -153,6 +157,13 @@ const GetStartedCoord = ({ image, buttonText, heading }) => {
               </ModalContent>
             </Modal>
           </Stack>
+
+          <Spinner
+            mt={"1rem"}
+            visibility={isLoading ? "visible" : "hidden"}
+            size="lg"
+            color="purple.600"
+          ></Spinner>
         </Box>
       </Flex>
     </div>
