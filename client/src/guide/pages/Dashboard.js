@@ -4,7 +4,7 @@ import gsimage from "../../assets/gSGuide.png";
 import AppNav from "./../../components/AppNav";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Spinner, useToast } from "@chakra-ui/react";
+import { Spinner, useToast, Box } from "@chakra-ui/react";
 import getGuide from "../../utils/getGuide";
 function Dashboard() {
   const [guide, setGuide] = useState(null);
@@ -16,19 +16,31 @@ function Dashboard() {
   }, []);
   return (
     <>
-      <AppNav></AppNav>
       {guide ? (
         guide.team.length > 0 ? (
-          "Hello Guide"
+          <>
+            <AppNav></AppNav>
+            "Hello Guide"
+          </>
         ) : (
-          <GetStartedGuide
-            heading={"You haven't been alloted a team yet"}
-            image={gsimage}
-            buttonText={["Go to Project Hub", "Contact Coordinator"]}
-          ></GetStartedGuide>
+          <>
+            <AppNav></AppNav>
+            <GetStartedGuide
+              heading={"You haven't been alloted a team yet"}
+              image={gsimage}
+              buttonText={["Go to Project Hub", "Contact Coordinator"]}
+            ></GetStartedGuide>
+          </>
         )
       ) : (
-        <Spinner />
+        <Box
+          height={"100vh"}
+          display={"flex"}
+          justifyContent={"center"}
+          alignItems={"center"}
+        >
+          <Spinner size={"lg"} color="purple.600" />{" "}
+        </Box>
       )}
     </>
   );

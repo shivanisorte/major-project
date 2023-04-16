@@ -2,7 +2,7 @@ import AppNav from "../../components/AppNav";
 import GetStartedStud from "../pages/GetStartedStud";
 import gsimage from "../../assets/gSStudent.png";
 import { useEffect, useState } from "react";
-import { Spinner, useToast } from "@chakra-ui/react";
+import { Spinner, useToast, Box } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import getStudent from "../../utils/getStudent";
 
@@ -15,23 +15,33 @@ function Dashboard() {
     getStudent(navigate, toast, setStudent);
   }, []);
 
-  return (
-    <>
-      <AppNav></AppNav>
-      {student ? (
-        student.isTopicFinalised === true ? (
-          "Hello student"
-        ) : (
-          <GetStartedStud
-            heading={"Your project has not been finalized yet"}
-            image={gsimage}
-            buttonText={["Go To Project Hub", "Submit 3 ideas"]}
-          ></GetStartedStud>
-        )
-      ) : (
-        <Spinner />
-      )}
-    </>
+  return student ? (
+    student.isTopicFinalised === true ? (
+      <>
+        {" "}
+        <AppNav></AppNav>
+        "Hello student"
+      </>
+    ) : (
+      <>
+        {" "}
+        <AppNav></AppNav>
+        <GetStartedStud
+          heading={"Your project has not been finalized yet"}
+          image={gsimage}
+          buttonText={["Go To Project Hub", "Submit 3 ideas"]}
+        ></GetStartedStud>
+      </>
+    )
+  ) : (
+    <Box
+      height={"100vh"}
+      display={"flex"}
+      justifyContent={"center"}
+      alignItems={"center"}
+    >
+      <Spinner size={"lg"} color="purple.600" />{" "}
+    </Box>
   );
 }
 export default Dashboard;
