@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import addProject from '../../utils/addProject';
 import AppNav from '../../components/AppNav';
 import {
   Button,
@@ -19,17 +20,22 @@ import {
   SimpleGrid,
   Flex,
   Text,
+  useToast,
 } from '@chakra-ui/react';
 
 
 function ProjectHub() {
   const [projects, setProjects] = useState([]);
+  const[projectType, setProjectType] = useState('');
   const [title, setTitle] = useState('');
   const [domain, setDomain] = useState('');
   const [description, setDescription] = useState('');
   const [technologies, setTechnologies] = useState('');
   const [contact, setContact] = useState('');
+  const [otherDetails, setOtherDetails] = useState('');
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  
 
 
   const [showAddProjectModal, setShowAddProjectModal] = useState(false);
@@ -45,16 +51,23 @@ function ProjectHub() {
     event.preventDefault();
     const newProject = {
       title: title,
+      projectType:projectType,
       domain: domain,
       description: description,
       technologies: technologies,
       contact: contact,
+      otherDetails:otherDetails,
       status: 'Open'
     };
     setProjects([...projects, newProject]);
     onClose();
     console.log(newProject)
+
+    addProject(newProject,toast);
+
   };
+
+  const toast = useToast();
 
   const ProjectCard = ({ project }) => {
     return (
@@ -131,6 +144,22 @@ function ProjectHub() {
                 />
               </FormControl>
               <FormControl>
+                <FormLabel>Project Type</FormLabel>
+                <Select
+                placeholder='Select type'
+                value={projectType}
+                onChange={(e)=>setProjectType(e.target.value)}
+                isRequired
+                >
+                  <option value="Faculty Project">Faculty Project</option>
+                  <option value="DHealth">DHealth</option>
+                  <option value="CREIYA">CREIYA</option>
+                  <option value="ICAR">ICAR</option>
+                  <option value="Others">Others</option>
+
+                </Select>
+              </FormControl>
+              <FormControl>
                 <FormLabel>Domain</FormLabel>
                 <Select
                   placeholder="Select Domain"
@@ -138,7 +167,7 @@ function ProjectHub() {
                   onChange={(e) => setDomain(e.target.value)}
                   isRequired
                 >
-                <option value="Artificial Intelligence">Machine Learning</option>
+                <option value="Artificial Intelligence">Artificial Intelligence</option>
                 <option value="Data Science">Data Science</option>
                 <option value="Web Development">Web Development</option>
                 <option value="Android Development">Android Development</option>
@@ -176,6 +205,15 @@ function ProjectHub() {
                   placeholder="Contact Details"
                   value={contact}
                   onChange={(e) => setContact(e.target.value)}
+                  isRequired
+                />
+              </FormControl>
+              <FormControl>
+                <FormLabel>Other Details</FormLabel>
+                <Textarea
+                  placeholder="Add Extra Details"
+                  value={otherDetails}
+                  onChange={(e) => setOtherDetails(e.target.value)}
                   isRequired
                 />
               </FormControl>
