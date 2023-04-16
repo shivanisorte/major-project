@@ -8,7 +8,7 @@ router.get("/", async (req, res) => {
     if (req.user) {
       const guide = await Guide.findOne({ phno: req.user });
       if (guide === null) {
-        res.status(404).json({
+        return res.status(404).json({
           success: false,
           message: "Guide not found. Please login again.",
         });

@@ -8,7 +8,7 @@ router.get("/", async (req, res) => {
     if (req.user) {
       const student = await Student.findOne({ phno: req.user });
       if (student === null) {
-        res.status(404).json({
+        return res.status(404).json({
           success: false,
           message: "Student not found. Please login again.",
         });
