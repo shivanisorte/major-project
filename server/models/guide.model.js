@@ -2,14 +2,28 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const guideSchema = Schema({
+  empid: {
+    type: String,
+    required: [true, "employee id is required "],
+  },
+
   name: {
     type: String,
     required: [true, "name is required "],
   },
+
   phno: {
     type: Number,
     required: [true, "phone number is required "],
+    validate: {
+      validator: function (v) {
+        const re = /^\d{10}$/;
+        return re.test(v);
+      },
+      message: (props) => `${props.value} is not a valid phone number`,
+    },
   },
+
   email: {
     type: String,
     unique: true,
@@ -22,12 +36,44 @@ const guideSchema = Schema({
     // },
   },
 
-  specialization: {
-    type: [String],
+  domain: {
+    type: String,
     required: true,
-    enum: ["WEB", "ML", "AR/VR", "UI/UX"],
+    enum: [
+      "Artificial Intelligence",
+      "Data Science",
+      "Web Development",
+      "Android Development",
+      "IOT",
+      "Algorithms",
+      "Compilers",
+      "Blockchain",
+      "Cloud",
+      "Others",
+    ],
   },
-  team: [
+  experienceYrs: {
+    type: Number,
+    required: true,
+  },
+  bachelors: {
+     type: Boolean,
+     required: true,
+  },
+  masters: {
+    type: Boolean,
+    required: true,
+  },
+  phd: {
+    type: Boolean,
+    required: true,
+  },
+  postPhd: {
+    type: Boolean,
+    required: true,
+  },
+
+  teams: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Team",
