@@ -128,9 +128,8 @@ const GetStartedCoord = ({
               width="2xs"
               rightIcon={<BiChevronRight />}
               colorScheme="purple"
-              isDisabled={isLoading}
+              isDisabled={isLoading || isGuideSubmitted}
               fontSize={["l", "l", "xl", "xl"]}
-              isDisabled={isGuideSubmitted}
             >
               {buttonText[1]}
             </Button>
