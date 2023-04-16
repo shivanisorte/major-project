@@ -5,10 +5,10 @@ const router = express.Router();
 router.get("/", async (req, res) => {
     try {
         const projects = await ProjectHub.find();
-        res.status(200).json(projects);
+        res.status(200).json({projects,success:true});
     } catch (error) {
         console.error('Error getting projects:', error);
-        res.status(500).json({ message: 'Server error ' + error.message });
+        res.status(500).json({ message: 'Server error ' + error.message, success:false });
     }
 });
 

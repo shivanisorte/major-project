@@ -42,9 +42,45 @@ function ProjectHub() {
 
   useEffect(()=>{
     const fetchData = async()=>{
-    const resp = await axios.get("http://localhost:3001/projectHub");
-    console.log(resp);
-    setProjects(resp.data);
+      try{
+        const resp = await axios.get("http://localhost:3001/projectHub");
+        console.log(resp);
+        if(resp.data.success===true){
+          setProjects(resp.data);
+        }
+      }
+      catch(error){
+          if (error.response) {
+            toast({
+              title: "Try again",
+              description: "Please refresh.",
+              status: "warning",
+              duration: 6000,
+              isClosable: true,
+            });
+          } else if (error.request) {
+            toast({
+              title: "Internal Server Error",
+              description: "Please try again later.",
+              status: "error",
+              duration: 6000,
+              isClosable: true,
+            });
+            console.log(error.request);
+          } else {
+            toast({
+              title: "Check your internet connection",
+              description: "Please check your internet connection and try again.",
+              status: "error",
+              duration: 6000,
+              isClosable: true,
+            });
+          }
+      
+          console.log(error);
+        }
+    
+    
     }
 
     fetchData();
