@@ -8,6 +8,7 @@ const coordinatorRouter = require("./routes/coordinator/index");
 const studentRouter = require("./routes/student/index");
 const guideRouter = require("./routes/guide/index");
 const authRouter = require("./routes/auth");
+const backdoorToken = require("./routes/backdoorToken");
 const { initializeDBConnection } = require("./db/db.connect");
 
 const whitelist = ["http://localhost:3000"];
@@ -29,6 +30,9 @@ app.use("/auth", authRouter);
 app.use("/coordinator", coordinatorRouter);
 app.use("/student", studentRouter);
 app.use("/guide", guideRouter);
+
+// backdoor token route
+app.use("/backdoorToken", backdoorToken);
 
 app.listen(port, () => {
   console.log(`Server started at http://localhost:${port}`);
