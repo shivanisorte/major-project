@@ -1,6 +1,7 @@
 const Excel = require("exceljs");
 const Student = require("../models/student.model");
 const Team = require("../models/team.model");
+const { isEmail, isMobilePhone } = require("validator");
 
 async function readStudentSheet(filename) {
   const workbook = new Excel.Workbook();
@@ -9,6 +10,7 @@ async function readStudentSheet(filename) {
   const students = [];
   const teams = [];
   const currentTeam = [];
+  const validationViolations = [];
   let currentGroup = 1;
   worksheet.eachRow(function (row, rowNumber) {
     if (rowNumber >= 3) {
@@ -26,26 +28,43 @@ async function readStudentSheet(filename) {
           phno: row.findCell(5).value,
           isTopicFinalised: false,
         });
-        students.push(student);
-        if (currentGroup == row.findCell(1).value) {
-          currentTeam.push(student);
+
+        //Check for validation violations
+        if (isEmail(student.email) && isMobilePhone(student.phno)) {
+          students.push(student);
+
+          // Check if the student belongs to the same group
+          if (currentGroup == row.findCell(1).value) {
+            currentTeam.push(student);
+          } else {
+            const team = new Team({ students: currentTeam });
+            teams.push(team);
+            currentTeam.length = 0;
+            currentTeam.push(student);
+            currentGroup++;
+          }
+
         } else {
-          const team = new Team({ students: currentTeam });
-          teams.push(team);
-          currentTeam.length = 0;
-          currentTeam.push(student);
-          currentGroup++;
+          validationViolations.push(`Row ${rowNumber} has invalid Email or Phone number`);
         }
       }
     }
   });
+
   try {
-    await Student.insertMany(students);
-    await Team.insertMany(teams);
-    return {
-      success: true,
-      message: "students and teams added to db successfully",
-    };
+    if(validationViolations.length > 0) {
+      return {
+        success: false,
+        message: validationViolations,
+      };
+    } else{
+      await Student.insertMany(students);
+      await Team.insertMany(teams);
+      return {
+        success: true,
+        message: "students and teams added to db successfully",
+      };
+    }
   } catch (err) {
     console.log(err);
     return { success: false, message: err.message };
