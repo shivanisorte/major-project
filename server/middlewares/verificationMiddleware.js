@@ -13,7 +13,7 @@ function verificationMiddleware(req, res, next) {
     next();
   } else {
     // res.status(302).redirect(`http://localhost:3000/`); //redirect to landing page if no token in cookie
-    res.status(404).json({ success: false });
+    res.status(404).json({ success: false, error: "Unauthorized Access" });
   }
 }
 module.exports = verificationMiddleware;

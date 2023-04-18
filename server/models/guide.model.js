@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
+const { isEmail, isMobilePhone } = require("validator");
 
 const guideSchema = Schema({
   empid: {
@@ -13,12 +14,11 @@ const guideSchema = Schema({
   },
 
   phno: {
-    type: Number,
+    type: String,
     required: [true, "phone number is required "],
     validate: {
       validator: function (v) {
-        const re = /^\d{10}$/;
-        return re.test(v);
+        return isMobilePhone(v);
       },
       message: (props) => `${props.value} is not a valid phone number`,
     },
@@ -28,12 +28,13 @@ const guideSchema = Schema({
     type: String,
     unique: true,
     required: true,
-    // validate: {
-    //   validator: function (v) {
-    //     return /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/.test(v);
-    //   },
-    //   message: (props) => `${props.value} is not a valid email id!`,
-    // },
+    validate: {
+      validator: function (v) {
+        return isEmail(v);
+      },
+      message: (props) => `${props.value} is not a valid email`,
+    }
+
   },
 
   domain: {
@@ -55,6 +56,12 @@ const guideSchema = Schema({
   experienceYrs: {
     type: Number,
     required: true,
+    validate: {
+      validator: function (v) {
+        return v >= 0 && v <= 30;
+      },
+      message: (props) => `${props.value} is not a valid experience`,
+    }
   },
   bachelors: {
      type: Boolean,
@@ -82,4 +89,5 @@ const guideSchema = Schema({
 });
 
 const Guide = mongoose.model("Guide", guideSchema);
+
 module.exports = Guide;

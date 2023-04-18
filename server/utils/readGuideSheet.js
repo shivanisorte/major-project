@@ -1,11 +1,14 @@
 const Excel = require("exceljs");
 const Guide = require("../models/guide.model");
+const { isEmail, isMobilePhone } = require("validator");
 
 async function readGuideSheet(filename) {
   const workbook = new Excel.Workbook();
   await workbook.xlsx.readFile(filename);
   const worksheet = workbook.getWorksheet("Sheet1");
   const guides = []
+  const validationViolations = [];
+
   worksheet.eachRow(function (row, rowNumber) {
     if (rowNumber >= 3) {
       const guide = new Guide({
@@ -36,20 +39,28 @@ async function readGuideSheet(filename) {
         throw new Error('Invalid value for postPhd field');
       }
 
-
-
-
+      //Check for validation violations
+      if (isEmail(guide.email) && isMobilePhone(guide.phno)) {
         guides.push(guide);
-      
+      } else {
+        validationViolations.push(`Row ${rowNumber} has invalid Email or Phone number`);
+      }
     }
   });
 
   try {
-    await Guide.insertMany(guides);
-    return {
-      success: true,
-      message: "guides are added to db successfully",
-    };
+    if(validationViolations.length > 0) {
+      return {
+        success: false,
+        message: validationViolations,
+      };
+    } else{
+      await Guide.insertMany(guides);
+      return {
+        success: true,
+        message: "guides are added to db successfully",
+      };
+    }
   } catch (err) {
     console.log(err);
     return { success: false, message: err.message };

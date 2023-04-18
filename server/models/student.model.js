@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
+const validator = require("validator");
 
 const StudentSchema = new Schema({
   name: {
@@ -10,16 +11,11 @@ const StudentSchema = new Schema({
     type: String,
     unique: true,
     required: true,
-    // validate: {
-    //   validator: function (v) {
-    //     return /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/.test(v);
-    //   },
-    //   message: (props) => `${props.value} is not a valid email id!`,
-    // },
   },
   erno: {
     type: String,
     required: [true, "Enrollment is required "],
+    unique: true,
   },
   rno: {
     type: Number,
@@ -30,7 +26,7 @@ const StudentSchema = new Schema({
     required: [true, "github profile is required "],
   },
   phno: {
-    type: Number,
+    type: String,
     required: [true, "phone number is required "],
   },
   team: {
@@ -45,6 +41,15 @@ const StudentSchema = new Schema({
     type: Boolean,
   },
 });
+
+StudentSchema.path("email").validate((val) => {
+  return validator.isEmail(val);
+}, "Invalid email");
+
+StudentSchema.path("phno").validate((val) => {
+  return validator.isMobilePhone(val);
+}, "Invalid phone number");
+
 
 const Student = mongoose.model("Student", StudentSchema);
 
