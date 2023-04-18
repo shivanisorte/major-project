@@ -299,6 +299,8 @@ function ProjectHub() {
     icon={<AddIcon />}
     isRound={true}
     // colorScheme="purple"
+    border='2px'
+    borderColor='white'
     color={'white'}
     background={'purple.600'}
     size="lg"
