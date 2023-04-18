@@ -19,14 +19,19 @@ import {
   Center,
   Heading,
   SimpleGrid,
-  Flex,
   Text,
   useToast,
   ModalCloseButton,
   ModalFooter,
+  ButtonGroup,
+  IconButton, 
+  useColorModeValue,
 } from '@chakra-ui/react';
 
+import { AddIcon } from "@chakra-ui/icons";
+
 import axios from 'axios';
+
 
 
 function ProjectHub() {
@@ -131,11 +136,19 @@ function ProjectHub() {
           Project Hub
         </Heading>
       </Center>
+
       <Center>
-        <Button colorScheme="purple" onClick={onOpen} my={2}>
-          Add Project
-        </Button>
+      <ButtonGroup my={2}>
+          <Button
+          colorScheme="purple"
+          fontSize={["xs", "md", "md", "lg"]}
+          
+          >All Projects</Button>
+          <Button colorScheme="purple" fontSize={["xs", "md", "md", "lg"]}>Your Projects</Button>
+          <Button colorScheme="purple" fontSize={["xs", "md", "md", "lg"]}>Apply Filters</Button>
+    </ButtonGroup>
       </Center>
+
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent mx={4}>
@@ -272,6 +285,20 @@ function ProjectHub() {
         </ModalFooter>
       </ModalContent>
     </Modal>
+
+    <IconButton
+    icon={<AddIcon />}
+    isRound={true}
+    // colorScheme="purple"
+    color={'white'}
+    background={'purple.600'}
+    size="lg"
+    position="fixed"
+    bottom="4"
+    right="4"
+    zIndex="1"
+    onClick={onOpen}
+  />
       
     </Box>
 
