@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import addProject from '../../utils/addProject';
 import AppNav from '../../components/AppNav';
+import ProjectCard from '../components/ProjectCard';
 import {
   Button,
   FormControl,
@@ -21,6 +22,8 @@ import {
   Flex,
   Text,
   useToast,
+  ModalCloseButton,
+  ModalFooter,
 } from '@chakra-ui/react';
 
 import axios from 'axios';
@@ -39,6 +42,8 @@ function ProjectHub() {
 
   const [showAddProjectModal, setShowAddProjectModal] = useState(false);
 
+  const [isViewDetailOpen, setIsViewDetailOpen] = useState(false);
+  const [selectedProject, setSelectedProject] = useState(null);
 
   useEffect(()=>{
     const fetchData = async()=>{
@@ -46,7 +51,7 @@ function ProjectHub() {
         const resp = await axios.get("http://localhost:3001/projectHub");
         console.log(resp);
         if(resp.data.success===true){
-          setProjects(resp.data);
+          setProjects(resp.data.projects);
         }
       }
       catch(error){
@@ -92,6 +97,11 @@ function ProjectHub() {
   //   setShowAddProjectModal(false);
   // };
 
+  const handleViewDetailsClick = (project) => {
+    setSelectedProject(project);
+    setIsViewDetailOpen(true);
+  };
+
 
   const handleSubmit = (event) => {
     setShowAddProjectModal(true);
@@ -114,50 +124,6 @@ function ProjectHub() {
   };
 
   const toast = useToast();
-
-  const ProjectCard = ({ project }) => {
-    return (
-        <Box
-          maxW="sm"
-          borderWidth="1px"
-          borderRadius="lg"
-          overflow="hidden"
-          boxShadow="lg"
-          transition="transform .2s"
-          _hover={{ transform: "scale(1.05)" }}
-        >
-          <Box p="6">
-            <Box d="flex" alignItems="baseline">
-              <Text
-                textTransform="uppercase"
-                fontSize="sm"
-                fontWeight="bold"
-                color="purple.600"
-                mr="2"
-              >
-                {project.domain}
-              </Text>
-            </Box>
-    
-            <Heading size="md" my="2" fontWeight="semibold">
-              {project.title}
-            </Heading>
-    
-            <Text color="gray.700" fontSize="md" mb="4">
-              Guide: {project.contact}
-            </Text>
-    
-            <Flex justifyContent="flex-end">
-              <Button colorScheme="purple" size="sm">
-                View Details
-              </Button>
-            </Flex>
-          </Box>
-        </Box>
-      );
-    };
-
-  
 
   return (
     <div>
@@ -269,11 +235,46 @@ function ProjectHub() {
         </ModalContent>
       </Modal>
 
-      <SimpleGrid columns={[1, 2, , 3, 4]} spacing={8} my={8} mx={8}>
+      <SimpleGrid columns={[1, 2, 3, 4]} spacing={8} my={8} mx={8}>
         {projects.map((project, index) => (
-          <ProjectCard project={project} key={index} />
+          <ProjectCard project={project} key={index} onDetailsClick={() => handleViewDetailsClick(project)} />
         ))}
       </SimpleGrid>
+
+      <Modal isOpen={isViewDetailOpen} onClose={() => setIsViewDetailOpen(false)}>
+      <ModalOverlay />
+      <ModalContent>
+        <ModalHeader>{selectedProject?.title}</ModalHeader>
+        <ModalCloseButton />
+        <ModalBody>
+          <Box>
+            <Text fontWeight="semibold" mb="2">
+              Type: {selectedProject?.projectType}
+            </Text>
+            <Text fontWeight="semibold" mb="2">
+              Domain: {selectedProject?.domain}
+            </Text>
+            <Text fontWeight="semibold" mb="2">
+              Description: {selectedProject?.description}
+            </Text>
+            <Text fontWeight="semibold" mb="2">
+              Technologies: {selectedProject?.technologies}
+            </Text>
+            <Text fontWeight="semibold" mb="2">
+              Contact: {selectedProject?.contact}
+            </Text>
+            <Text fontWeight="semibold" mb="2">
+              Other details: {selectedProject?.otherDetails}
+            </Text>
+          </Box>
+        </ModalBody>
+        <ModalFooter>
+          <Button colorScheme="purple" mr={3} onClick={() => setIsViewDetailOpen(false)}>
+            Close
+          </Button>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
       
     </Box>
 

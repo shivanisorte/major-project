@@ -17,7 +17,7 @@ function Dashboard() {
   return (
     <>
       {guide ? (
-        guide.team.length > 0 ? (
+        guide.teams.length > 0 ? (
           <>
             <AppNav></AppNav>
             "Hello Guide"
