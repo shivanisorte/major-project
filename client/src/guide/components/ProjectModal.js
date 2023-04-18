@@ -30,7 +30,7 @@ const ProjectModal = ({ project, isOpen, toggleModal }) => {
               <strong>Description:</strong> {project.description}
             </Text>
             <Text fontSize="lg" mb="2">
-              <strong>Technologies:</strong> {project.technologies.join(", ")}
+              <strong>Technologies:</strong> {project.technologies}
             </Text>
             <Text fontSize="lg" mb="2">
               <strong>Contact:</strong> {project.contact}

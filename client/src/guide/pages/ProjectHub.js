@@ -93,9 +93,6 @@ function ProjectHub() {
   },[])
 
 
-  // const handleCloseModal = () => {
-  //   setShowAddProjectModal(false);
-  // };
 
   const handleViewDetailsClick = (project) => {
     setSelectedProject(project);
@@ -226,7 +223,7 @@ function ProjectHub() {
                   placeholder="Add Extra Details"
                   value={otherDetails}
                   onChange={(e) => setOtherDetails(e.target.value)}
-                  isRequired
+                  
                 />
               </FormControl>
               <Button type="submit" my={4} colorScheme='green'>Add</Button>
