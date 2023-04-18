@@ -14,6 +14,7 @@ router.get("/", async (req, res) => {
 
 router.post("/", async (req, res) => {
     const{
+        uploadedBy,
         title,
         projectType,
         domain,
@@ -26,6 +27,7 @@ router.post("/", async (req, res) => {
 
     try{
         const project = new ProjectHub({
+            uploadedBy,
             title,
             projectType,
             domain,

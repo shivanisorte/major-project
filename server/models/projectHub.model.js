@@ -2,6 +2,10 @@ const mongoose = require('mongoose');
 
 
 const ProjectHubSchema = new mongoose.Schema({
+  uploadedBy: {
+    type: String,
+    required: true
+  },
     title: {
     type: String,
     required: true

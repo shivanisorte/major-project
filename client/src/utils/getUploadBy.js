@@ -1,15 +1,15 @@
 import axios from "axios";
-export default async function getGuide(navigate, toast, setGuide) {
+
+export default async function getGuide(setUploadedBy, toast) {
   try {
     const response = await axios.get("http://localhost:3001/guide", {
       withCredentials: true,
     });
     if (response.data.success === true) {
-      console.log(response.data.guide);
-      setGuide(response.data.guide);
+      console.log(response.data.guide._id);
+      setUploadedBy(response.data.guide._id);
     }
   } catch (error) {
-    navigate("../login", { replace: true });
     if (error.response) {
       toast({
         title: "Login again",

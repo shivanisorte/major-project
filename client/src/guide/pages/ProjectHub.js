@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import addProject from '../../utils/addProject';
 import AppNav from '../../components/AppNav';
 import ProjectCard from '../components/ProjectCard';
+
 import {
   Button,
   FormControl,
@@ -30,6 +31,8 @@ import {
 
 import { AddIcon } from "@chakra-ui/icons";
 
+import getUploadedBy from "./../../utils/getUploadBy";
+
 import axios from 'axios';
 
 
@@ -43,6 +46,8 @@ function ProjectHub() {
   const [technologies, setTechnologies] = useState('');
   const [contact, setContact] = useState('');
   const [otherDetails, setOtherDetails] = useState('');
+  const [uploadedBy, setUploadedBy] = useState('');
+
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [showAddProjectModal, setShowAddProjectModal] = useState(false);
@@ -52,12 +57,15 @@ function ProjectHub() {
 
   useEffect(()=>{
     const fetchData = async()=>{
+
       try{
         const resp = await axios.get("http://localhost:3001/projectHub");
         console.log(resp);
         if(resp.data.success===true){
           setProjects(resp.data.projects);
         }
+        getUploadedBy(setUploadedBy, toast);
+
       }
       catch(error){
           if (error.response) {
@@ -109,6 +117,7 @@ function ProjectHub() {
     setShowAddProjectModal(true);
     event.preventDefault();
     const newProject = {
+      uploadedBy: uploadedBy,
       title: title,
       projectType:projectType,
       domain: domain,
