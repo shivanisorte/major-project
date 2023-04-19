@@ -1,12 +1,43 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
+const formASchema = new mongoose.Schema({
+  title: String,
+  projectDomain: {
+    type: String,
+    enum: [
+      "Artificial Intelligence",
+      "Data Science",
+      "Web Development",
+      "Android Development",
+      "IOT",
+      "Algorithms",
+      "Compilers",
+      "Blockchain",
+      "Cloudform",
+      "Others",
+    ],
+  },
+  technical: String,
+  futureScope: String,
+  applicability: String,
+});
+
+const studentSchema = new mongoose.Schema({
+  _id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Student",
+  },
+  isformAApproved: { type: Boolean, default: false },
+});
+
 const TeamSchema = new Schema({
   students: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Student",
-    },
+    studentSchema,
+    // {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   ref: "Student",
+    // },
   ],
   guide: {
     type: mongoose.Schema.Types.ObjectId,
@@ -22,6 +53,12 @@ const TeamSchema = new Schema({
     type: String,
     // required: true,
   },
+  formA: {
+    type: [formASchema],
+    default: [],
+  },
+  isFormASubmitted: { type: Boolean, default: false },
+  formAApproval: { type: Schema.Types.Decimal128, default: 0.0 },
 });
 
 const Team = mongoose.model("Team", TeamSchema);
