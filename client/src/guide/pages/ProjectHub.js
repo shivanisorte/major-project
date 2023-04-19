@@ -28,7 +28,7 @@ import {
   IconButton, 
 } from '@chakra-ui/react';
 
-import { AddIcon } from "@chakra-ui/icons";
+import { AddIcon, CloseIcon } from "@chakra-ui/icons";
 
 import getUploadedByGuide from "../../utils/getUploadByGuide";
 
@@ -55,6 +55,16 @@ function ProjectHub() {
   const [selectedProject, setSelectedProject] = useState(null);
 
   const [displayOnlyYourProjects, setDisplayOnlyYourProjects] = useState(false);
+
+  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
+
+  const onFilterModalOpen = () => setIsFilterModalOpen(true);
+  const onFilterModalClose = () => setIsFilterModalOpen(false);
+
+
+  const [selectedPDomain, setseletedPDomain] = useState('');
+  const [selectedPtype, setselectedPtype] = useState('');
+  const [selectedPstatus, setselectedPstatus] = useState('');
 
   useEffect(()=>{
     const fetchData = async()=>{
@@ -135,6 +145,12 @@ function ProjectHub() {
 
   };
 
+
+
+  const applySelectedFilters=()=>{
+    console.log(selectedPDomain+' , '+selectedPtype+' , '+selectedPstatus);
+  }
+
   const toast = useToast();
 
   const handleDisplayAllProjects = () => {
@@ -172,9 +188,85 @@ function ProjectHub() {
           fontSize={["xs", "md", "md", "lg"]}
           onClick={handleDisplayYourProjects}
           >Your Projects</Button>
-          <Button colorScheme="purple" fontSize={["xs", "md", "md", "lg"]}>Apply Filters</Button>
+          <Button 
+          colorScheme="purple" 
+          fontSize={["xs", "md", "md", "lg"]}
+          onClick={onFilterModalOpen}
+          >Apply Filters</Button>
     </ButtonGroup>
       </Center>
+
+
+      <Modal isOpen={isFilterModalOpen} onClose={onFilterModalClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Filters</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <FormControl>
+              <FormLabel>Domain</FormLabel>
+              <Select 
+                placeholder="Select domain"
+                value={selectedPDomain}
+                onChange={(e)=>setseletedPDomain(e.target.value)}
+                >
+                <option value="Artificial Intelligence">Artificial Intelligence</option>
+                <option value="Data Science">Data Science</option>
+                <option value="Web Development">Web Development</option>
+                <option value="Android Development">Android Development</option>
+                <option value="IOT">IOT</option>
+                <option value="Algorithms">Algorithms</option>
+                <option value="Compilers">Compilers</option>
+                <option value="Blockchain">Blockchain</option>
+                <option value="Cloud">Cloud</option>
+                <option value="Others">Others</option>
+              </Select>
+            </FormControl>
+
+            <FormControl mt={4}>
+              <FormLabel>Type</FormLabel>
+              <Select 
+                placeholder="Select type"
+                value={selectedPtype}
+                onChange={(e)=>setselectedPtype(e.target.value)}
+                >
+                <option value="Faculty Project">Faculty Project</option>
+                <option value="DHealth">DHealth</option>
+                <option value="CREIYA">CREIYA</option>
+                <option value="ICAR">ICAR</option>
+                <option value="Others">Others</option>
+              </Select>
+            </FormControl>
+
+            <FormControl mt={4}>
+              <FormLabel>Status</FormLabel>
+              <Select 
+                placeholder="Select status"
+                value={selectedPstatus}
+                onChange={(e)=>setselectedPstatus(e.target.value)}
+                >
+                <option value="Open">Open</option>
+                <option value="Closed">Closed</option>
+              </Select>
+            </FormControl>
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="purple" mr={3} onClick={onFilterModalClose}>
+              Close
+            </Button>
+            <Button 
+            colorScheme="purple"
+            variant="outline"
+            onClick={applySelectedFilters}
+            >Apply Filter</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+
+
+
+
+
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
