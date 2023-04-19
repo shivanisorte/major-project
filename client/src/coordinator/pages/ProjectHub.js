@@ -30,7 +30,7 @@ import {
 
 import { AddIcon } from "@chakra-ui/icons";
 
-import getUploadedByGuide from "../../utils/getUploadByGuide";
+import getUploadedByCoord from "../../utils/getUploadedByCoord";
 
 import axios from 'axios';
 
@@ -65,7 +65,7 @@ function ProjectHub() {
         if(resp.data.success===true){
           setProjects(resp.data.projects);
         }
-        getUploadedByGuide(setUploadedBy, toast);
+        getUploadedByCoord(setUploadedBy, toast);
 
       }
       catch(error){
