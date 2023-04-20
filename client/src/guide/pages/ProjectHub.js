@@ -20,7 +20,6 @@ import {
   Center,
   Heading,
   SimpleGrid,
-  Text,
   useToast,
   ModalCloseButton,
   ModalFooter,
@@ -28,7 +27,7 @@ import {
   IconButton, 
 } from '@chakra-ui/react';
 
-import { AddIcon, CloseIcon } from "@chakra-ui/icons";
+import { AddIcon } from "@chakra-ui/icons";
 
 import getUploadedByGuide from "../../utils/getUploadByGuide";
 

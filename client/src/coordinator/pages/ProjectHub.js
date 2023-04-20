@@ -28,7 +28,7 @@ import {
   IconButton, 
 } from '@chakra-ui/react';
 
-import { AddIcon, CloseIcon } from "@chakra-ui/icons";
+import { AddIcon } from "@chakra-ui/icons";
 
 import getUploadedByCoord from "../../utils/getUploadedByCoord";
 
@@ -51,10 +51,10 @@ function ProjectHub() {
 
   const [showAddProjectModal, setShowAddProjectModal] = useState(false);
 
-  const [isViewDetailOpen, setIsViewDetailOpen] = useState(false);
-  const [selectedProject, setSelectedProject] = useState(null);
 
   const [displayOnlyYourProjects, setDisplayOnlyYourProjects] = useState(false);
+
+  const [displayFilteredProjects, setDisplayFilteredProjects] = useState(false);
 
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
 
@@ -66,12 +66,16 @@ function ProjectHub() {
   const [selectedPtype, setselectedPtype] = useState('');
   const [selectedPstatus, setselectedPstatus] = useState('');
 
+
+  const [allProjectsButtonColor, setAllProjectsButtonColor] = useState("purple");
+  const [yourProjectsButtonColor, setYourProjectsButtonColor] = useState("gray");
+
   useEffect(()=>{
     const fetchData = async()=>{
 
       try{
         const resp = await axios.get("http://localhost:3001/projectHub");
-        console.log(resp);
+        // console.log(resp);
         if(resp.data.success===true){
           setProjects(resp.data.projects);
         }
@@ -118,11 +122,6 @@ function ProjectHub() {
 
 
 
-  const handleViewDetailsClick = (project) => {
-    setSelectedProject(project);
-    setIsViewDetailOpen(true);
-  };
-
 
   const handleSubmit = (event) => {
     setShowAddProjectModal(true);
@@ -149,22 +148,76 @@ function ProjectHub() {
 
   const applySelectedFilters=()=>{
     console.log(selectedPDomain+' , '+selectedPtype+' , '+selectedPstatus);
+    setDisplayFilteredProjects(true);
+    onFilterModalClose();
+    
   }
 
   const toast = useToast();
 
   const handleDisplayAllProjects = () => {
     setDisplayOnlyYourProjects(false);
+    setDisplayFilteredProjects(false);
+    setAllProjectsButtonColor('purple')
+    setYourProjectsButtonColor('gray')
   };
 
   const handleDisplayYourProjects = () => {
     setDisplayOnlyYourProjects(true);
+    setAllProjectsButtonColor('gray')
+    setYourProjectsButtonColor('purple')
   };
 
+  const onResetFilter = () =>{
+    setselectedPstatus('');
+    setselectedPtype('');
+    setseletedPDomain('');
+  }
+
+
   // Filter projects based on the value of displayOnlyYourProjects
-  const filteredProjects = displayOnlyYourProjects
-    ? projects.filter(project => project.uploadedBy === uploadedBy)
-    : projects;
+  let filteredProjects;
+
+  if (displayOnlyYourProjects) {
+    if (displayFilteredProjects){
+      filteredProjects = projects.filter(project => project.uploadedBy === uploadedBy);
+      if (selectedPDomain !== "") {
+        filteredProjects = filteredProjects.filter(project => project.domain === selectedPDomain);
+      }
+      
+      if (selectedPtype !== "") {
+        filteredProjects = filteredProjects.filter(project => project.projectType === selectedPtype);
+      }
+      
+      if (selectedPstatus !== "") {
+        filteredProjects = filteredProjects.filter(project => project.status === selectedPstatus);
+      }
+    }
+    else{
+      filteredProjects = projects.filter(project => project.uploadedBy === uploadedBy);
+    }   
+  } 
+  else {
+    if (displayFilteredProjects){
+      filteredProjects = projects;
+      if (selectedPDomain !== "") {
+        filteredProjects = filteredProjects.filter(project => project.domain === selectedPDomain);
+      }
+      
+      if (selectedPtype !== "") {
+        filteredProjects = filteredProjects.filter(project => project.projectType === selectedPtype);
+      }
+      
+      if (selectedPstatus !== "") {
+        filteredProjects = filteredProjects.filter(project => project.status === selectedPstatus);
+      }
+
+    }
+    else{
+      filteredProjects = projects;
+    }
+    
+  }
 
   return (
     <div>
@@ -179,17 +232,18 @@ function ProjectHub() {
       <Center>
       <ButtonGroup my={2}>
           <Button
-          colorScheme="purple"
+          colorScheme={allProjectsButtonColor}
           fontSize={["xs", "md", "md", "lg"]}
           onClick={handleDisplayAllProjects}
           >All Projects</Button>
           <Button 
-          colorScheme="purple" 
+          colorScheme={yourProjectsButtonColor}
           fontSize={["xs", "md", "md", "lg"]}
           onClick={handleDisplayYourProjects}
           >Your Projects</Button>
           <Button 
           colorScheme="purple" 
+          variant={'outline'}
           fontSize={["xs", "md", "md", "lg"]}
           onClick={onFilterModalOpen}
           >Apply Filters</Button>
@@ -251,8 +305,8 @@ function ProjectHub() {
             </FormControl>
           </ModalBody>
           <ModalFooter>
-            <Button colorScheme="purple" mr={3} onClick={onFilterModalClose}>
-              Close
+            <Button colorScheme="purple" mr={3} onClick={onResetFilter}>
+              Reset
             </Button>
             <Button 
             colorScheme="purple"
@@ -366,44 +420,15 @@ function ProjectHub() {
 
       <SimpleGrid columns={[1, 2, 3, 4]} spacing={8} my={8} mx={8}>
         {filteredProjects.map((project, index) => (
-          <ProjectCard project={project} key={index} onDetailsClick={() => handleViewDetailsClick(project)} />
+          <ProjectCard 
+          project={project} 
+          key={index} 
+          buttonval={displayOnlyYourProjects ? 'Update' : 'View Details'} 
+          
+          />
         ))}
       </SimpleGrid>
 
-      <Modal isOpen={isViewDetailOpen} onClose={() => setIsViewDetailOpen(false)}>
-      <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>{selectedProject?.title}</ModalHeader>
-        <ModalCloseButton />
-        <ModalBody>
-          <Box>
-            <Text fontWeight="semibold" mb="2">
-              Type: {selectedProject?.projectType}
-            </Text>
-            <Text fontWeight="semibold" mb="2">
-              Domain: {selectedProject?.domain}
-            </Text>
-            <Text fontWeight="semibold" mb="2">
-              Description: {selectedProject?.description}
-            </Text>
-            <Text fontWeight="semibold" mb="2">
-              Technologies: {selectedProject?.technologies}
-            </Text>
-            <Text fontWeight="semibold" mb="2">
-              Contact: {selectedProject?.contact}
-            </Text>
-            <Text fontWeight="semibold" mb="2">
-              Other details: {selectedProject?.otherDetails}
-            </Text>
-          </Box>
-        </ModalBody>
-        <ModalFooter>
-          <Button colorScheme="purple" mr={3} onClick={() => setIsViewDetailOpen(false)}>
-            Close
-          </Button>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
 
     <IconButton
     icon={<AddIcon />}
