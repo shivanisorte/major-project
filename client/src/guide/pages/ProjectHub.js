@@ -168,6 +168,12 @@ function ProjectHub() {
     setYourProjectsButtonColor('purple')
   };
 
+  const onResetFilter = () =>{
+    setselectedPstatus('');
+    setselectedPtype('');
+    setseletedPDomain('');
+  }
+
 
   // Filter projects based on the value of displayOnlyYourProjects
   let filteredProjects;
@@ -299,8 +305,8 @@ function ProjectHub() {
             </FormControl>
           </ModalBody>
           <ModalFooter>
-            <Button colorScheme="purple" mr={3} onClick={onFilterModalClose}>
-              Close
+            <Button colorScheme="purple" mr={3} onClick={onResetFilter}>
+              Reset
             </Button>
             <Button 
             colorScheme="purple"
