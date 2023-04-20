@@ -1,26 +1,55 @@
 import { useState } from "react";
 import { 
-    Box,
-    Text,
-    Heading,
-    Flex,
-    Button,
+  Box,
+  Text,
+  Heading,
+  Flex,
+  Button,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  FormControl,
+  FormLabel,
+  Input,
+  Textarea,
+  Stack,
  } from "@chakra-ui/react";
 
  import ProjectModal from './ProjectModal';
 
 const ProjectCard = ({ project, buttonval }) => {
     const [isViewDetailsOpen, setIsViewDetailsOpen] = useState(false);
-    const [ isUpdateOpen, setIsUpdateOpen] =useState(false);
-  
+    const [isEditDetailsOpen, setIsEditDetailsOpen] = useState(false);
+    const [editedProject, setEditedProject] = useState(project);
+
+
     const toggleModal = () => {
       setIsViewDetailsOpen(!isViewDetailsOpen);
     };
 
+    const toggleEditDetailsModal = () => {
+      setIsEditDetailsOpen(!isEditDetailsOpen);
+    };
+
     const handleUpdateModal = () =>{
-      setIsUpdateOpen(!isUpdateOpen);
-      console.log("I'm going to handle update and delete project")
+      console.log("I'm going to update the project with the following details: ", editedProject);
+      // Make an API call to update the project with editedProject data
+      toggleEditDetailsModal();
     }
+
+    const handleDeleteProject = () => {
+      console.log("I'm going to delete the project with the following details: ", editedProject);
+      // Make an API call to delete the project with editedProject data
+      toggleEditDetailsModal();
+    };
+
+    const handleInputChange = (e) => {
+      const { name, value } = e.target;
+      setEditedProject((prevState) => ({ ...prevState, [name]: value }));
+    };
   
     return (
       <Box
@@ -55,13 +84,69 @@ const ProjectCard = ({ project, buttonval }) => {
   
           <Flex justifyContent="flex-end">
             <Button colorScheme="purple" size="sm" 
-             onClick={buttonval === "View Details" ? toggleModal : handleUpdateModal}
+             onClick={buttonval === "View Details" ? toggleModal : toggleEditDetailsModal}
             >
               {buttonval}
             </Button>
           </Flex>
   
           <ProjectModal project={project} isOpen={isViewDetailsOpen} toggleModal={toggleModal} />
+
+          <Modal isOpen={isEditDetailsOpen} onClose={toggleEditDetailsModal}>
+            <ModalOverlay />
+            <ModalContent>
+              <ModalHeader>Project Details</ModalHeader>
+              <ModalBody>
+                <Stack spacing="4">
+                  <FormControl>
+                    <FormLabel>Title</FormLabel>
+                    <Input type="text" name="title" value={project.title} isReadOnly />
+                  </FormControl>
+                  <FormControl>
+                    <FormLabel>Project Type</FormLabel>
+                    <Input type="text" name="projectType" value={project.projectType} isReadOnly />
+                  </FormControl>
+                  <FormControl>
+                    <FormLabel>Domain</FormLabel>
+                    <Input type="text" name="domain" value={project.domain} isReadOnly />
+                  </FormControl>
+                  <FormControl>
+                <FormLabel>Description</FormLabel>
+                <Textarea name="description" value={project.description} isReadOnly />
+              </FormControl>
+
+              <FormControl>
+                <FormLabel>Technologies</FormLabel>
+                <Textarea name="technologies" value={project.technologies} isReadOnly />
+              </FormControl>
+
+              <FormControl>
+                <FormLabel>Contact</FormLabel>
+                <Input type="text" name="contact" value={project.contact} isReadOnly />
+              </FormControl>
+
+              <FormControl>
+                <FormLabel>Other Details</FormLabel>
+                <Textarea name="otherDetails" value={project.otherDetails} isReadOnly />
+              </FormControl>
+            </Stack>
+          </ModalBody>
+
+          <ModalFooter>
+
+            <Button colorScheme="purple" mr={3} onClick={() => handleUpdateModal()}>
+              Update
+            </Button>
+
+            <Button colorScheme="purple" variant={"outline"} onClick={() => handleDeleteProject()}>
+              Delete
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+
+
+
         </Box>
       </Box>
     );
