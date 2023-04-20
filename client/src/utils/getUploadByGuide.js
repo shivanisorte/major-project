@@ -6,7 +6,7 @@ export default async function getUploadedByGuide(setUploadedBy, toast) {
       withCredentials: true,
     });
     if (response.data.success === true) {
-      console.log(response.data.guide._id);
+      // console.log(response.data.guide._id);
       setUploadedBy(response.data.guide._id);
     }
   } catch (error) {

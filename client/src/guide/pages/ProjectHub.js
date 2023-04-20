@@ -51,8 +51,6 @@ function ProjectHub() {
 
   const [showAddProjectModal, setShowAddProjectModal] = useState(false);
 
-  const [isViewDetailOpen, setIsViewDetailOpen] = useState(false);
-  const [selectedProject, setSelectedProject] = useState(null);
 
   const [displayOnlyYourProjects, setDisplayOnlyYourProjects] = useState(false);
 
@@ -77,7 +75,7 @@ function ProjectHub() {
 
       try{
         const resp = await axios.get("http://localhost:3001/projectHub");
-        console.log(resp);
+        // console.log(resp);
         if(resp.data.success===true){
           setProjects(resp.data.projects);
         }
@@ -123,11 +121,6 @@ function ProjectHub() {
   },[])
 
 
-
-  const handleViewDetailsClick = (project) => {
-    setSelectedProject(project);
-    setIsViewDetailOpen(true);
-  };
 
 
   const handleSubmit = (event) => {
@@ -421,44 +414,15 @@ function ProjectHub() {
 
       <SimpleGrid columns={[1, 2, 3, 4]} spacing={8} my={8} mx={8}>
         {filteredProjects.map((project, index) => (
-          <ProjectCard project={project} key={index} onDetailsClick={() => handleViewDetailsClick(project)} />
+          <ProjectCard 
+          project={project} 
+          key={index} 
+          buttonval={displayOnlyYourProjects ? 'Update' : 'View Details'} 
+          
+          />
         ))}
       </SimpleGrid>
 
-      <Modal isOpen={isViewDetailOpen} onClose={() => setIsViewDetailOpen(false)}>
-      <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>{selectedProject?.title}</ModalHeader>
-        <ModalCloseButton />
-        <ModalBody>
-          <Box>
-            <Text fontWeight="semibold" mb="2">
-              Type: {selectedProject?.projectType}
-            </Text>
-            <Text fontWeight="semibold" mb="2">
-              Domain: {selectedProject?.domain}
-            </Text>
-            <Text fontWeight="semibold" mb="2">
-              Description: {selectedProject?.description}
-            </Text>
-            <Text fontWeight="semibold" mb="2">
-              Technologies: {selectedProject?.technologies}
-            </Text>
-            <Text fontWeight="semibold" mb="2">
-              Contact: {selectedProject?.contact}
-            </Text>
-            <Text fontWeight="semibold" mb="2">
-              Other details: {selectedProject?.otherDetails}
-            </Text>
-          </Box>
-        </ModalBody>
-        <ModalFooter>
-          <Button colorScheme="purple" mr={3} onClick={() => setIsViewDetailOpen(false)}>
-            Close
-          </Button>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
 
     <IconButton
     icon={<AddIcon />}

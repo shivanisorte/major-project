@@ -6,7 +6,7 @@ export default async function getUploadedByCoord(setUploadedBy, toast) {
       withCredentials: true,
     });
     if (response.data.success === true) {
-      console.log(response.data.coordinator._id);
+      // console.log(response.data.coordinator._id);
       setUploadedBy(response.data.coordinator._id);
     }
   } catch (error) {

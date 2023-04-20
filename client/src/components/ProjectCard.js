@@ -9,12 +9,18 @@ import {
 
  import ProjectModal from './ProjectModal';
 
-const ProjectCard = ({ project }) => {
-    const [isOpen, setIsOpen] = useState(false);
+const ProjectCard = ({ project, buttonval }) => {
+    const [isViewDetailsOpen, setIsViewDetailsOpen] = useState(false);
+    const [ isUpdateOpen, setIsUpdateOpen] =useState(false);
   
     const toggleModal = () => {
-      setIsOpen(!isOpen);
+      setIsViewDetailsOpen(!isViewDetailsOpen);
     };
+
+    const handleUpdateModal = () =>{
+      setIsUpdateOpen(!isUpdateOpen);
+      console.log("I'm going to handle update and delete project")
+    }
   
     return (
       <Box
@@ -48,12 +54,14 @@ const ProjectCard = ({ project }) => {
           </Text>
   
           <Flex justifyContent="flex-end">
-            <Button colorScheme="purple" size="sm" onClick={toggleModal}>
-              View Details
+            <Button colorScheme="purple" size="sm" 
+             onClick={buttonval === "View Details" ? toggleModal : handleUpdateModal}
+            >
+              {buttonval}
             </Button>
           </Flex>
   
-          <ProjectModal project={project} isOpen={isOpen} toggleModal={toggleModal} />
+          <ProjectModal project={project} isOpen={isViewDetailsOpen} toggleModal={toggleModal} />
         </Box>
       </Box>
     );
