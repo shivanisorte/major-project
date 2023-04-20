@@ -23,6 +23,7 @@ import {
 const ProjectCard = ({ project, buttonval }) => {
     const [isViewDetailsOpen, setIsViewDetailsOpen] = useState(false);
     const [isEditDetailsOpen, setIsEditDetailsOpen] = useState(false);
+    // const [editedProject, setEditedProject] = useState(project);
     const [editedProject, setEditedProject] = useState(project);
 
 
@@ -100,34 +101,34 @@ const ProjectCard = ({ project, buttonval }) => {
                 <Stack spacing="4">
                   <FormControl>
                     <FormLabel>Title</FormLabel>
-                    <Input type="text" name="title" value={project.title} isReadOnly />
+                    <Input type="text" name="title" value={project.title} onChange={handleInputChange} />
                   </FormControl>
                   <FormControl>
                     <FormLabel>Project Type</FormLabel>
-                    <Input type="text" name="projectType" value={project.projectType} isReadOnly />
+                    <Input type="text" name="projectType" value={project.projectType} onChange={handleInputChange} />
                   </FormControl>
                   <FormControl>
                     <FormLabel>Domain</FormLabel>
-                    <Input type="text" name="domain" value={project.domain} isReadOnly />
+                    <Input type="text" name="domain" value={project.domain} onChange={handleInputChange} />
                   </FormControl>
                   <FormControl>
                 <FormLabel>Description</FormLabel>
-                <Textarea name="description" value={project.description} isReadOnly />
+                <Textarea name="description" value={project.description} onChange={handleInputChange} />
               </FormControl>
 
               <FormControl>
                 <FormLabel>Technologies</FormLabel>
-                <Textarea name="technologies" value={project.technologies} isReadOnly />
+                <Textarea name="technologies" value={project.technologies} onChange={handleInputChange} />
               </FormControl>
 
               <FormControl>
                 <FormLabel>Contact</FormLabel>
-                <Input type="text" name="contact" value={project.contact} isReadOnly />
+                <Input type="text" name="contact" value={project.contact}  onChange={handleInputChange}/>
               </FormControl>
 
               <FormControl>
                 <FormLabel>Other Details</FormLabel>
-                <Textarea name="otherDetails" value={project.otherDetails} isReadOnly />
+                <Textarea name="otherDetails" value={project.otherDetails} onChange={handleInputChange} />
               </FormControl>
             </Stack>
           </ModalBody>
