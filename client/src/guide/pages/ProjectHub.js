@@ -56,6 +56,8 @@ function ProjectHub() {
 
   const [displayOnlyYourProjects, setDisplayOnlyYourProjects] = useState(false);
 
+  const [displayFilteredProjects, setDisplayFilteredProjects] = useState(false);
+
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
 
   const onFilterModalOpen = () => setIsFilterModalOpen(true);
@@ -65,6 +67,10 @@ function ProjectHub() {
   const [selectedPDomain, setseletedPDomain] = useState('');
   const [selectedPtype, setselectedPtype] = useState('');
   const [selectedPstatus, setselectedPstatus] = useState('');
+
+
+  const [allProjectsButtonColor, setAllProjectsButtonColor] = useState("purple");
+  const [yourProjectsButtonColor, setYourProjectsButtonColor] = useState("gray");
 
   useEffect(()=>{
     const fetchData = async()=>{
@@ -149,22 +155,70 @@ function ProjectHub() {
 
   const applySelectedFilters=()=>{
     console.log(selectedPDomain+' , '+selectedPtype+' , '+selectedPstatus);
+    setDisplayFilteredProjects(true);
+    onFilterModalClose();
+    
   }
 
   const toast = useToast();
 
   const handleDisplayAllProjects = () => {
     setDisplayOnlyYourProjects(false);
+    setDisplayFilteredProjects(false);
+    setAllProjectsButtonColor('purple')
+    setYourProjectsButtonColor('gray')
   };
 
   const handleDisplayYourProjects = () => {
     setDisplayOnlyYourProjects(true);
+    setAllProjectsButtonColor('gray')
+    setYourProjectsButtonColor('purple')
   };
 
+
   // Filter projects based on the value of displayOnlyYourProjects
-  const filteredProjects = displayOnlyYourProjects
-    ? projects.filter(project => project.uploadedBy === uploadedBy)
-    : projects;
+  let filteredProjects;
+
+  if (displayOnlyYourProjects) {
+    if (displayFilteredProjects){
+      filteredProjects = projects.filter(project => project.uploadedBy === uploadedBy);
+      if (selectedPDomain !== "") {
+        filteredProjects = filteredProjects.filter(project => project.domain === selectedPDomain);
+      }
+      
+      if (selectedPtype !== "") {
+        filteredProjects = filteredProjects.filter(project => project.projectType === selectedPtype);
+      }
+      
+      if (selectedPstatus !== "") {
+        filteredProjects = filteredProjects.filter(project => project.status === selectedPstatus);
+      }
+    }
+    else{
+      filteredProjects = projects.filter(project => project.uploadedBy === uploadedBy);
+    }   
+  } 
+  else {
+    if (displayFilteredProjects){
+      filteredProjects = projects;
+      if (selectedPDomain !== "") {
+        filteredProjects = filteredProjects.filter(project => project.domain === selectedPDomain);
+      }
+      
+      if (selectedPtype !== "") {
+        filteredProjects = filteredProjects.filter(project => project.projectType === selectedPtype);
+      }
+      
+      if (selectedPstatus !== "") {
+        filteredProjects = filteredProjects.filter(project => project.status === selectedPstatus);
+      }
+
+    }
+    else{
+      filteredProjects = projects;
+    }
+    
+  }
 
   return (
     <div>
@@ -179,17 +233,18 @@ function ProjectHub() {
       <Center>
       <ButtonGroup my={2}>
           <Button
-          colorScheme="purple"
+          colorScheme={allProjectsButtonColor}
           fontSize={["xs", "md", "md", "lg"]}
           onClick={handleDisplayAllProjects}
           >All Projects</Button>
           <Button 
-          colorScheme="purple" 
+          colorScheme={yourProjectsButtonColor}
           fontSize={["xs", "md", "md", "lg"]}
           onClick={handleDisplayYourProjects}
           >Your Projects</Button>
           <Button 
           colorScheme="purple" 
+          variant={'outline'}
           fontSize={["xs", "md", "md", "lg"]}
           onClick={onFilterModalOpen}
           >Apply Filters</Button>
