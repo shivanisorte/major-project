@@ -16,6 +16,7 @@ import {
   Input,
   Textarea,
   Stack,
+  Select,
  } from "@chakra-ui/react";
 
  import ProjectModal from './ProjectModal';
@@ -31,6 +32,11 @@ const ProjectCard = ({ project, buttonval }) => {
       setIsViewDetailsOpen(!isViewDetailsOpen);
     };
 
+    const updateit = ()=>{
+      
+      setEditedProject(project);
+      toggleEditDetailsModal();
+    }
     const toggleEditDetailsModal = () => {
       setIsEditDetailsOpen(!isEditDetailsOpen);
     };
@@ -49,7 +55,7 @@ const ProjectCard = ({ project, buttonval }) => {
 
     const handleInputChange = (e) => {
       const { name, value } = e.target;
-      setEditedProject((prevState) => ({ ...prevState, [name]: value }));
+      setEditedProject((prevProject) => ({ ...prevProject, [name]: value }));
     };
   
     return (
@@ -85,7 +91,7 @@ const ProjectCard = ({ project, buttonval }) => {
   
           <Flex justifyContent="flex-end">
             <Button colorScheme="purple" size="sm" 
-             onClick={buttonval === "View Details" ? toggleModal : toggleEditDetailsModal}
+             onClick={buttonval === "View Details" ? toggleModal : updateit}
             >
               {buttonval}
             </Button>
@@ -101,34 +107,63 @@ const ProjectCard = ({ project, buttonval }) => {
                 <Stack spacing="4">
                   <FormControl>
                     <FormLabel>Title</FormLabel>
-                    <Input type="text" name="title" value={project.title} onChange={handleInputChange} />
+                    <Input type="text" name="title" value={editedProject.title} onChange={handleInputChange} />
                   </FormControl>
                   <FormControl>
                     <FormLabel>Project Type</FormLabel>
-                    <Input type="text" name="projectType" value={project.projectType} onChange={handleInputChange} />
+                    <Select
+                    name="projectType" 
+                    value={editedProject.projectType} 
+                    onChange={handleInputChange}
+                    isRequired
+                    >
+
+                    <option value="Faculty Project">Faculty Project</option>
+                    <option value="DHealth">DHealth</option>
+                    <option value="CREIYA">CREIYA</option>
+                    <option value="ICAR">ICAR</option>
+                    <option value="Others">Others</option>
+
+                    </Select>
                   </FormControl>
                   <FormControl>
                     <FormLabel>Domain</FormLabel>
-                    <Input type="text" name="domain" value={project.domain} onChange={handleInputChange} />
+                    <Select
+                      name="domain" 
+                      value={editedProject.domain} 
+                      onChange={handleInputChange}
+                      isRequired
+                    >
+                    <option value="Artificial Intelligence">Artificial Intelligence</option>
+                    <option value="Data Science">Data Science</option>
+                    <option value="Web Development">Web Development</option>
+                    <option value="Android Development">Android Development</option>
+                    <option value="IOT">Internet of Things</option>
+                    <option value="Algorithms">Algorithms</option>
+                    <option value="Compilers">Compilers</option>
+                    <option value="Blockchain">Blockchain</option>
+                    <option value="Cloud">Cloud</option>
+                    <option value="Others">Others</option>
+                    </Select>
                   </FormControl>
                   <FormControl>
                 <FormLabel>Description</FormLabel>
-                <Textarea name="description" value={project.description} onChange={handleInputChange} />
+                <Textarea name="description" value={editedProject.description} onChange={handleInputChange} />
               </FormControl>
 
               <FormControl>
                 <FormLabel>Technologies</FormLabel>
-                <Textarea name="technologies" value={project.technologies} onChange={handleInputChange} />
+                <Textarea name="technologies" value={editedProject.technologies} onChange={handleInputChange} />
               </FormControl>
 
               <FormControl>
                 <FormLabel>Contact</FormLabel>
-                <Input type="text" name="contact" value={project.contact}  onChange={handleInputChange}/>
+                <Input type="text" name="contact" value={editedProject.contact}  onChange={handleInputChange}/>
               </FormControl>
 
               <FormControl>
                 <FormLabel>Other Details</FormLabel>
-                <Textarea name="otherDetails" value={project.otherDetails} onChange={handleInputChange} />
+                <Textarea name="otherDetails" value={editedProject.otherDetails} onChange={handleInputChange} />
               </FormControl>
             </Stack>
           </ModalBody>
