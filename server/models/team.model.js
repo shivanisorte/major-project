@@ -23,21 +23,12 @@ const formASchema = new mongoose.Schema({
   applicability: String,
 });
 
-const studentSchema = new mongoose.Schema({
-  _id: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Student",
-  },
-  isformAApproved: { type: Boolean, default: false },
-});
-
 const TeamSchema = new Schema({
   students: [
-    studentSchema,
-    // {
-    //   type: mongoose.Schema.Types.ObjectId,
-    //   ref: "Student",
-    // },
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Student",
+    },
   ],
   guide: {
     type: mongoose.Schema.Types.ObjectId,
@@ -58,7 +49,17 @@ const TeamSchema = new Schema({
     default: [],
   },
   isFormASubmitted: { type: Boolean, default: false },
-  formAApproval: { type: Schema.Types.Decimal128, default: 0.0 },
+  formAApproval: {
+    type: Schema.Types.Decimal128,
+    default: 0.0,
+    validate: {
+      validator: function (v) {
+        return v < 101;
+      },
+      message: `All team members have approved formA`,
+    },
+    max: 101,
+  },
 });
 
 const Team = mongoose.model("Team", TeamSchema);

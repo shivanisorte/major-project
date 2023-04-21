@@ -27,7 +27,6 @@ async function readStudentSheet(filename) {
           rno: row.findCell(2).value,
           github: row.findCell(7).value,
           phno: row.findCell(5).value,
-          isTopicFinalised: false,
         });
         students.push(student);
         if (currentGroup == row.findCell(1).value) {
