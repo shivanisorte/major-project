@@ -423,6 +423,7 @@ function ProjectHub() {
           project={project} 
           key={index} 
           buttonval={displayOnlyYourProjects ? 'Update' : 'View Details'} 
+          setProjects={setProjects}
           
           />
         ))}

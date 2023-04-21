@@ -23,7 +23,7 @@ import ProjectModal from "./ProjectModal";
 
 import axios from "axios";
 
-const ProjectCard = ({ project, buttonval }) => {
+const ProjectCard = ({ project, buttonval, setProjects }) => {
   const [isViewDetailsOpen, setIsViewDetailsOpen] = useState(false);
   const [isEditDetailsOpen, setIsEditDetailsOpen] = useState(false);
   // const [editedProject, setEditedProject] = useState(project);
@@ -45,6 +45,18 @@ const ProjectCard = ({ project, buttonval }) => {
     const url = `http://localhost:3001/projectHub/${projectId}`;
     try {
       const response = await axios.put(url, projectData);
+      setProjects(prevProjects => {
+        const updatedProjects = prevProjects.map(project => {
+          if (project._id === projectId) {
+            return {
+              ...project,
+              ...projectData
+            };
+          }
+          return project;
+        });
+        return updatedProjects;
+      });
       return response.data;
     } catch (error) {
       throw new Error(error.message);
@@ -55,6 +67,10 @@ const ProjectCard = ({ project, buttonval }) => {
     const url = `http://localhost:3001/projectHub/${projectId}`;
     try {
       const response = await axios.delete(url);
+      setProjects(prevProjects => {
+        const filteredProjects = prevProjects.filter(project => project._id !== projectId);
+        return filteredProjects;
+      });
       return response.data;
     } catch (error) {
       throw new Error(error.message);
