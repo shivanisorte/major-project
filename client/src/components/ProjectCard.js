@@ -21,6 +21,8 @@ import {
 
  import ProjectModal from './ProjectModal';
 
+ import axios from 'axios';
+
 const ProjectCard = ({ project, buttonval }) => {
     const [isViewDetailsOpen, setIsViewDetailsOpen] = useState(false);
     const [isEditDetailsOpen, setIsEditDetailsOpen] = useState(false);
@@ -41,15 +43,53 @@ const ProjectCard = ({ project, buttonval }) => {
       setIsEditDetailsOpen(!isEditDetailsOpen);
     };
 
+    const updateProject = async (projectId, projectData) => {
+      const url = `http://localhost:3001/projectHub/${projectId}`;
+      try {
+        const response = await axios.put(url, projectData);
+        return response.data;
+      } catch (error) {
+        throw new Error(error.message);
+      }
+    }
+
+
+
+    const deleteProject = async (projectId) => {
+      const url = `http://localhost:3001/projectHub/${projectId}`;
+      try {
+        const response = await axios.delete(url);
+        return response.data;
+      } catch (error) {
+        throw new Error(error.message);
+      }
+    }
+
     const handleUpdateModal = () =>{
       console.log("I'm going to update the project with the following details: ", editedProject);
-      // Make an API call to update the project with editedProject data
+      const projectId = editedProject._id;
+      const projectData = editedProject;
+      updateProject(projectId, projectData)
+        .then((updatedProject) => {
+          console.log(updatedProject);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+
       toggleEditDetailsModal();
     }
 
     const handleDeleteProject = () => {
       console.log("I'm going to delete the project with the following details: ", editedProject);
-      // Make an API call to delete the project with editedProject data
+      const projectId = editedProject._id;
+      deleteProject(projectId)
+        .then((deletedProject) => {
+          console.log(deletedProject);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
       toggleEditDetailsModal();
     };
 
