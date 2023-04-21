@@ -423,7 +423,8 @@ function ProjectHub() {
           <ProjectCard 
           project={project} 
           key={index} 
-          buttonval={displayOnlyYourProjects ? 'Update' : 'View Details'} 
+          buttonval={displayOnlyYourProjects ? 'Update' : 'View Details'}
+          setProjects={setProjects}
           
           />
         ))}
