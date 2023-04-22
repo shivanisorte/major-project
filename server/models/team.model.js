@@ -44,6 +44,10 @@ const TeamSchema = new Schema({
     type: String,
     // required: true,
   },
+  isProjectHubApplied:{
+    type: Boolean,
+    default: false,
+  },
   formA: {
     type: [formASchema],
     default: [],

@@ -1,4 +1,5 @@
 const ProjectHub = require("../models/projectHub.model");
+const Team = require('../models/team.model');
 const express = require("express");
 const router = express.Router();
  
@@ -101,6 +102,32 @@ router.post("/", async (req, res) => {
         } catch (err) {
           console.error(err);
           res.status(500).send('Server error');
+        }
+      });
+
+
+      router.put('/isProjectHubApplied/:id', async (req, res) => {
+        const teamId = req.params.id;
+        console.log(teamId);
+      
+        try {
+          // Find the team by id
+          const team = await Team.findById(teamId);
+      
+          if (!team) {
+            return res.status(404).json({ success: false, message: 'Team not found' });
+          }
+      
+          // Update the isProjectHubApplied field to true
+          team.isProjectHubApplied = true;
+      
+          // Save the updated team
+          await team.save();
+      
+          return res.json({ success: true, message: 'Team updated successfully' });
+        } catch (error) {
+          console.error(error);
+          return res.status(500).json({ success: false, message: 'Server error' });
         }
       });
 
