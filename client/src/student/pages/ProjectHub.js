@@ -39,6 +39,7 @@ function ProjectHub() {
   const [selectedPDomain, setseletedPDomain] = useState("");
   const [selectedPtype, setselectedPtype] = useState("");
   const [selectedPstatus, setselectedPstatus] = useState("");
+  const [teamId, setTeamId] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -47,6 +48,11 @@ function ProjectHub() {
         if (resp.data.success === true) {
           setProjects(resp.data.projects);
         }
+        const response = await axios.get("http://localhost:3001/student", {
+          withCredentials: true
+        })
+    
+        setTeamId(response.data.student.team)
       } catch (error) {
         if (error.response) {
           toast({
@@ -122,6 +128,8 @@ function ProjectHub() {
   } else {
     filteredProjects = projects;
   }
+
+  
 
   return (
     <div>
@@ -210,7 +218,8 @@ function ProjectHub() {
             <ApplytoProject
               project={project}
               key={index}
-              buttonval={"View Details"}
+              teamId={teamId}
+              toast={toast}
             />
           ))}
         </SimpleGrid>
