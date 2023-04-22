@@ -12,17 +12,68 @@ import {
   FormControl,
   FormLabel,
   Textarea,
+  useToast,
 } from "@chakra-ui/react";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import axios from 'axios';
+
 
 const ProjectModal = ({ project, isOpen, toggleModal }) => {
   const [isApplyModalOpen, setIsApplyModalOpen] = useState(false);
   const [teamBackground, setTeamBackground] = useState('');
   const [pastProjects, setPastProjects] = useState('');
   const [projectProposal, setProjectProposal] = useState('');
+  const [teamId, setTeamId] = useState('');
+
+  useEffect(()=>{
+    const fetchData = async()=>{
+
+      try{
+        const resp = await axios.get("http://localhost:3001/student");
+        console.log(resp);
+          // update team ID
+        
+
+      }
+      catch(error){
+          if (error.response) {
+            toast({
+              title: "Try again",
+              description: "Please refresh.",
+              status: "warning",
+              duration: 6000,
+              isClosable: true,
+            });
+          } else if (error.request) {
+            toast({
+              title: "Internal Server Error",
+              description: "Please try again later.",
+              status: "error",
+              duration: 6000,
+              isClosable: true,
+            });
+            console.log(error.request);
+          } else {
+            toast({
+              title: "Check your internet connection",
+              description: "Please check your internet connection and try again.",
+              status: "error",
+              duration: 6000,
+              isClosable: true,
+            });
+          }
+      
+          console.log(error);
+        }
+    
+    
+    }
+
+    fetchData();
+
+  },[])
 
   const isApplyModalClose = () => {
     setIsApplyModalOpen(false);
@@ -48,7 +99,7 @@ const ProjectModal = ({ project, isOpen, toggleModal }) => {
 
 
     const projectData = {
-      'teamId':'643bb41e66c085add1ac82bb',
+      teamId,
       teamBackground,
       pastProjects,
       projectProposal
@@ -67,6 +118,8 @@ const ProjectModal = ({ project, isOpen, toggleModal }) => {
 
 
   }
+
+  const toast = useToast();
     
 
   return (
