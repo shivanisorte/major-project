@@ -16,6 +16,8 @@ import {
 
 import { useState } from "react";
 
+import axios from 'axios';
+
 const ProjectModal = ({ project, isOpen, toggleModal }) => {
   const [isApplyModalOpen, setIsApplyModalOpen] = useState(false);
   const [teamBackground, setTeamBackground] = useState('');
@@ -31,16 +33,39 @@ const ProjectModal = ({ project, isOpen, toggleModal }) => {
     setIsApplyModalOpen(true);
   }
 
+  const addApplication = async (projectId, applicationData) => {
+    try {
+      const response = await axios.post(`http://localhost:3001/projectHub/addapplication/${projectId}`, applicationData);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+
     const projectData = {
+      'teamId':'643bb41e66c085add1ac82bb',
       teamBackground,
       pastProjects,
       projectProposal
     };
 
-    console.log(projectData)
+    console.log(projectData);
+
+    try {
+      const response = await addApplication(project._id, projectData);
+      console.log(response); // handle success response
+    } catch (error) {
+      console.error(error); // handle error response
+    }
+
+    isApplyModalClose();
+
+
   }
     
 
@@ -93,15 +118,27 @@ const ProjectModal = ({ project, isOpen, toggleModal }) => {
           <ModalBody>
             <FormControl id="team-background" isRequired>
               <FormLabel>Team Background</FormLabel>
-              <Textarea placeholder="Introduce each team member with their background and skills." />
+              <Textarea 
+              placeholder="Introduce each team member with their background and skills." 
+              value={teamBackground}
+              onChange={(e) => setTeamBackground(e.target.value)}
+              isRequired/>
             </FormControl>
             <FormControl id="past-projects" isRequired>
               <FormLabel>Relevant Past Projects/Experience</FormLabel>
-              <Textarea placeholder="Enter relevant past projects/experience that your team has." />
+              <Textarea 
+              placeholder="Enter relevant past projects/experience that your team has." 
+              value={pastProjects}
+              onChange={(e) => setPastProjects(e.target.value)}
+              isRequired/>
             </FormControl>
             <FormControl id="project-proposal" isRequired>
               <FormLabel>Project Proposal</FormLabel>
-              <Textarea placeholder="Enter a short project proposal describing your objective and goals and how you plan to achieve them." />
+              <Textarea 
+              placeholder="Enter a short project proposal describing your objective and goals and how you plan to achieve them." 
+              value={projectProposal}
+              onChange={(e) => setProjectProposal(e.target.value)}
+              isRequired/>
             </FormControl>
           </ModalBody>
 
