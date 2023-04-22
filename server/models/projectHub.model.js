@@ -1,5 +1,24 @@
 const mongoose = require('mongoose');
 
+const applicationSchema = new mongoose.Schema({
+  teamId:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Teams",
+  },
+  teamBackground: {
+    type: String,
+    required: true
+  },
+  pastProjects: {
+    type: String,
+    required: true
+  },
+  projectProposal: {
+    type: String,
+    required: true
+  }
+});
+
 
 const ProjectHubSchema = new mongoose.Schema({
   uploadedBy: {
@@ -37,7 +56,11 @@ const ProjectHubSchema = new mongoose.Schema({
   status:{
     type:String,
     required: true
-  }
+  },
+  applications: [{
+    type: applicationSchema,
+    required: false
+  }]
 
 });
 

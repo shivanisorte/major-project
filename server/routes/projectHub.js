@@ -77,6 +77,34 @@ router.post("/", async (req, res) => {
       });
 
 
+      router.post('/addapplication/:id', async (req, res) => {
+        try {
+          const projectId = req.params.id;
+          const { teamId, teamBackground, pastProjects, projectProposal } = req.body;
+      
+          // Create a new application object
+          const application = {
+            teamId,
+            teamBackground,
+            pastProjects,
+            projectProposal
+          };
+      
+          // Find the project by ID and push the new application to its `applications` array
+          const project = await ProjectHub.findByIdAndUpdate(
+            projectId,
+            { $push: { applications: application } },
+            { new: true }
+          );
+      
+          res.status(200).json(project);
+        } catch (err) {
+          console.error(err);
+          res.status(500).send('Server error');
+        }
+      });
+
+
   
   module.exports = router;
   
