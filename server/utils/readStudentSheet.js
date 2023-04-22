@@ -15,6 +15,9 @@ async function readStudentSheet(filename) {
       if (row.findCell(1).value == "x") {
         const team = new Team({ students: currentTeam });
         teams.push(team);
+        currentTeam.map((student) => {
+          student.team = team;
+        });
         currentTeam.length = 0;
       } else {
         const student = new Student({
@@ -24,7 +27,6 @@ async function readStudentSheet(filename) {
           rno: row.findCell(2).value,
           github: row.findCell(7).value,
           phno: row.findCell(5).value,
-          isTopicFinalised: false,
         });
         students.push(student);
         if (currentGroup == row.findCell(1).value) {
@@ -32,6 +34,9 @@ async function readStudentSheet(filename) {
         } else {
           const team = new Team({ students: currentTeam });
           teams.push(team);
+          currentTeam.map((student) => {
+            student.team = team;
+          });
           currentTeam.length = 0;
           currentTeam.push(student);
           currentGroup++;
