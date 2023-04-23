@@ -88,12 +88,7 @@ const Applications = () => {
     {yourProjects ? (
       yourProjects.map((project) => (
         <ApplicationProjectCard
-          key={project.id}
-          title={project.title}
-          domain={project.domain}
-          type={project.projectType}
-          numApplications={project.applications.length}
-          applications = {project.applications}
+          project={project}
           toast={toast}
         //   onViewApplications={() => {
         //     // handle the view applications button click here 

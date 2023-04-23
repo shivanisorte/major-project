@@ -1,17 +1,29 @@
-import React from "react";
-import { Box, Button, Flex, Text } from "@chakra-ui/react";
+import React, { useState } from "react"; 
+import {
+    Box,
+    Button,
+    Flex,
+    Text,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalBody,
+    ModalFooter,
+  } from "@chakra-ui/react";
+
+  
 
 const ApplicationProjectCard = ({
-  title,
-  domain,
-  type,
-  numApplications,
+  project,
   toast,
-//   onViewApplications,
-  applications,
 }) => {
 
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isFinalizeModalOpen, setIsFinalizeModalOpen] = useState(false);
+
     const onViewApplications = () => {
+        setIsModalOpen(true);
         toast({
             title: " project applications",
             description: "This project  receive  applications.",
@@ -31,6 +43,20 @@ const ApplicationProjectCard = ({
           });
 
      }
+
+     const handleFinalizeClick = () => {
+        setIsFinalizeModalOpen(true);
+      };
+      
+      const handleFinalizeConfirm = () => {
+        // Perform finalize team logic here
+        
+        setIsFinalizeModalOpen(false);
+      };
+      
+      const handleFinalizeCancel = () => {
+        setIsFinalizeModalOpen(false);
+      };
    
   return (
     <Box
@@ -52,12 +78,12 @@ const ApplicationProjectCard = ({
       >
         <Box>
           <Text fontWeight="bold" fontSize={{ base: "lg", md: "xl" }}>
-            {title}
+            {project.title}
           </Text>
-          <Text fontSize={{ base: "sm", md: "md" }}>{domain}</Text>
-          <Text fontSize={{ base: "sm", md: "md" }}>{type}</Text>
-          <Text fontSize={{ base: "sm", md: "md" }} color={numApplications === 0 ? "red" : "green"} fontWeight={numApplications === 0 ? "normal" : "bold"}>
-            {numApplications} applications
+          <Text fontSize={{ base: "sm", md: "md" }}>{project.domain}</Text>
+          <Text fontSize={{ base: "sm", md: "md" }}>{project.projectType}</Text>
+          <Text fontSize={{ base: "sm", md: "md" }} color={project.applications.length === 0 ? "red" : "green"} fontWeight={project.applications.length === 0 ? "normal" : "bold"}>
+            {project.applications.length} applications
         </Text>
         </Box>
         <Button
@@ -65,13 +91,76 @@ const ApplicationProjectCard = ({
           color="white"
           borderRadius="full"
           px="6"
-          onClick={numApplications === 0 ? noApplications : onViewApplications}
+          onClick={project.applications.length === 0 ? noApplications : onViewApplications}
           _hover={{ backgroundColor: "purple.600" }}
           _focus={{ outline: "none" }}
         >
           View Applications
         </Button>
       </Flex>
+
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader backgroundColor={"#f5f1f9"}>Applications for {project.title}</ModalHeader>
+          <ModalBody maxHeight="70vh" overflowY="auto">
+            {project.applications.map((application) => (
+                <Box key={application._id} borderBottomWidth="1px" pb="4" mb="4">
+                <Text fontWeight="bold">Team Bio: </Text>
+                <Text  mb="2">{application.teamBackground}</Text>
+                <Text fontWeight="bold">Project Proposal: </Text>
+                <Text mb="2">{application.projectProposal}</Text>
+                <Text fontWeight="bold">Past Projects: </Text>
+                <Text mb="2">{application.pastProjects}</Text>
+                <Flex justifyContent="flex-end">
+                <Button 
+                colorScheme="purple" 
+                mr={3} 
+                variant={"ghost"}
+                size={'md'}>
+                Team Details
+                </Button>
+                <Button 
+                size={'md'}
+                colorScheme="purple"
+                variant={"outline"}
+                onClick={handleFinalizeClick}
+                >
+                Finalize Team
+                </Button>
+                </Flex>
+                </Box>
+            ))}
+          </ModalBody>
+
+
+
+          <ModalFooter backgroundColor={"#f5f1f9"}>
+            <Button variant={"solid"} colorScheme="purple" onClick={() => setIsModalOpen(false)}>Close</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+
+
+      <Modal isOpen={isFinalizeModalOpen} onClose={handleFinalizeCancel}>
+      <ModalOverlay />
+      <ModalContent display="flex" alignItems="center" justifyContent="center">
+        <ModalHeader>Finalize Team</ModalHeader>
+        <ModalBody>
+          Are you sure you want to finalize this team? Once finalized, this action can not be undone. 
+        </ModalBody>
+        <ModalFooter>
+          <Button colorScheme="gray" mr={3} onClick={handleFinalizeCancel}>
+            No
+          </Button>
+          <Button colorScheme="purple" onClick={handleFinalizeConfirm}>
+            Yes
+          </Button>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
+
+
     </Box>
   );
 };
