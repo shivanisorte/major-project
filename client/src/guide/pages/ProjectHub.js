@@ -3,6 +3,9 @@ import addProject from '../../utils/addProject';
 import AppNav from '../../components/AppNav';
 import ProjectCard from './../../components/ProjectCard';
 
+
+import { Link } from "react-router-dom";
+
 import {
   Button,
   FormControl,
@@ -32,6 +35,8 @@ import { AddIcon } from "@chakra-ui/icons";
 import getUploadedByGuide from "../../utils/getUploadByGuide";
 
 import axios from 'axios';
+
+import { MdFilterList } from "react-icons/md";
 
 
 
@@ -226,6 +231,20 @@ function ProjectHub() {
         <Heading as="h1" size="xl" my={8}>
           Project Hub
         </Heading>
+
+        <IconButton
+        icon={<MdFilterList/>}
+        border='2px'
+        borderColor='white'
+        color={'purple.600'}
+        background={'white'}
+        fontSize={'30px'}
+        position="absolute"
+        boxShadow='base'
+        right="4"
+        zIndex="1"
+        onClick={onFilterModalOpen}
+      />
       </Center>
 
       <Center>
@@ -240,12 +259,15 @@ function ProjectHub() {
           fontSize={["xs", "md", "md", "lg"]}
           onClick={handleDisplayYourProjects}
           >Your Projects</Button>
+          <Link to={"../applications"}>
           <Button 
           colorScheme="purple" 
           variant={'outline'}
           fontSize={["xs", "md", "md", "lg"]}
-          onClick={onFilterModalOpen}
-          >Apply Filters</Button>
+          // onClick={onFilterModalOpen}
+          >Applications
+          </Button>
+          </Link>
     </ButtonGroup>
       </Center>
 
@@ -445,7 +467,6 @@ function ProjectHub() {
     zIndex="1"
     onClick={onOpen}
   />
-      
     </Box>
 
     </div>
