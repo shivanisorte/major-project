@@ -1,4 +1,6 @@
+const CustomError = require("../helpers/customError");
 const verifyToken = require("../utils/verifyToken");
+
 function verificationMiddleware(req, res, next) {
 
   const token = req.headers.cookie
@@ -13,7 +15,8 @@ function verificationMiddleware(req, res, next) {
     next();
   } else {
     // res.status(302).redirect(`http://localhost:3000/`); //redirect to landing page if no token in cookie
-    res.status(404).json({ success: false });
+    // res.status(404).json({ success: false });
+    throw new CustomError("VERIFICATION_FAILED");
   }
 }
 module.exports = verificationMiddleware;
