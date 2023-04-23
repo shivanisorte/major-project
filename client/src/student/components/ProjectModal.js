@@ -19,7 +19,7 @@ import { useState } from "react";
 import axios from 'axios';
 
 
-const ProjectModal = ({ project, isOpen, toggleModal, teamId, toast }) => {
+const ProjectModal = ({ project, isOpen, toggleModal, teamId, toast, setIsProjectHubApplied, isProjectHubApplied }) => {
   const [isApplyModalOpen, setIsApplyModalOpen] = useState(false);
   const [teamBackground, setTeamBackground] = useState('');
   const [pastProjects, setPastProjects] = useState('');
@@ -35,6 +35,16 @@ const ProjectModal = ({ project, isOpen, toggleModal, teamId, toast }) => {
     setIsApplyModalOpen(true);
   }
 
+  const alreadyApplied=()=>{
+    toast({
+      title: "You have already applied",
+      description: "You can apply to only project in Project Hub",
+      status: "error",
+      duration: 6000,
+      isClosable: true,
+    });
+  }
+
   const addApplication = async (projectId, applicationData) => {
     try {
       const response = await axios.post(`http://localhost:3001/projectHub/addapplication/${projectId}`, applicationData);
@@ -44,6 +54,19 @@ const ProjectModal = ({ project, isOpen, toggleModal, teamId, toast }) => {
         duration: 5000,
         isClosable: true,
       });
+
+      try {
+        const updateIsProjectHubAppliedResponse = await axios.put(`http://localhost:3001/projectHub/isProjectHubApplied/${teamId}`);
+        console.log(updateIsProjectHubAppliedResponse.data);
+        // Handle success
+      } catch (error) {
+        console.error(error);
+        // Handle error
+      }
+
+      setIsProjectHubApplied(true);
+
+
       return response.data;
   
     } catch (error) {
@@ -118,7 +141,7 @@ const ProjectModal = ({ project, isOpen, toggleModal, teamId, toast }) => {
         </ModalBody>
         <ModalFooter>
           <Button colorScheme="purple" mr={3} 
-          onClick={handleApply}
+          onClick={isProjectHubApplied ? alreadyApplied : handleApply}
           >
             Apply
           </Button>

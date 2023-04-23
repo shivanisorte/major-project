@@ -41,6 +41,8 @@ function ProjectHub() {
   const [selectedPstatus, setselectedPstatus] = useState("");
   const [teamId, setTeamId] = useState('');
 
+  const [isProjectHubApplied, setIsProjectHubApplied] = useState(false);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -48,11 +50,31 @@ function ProjectHub() {
         if (resp.data.success === true) {
           setProjects(resp.data.projects);
         }
+
         const response = await axios.get("http://localhost:3001/student", {
-          withCredentials: true
+        withCredentials: true
         })
+
+        setTeamId(response.data.student.team);
+        const teamidvar = response.data.student.team;
+
+
+        console.log(teamId)
+        
+
+        const teamResponse = await axios.get(`http://localhost:3001/teams/${teamidvar}`,{
+          // withCredentials:true
+        })
+        .then(teamResponse => {
+          const isProjectHubApplied = teamResponse.data.isProjectHubApplied;
+          setIsProjectHubApplied(isProjectHubApplied);
+        })
+        .catch(error => {
+          console.error(error);
+        });
+
     
-        setTeamId(response.data.student.team)
+        
       } catch (error) {
         if (error.response) {
           toast({
@@ -220,6 +242,8 @@ function ProjectHub() {
               key={index}
               teamId={teamId}
               toast={toast}
+              setIsProjectHubApplied={setIsProjectHubApplied}
+              isProjectHubApplied={isProjectHubApplied}
             />
           ))}
         </SimpleGrid>

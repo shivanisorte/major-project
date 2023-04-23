@@ -3,7 +3,7 @@ import { Box, Text, Heading, Flex, Button } from "@chakra-ui/react";
 
 import ProjectModal from "./ProjectModal";
 
-const ApplytoProject = ({ project,teamId, toast }) => {
+const ApplytoProject = ({ project,teamId, toast, setIsProjectHubApplied, isProjectHubApplied }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleModal = () => {
@@ -53,6 +53,8 @@ const ApplytoProject = ({ project,teamId, toast }) => {
           toggleModal={toggleModal}
           teamId={teamId}
           toast={toast}
+          setIsProjectHubApplied={setIsProjectHubApplied}
+          isProjectHubApplied={isProjectHubApplied}
         />
       </Box>
     </Box>
