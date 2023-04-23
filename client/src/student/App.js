@@ -7,6 +7,8 @@ import logo from "./../assets/student.png";
 
 import FormA from "./pages/FormA";
 
+import ProjectHub from "./pages/ProjectHub";
+
 function App() {
   return (
     <>
@@ -18,6 +20,7 @@ function App() {
         ></Route>
         <Route path="/dashboard" element={<Dashboard></Dashboard>}></Route>
         <Route path="/formA" element={<FormA></FormA>}></Route>
+        <Route path="/projecthub" element={<ProjectHub></ProjectHub>}></Route>
       </Routes>
     </>
   );

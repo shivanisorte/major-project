@@ -8,6 +8,8 @@ const coordinatorRouter = require("./routes/coordinator/index");
 const studentRouter = require("./routes/student/index");
 const guideRouter = require("./routes/guide/index");
 const authRouter = require("./routes/auth");
+const projectHubRouter =  require("./routes/projectHub");
+const teamsRouter = require("./routes/team")
 const { initializeDBConnection } = require("./db/db.connect");
 
 const whitelist = ["http://localhost:3000"];
@@ -29,6 +31,8 @@ app.use("/auth", authRouter);
 app.use("/coordinator", coordinatorRouter);
 app.use("/student", studentRouter);
 app.use("/guide", guideRouter);
+app.use("/projectHub", projectHubRouter);
+app.use("/teams", teamsRouter);
 
 app.listen(port, () => {
   console.log(`Server started at http://localhost:${port}`);

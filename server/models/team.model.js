@@ -1,6 +1,28 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
+const formASchema = new mongoose.Schema({
+  title: String,
+  projectDomain: {
+    type: String,
+    enum: [
+      "Artificial Intelligence",
+      "Data Science",
+      "Web Development",
+      "Android Development",
+      "IOT",
+      "Algorithms",
+      "Compilers",
+      "Blockchain",
+      "Cloudform",
+      "Others",
+    ],
+  },
+  technical: String,
+  futureScope: String,
+  applicability: String,
+});
+
 const TeamSchema = new Schema({
   students: [
     {
@@ -21,6 +43,26 @@ const TeamSchema = new Schema({
   domain: {
     type: String,
     // required: true,
+  },
+  isProjectHubApplied:{
+    type: Boolean,
+    default: false,
+  },
+  formA: {
+    type: [formASchema],
+    default: [],
+  },
+  isFormASubmitted: { type: Boolean, default: false },
+  formAApproval: {
+    type: Schema.Types.Decimal128,
+    default: 0.0,
+    validate: {
+      validator: function (v) {
+        return v < 101;
+      },
+      message: `All team members have approved formA`,
+    },
+    max: 101,
   },
 });
 

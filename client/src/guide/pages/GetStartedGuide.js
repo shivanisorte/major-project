@@ -3,7 +3,6 @@ import { Box, Flex, Heading, Image, Button, Stack } from "@chakra-ui/react";
 import { BiChevronRight } from "react-icons/bi";
 import { Link } from "react-router-dom";
 
-
 function handleEmailClick() {
   const email = "sssorte1428@gmail.com";
   const subject = "Request for assistance with ...";
@@ -41,23 +40,28 @@ const GetStartedGuide = ({ image, buttonText, heading }) => {
             {" "}
             <Link to="../projecthub">
               <Button
-                width="2xs"
+                minWidth="2xs"
                 rightIcon={<BiChevronRight />}
                 colorScheme="purple"
                 fontSize={["l", "l", "xl", "xl"]}
+                p={2}
               >
                 {buttonText[0]}
               </Button>
             </Link>
-            <Button
-              width="2xs"
-              rightIcon={<BiChevronRight />}
-              colorScheme="purple"
-              fontSize={["l", "l", "xl", "xl"]}
-              onClick={handleEmailClick}
-            >
-              {buttonText[1]}
-            </Button>
+            <Link to={"../select-panel"}>
+              {" "}
+              <Button
+                minWidth="2xs"
+                rightIcon={<BiChevronRight />}
+                colorScheme="purple"
+                fontSize={["l", "l", "xl", "xl"]}
+                // onClick={handleEmailClick}
+                p={2}
+              >
+                {buttonText[1]}
+              </Button>
+            </Link>
           </Stack>
         </Box>
       </Flex>

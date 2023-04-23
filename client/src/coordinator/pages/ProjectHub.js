@@ -20,6 +20,7 @@ import {
   Center,
   Heading,
   SimpleGrid,
+  Text,
   useToast,
   ModalCloseButton,
   ModalFooter,
@@ -29,7 +30,7 @@ import {
 
 import { AddIcon } from "@chakra-ui/icons";
 
-import getUploadedByGuide from "../../utils/getUploadByGuide";
+import getUploadedByCoord from "../../utils/getUploadedByCoord";
 
 import axios from 'axios';
 
@@ -78,7 +79,7 @@ function ProjectHub() {
         if(resp.data.success===true){
           setProjects(resp.data.projects);
         }
-        getUploadedByGuide(setUploadedBy, toast);
+        getUploadedByCoord(setUploadedBy, toast);
 
       }
       catch(error){
@@ -422,7 +423,7 @@ function ProjectHub() {
           <ProjectCard 
           project={project} 
           key={index} 
-          buttonval={displayOnlyYourProjects ? 'Update' : 'View Details'} 
+          buttonval={displayOnlyYourProjects ? 'Update' : 'View Details'}
           setProjects={setProjects}
           
           />
