@@ -90,9 +90,7 @@ const Applications = () => {
         <ApplicationProjectCard
           project={project}
           toast={toast}
-        //   onViewApplications={() => {
-        //     // handle the view applications button click here 
-        //   }}
+          guide={uploadBy}
         />
       ))
     ) : (

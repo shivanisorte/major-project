@@ -11,16 +11,19 @@ import {
     ModalBody,
     ModalFooter,
   } from "@chakra-ui/react";
+import axios from 'axios';
 
   
 
 const ApplicationProjectCard = ({
   project,
   toast,
+  guide
 }) => {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isFinalizeModalOpen, setIsFinalizeModalOpen] = useState(false);
+    const [selectedIndex, setSelectedIndex] = useState(99);
 
     const onViewApplications = () => {
         setIsModalOpen(true);
@@ -37,15 +40,89 @@ const ApplicationProjectCard = ({
 
      }
 
-     const handleFinalizeClick = () => {
+     const handleFinalizeClick = (index) => {
+      setSelectedIndex(index);
         setIsFinalizeModalOpen(true);
       };
       
       const handleFinalizeConfirm = () => {
         // Perform finalize team logic here
+        console.log(project.applications[selectedIndex]);
+        updateTeamDetails(project.applications[selectedIndex].teamId, guide, project.title, project.domain, project.projectType);
+
 
         setIsFinalizeModalOpen(false);
       };
+      
+      const updateTeamDetails = async (teamId, guide, projectTitle, projectDomain, projectType) => {
+        try {
+          const putData = {
+            guide: guide,
+            projectTitle: projectTitle,
+            projectDomain: projectDomain,
+            projectType: projectType
+          };
+
+          console.log(putData)
+
+         
+          const response =  await axios.put(`http://localhost:3001/guide/finalizePHub/${teamId}`, putData, { withCredentials: true });
+          console.log(response);
+          if (response.data.success === true) {
+            toast({
+              title: "Team Selected",
+              description: "All team Members are notified.",
+              status: "success",
+              duration: 6000,
+              isClosable: true,
+            });
+          }
+        } catch (error) {
+          if (error.response) {
+            toast({
+              title:
+                error.response.data.status === "pending"
+                  ? "Team Finalization pending"
+                  : "Team Finalization cancelled.",
+              description:
+                error.response.data.status === "cancelled"
+                  ? "Team Finalization is cancelled. Please try again."
+                  : error.response.data.status === "pending"
+                  ? "Try Team Finalization again."
+                  : "Retry Team Finalization",
+              status: error.response.data.status === "pending" ? "warning" : "error",
+              duration: 6000,
+              isClosable: true,
+            });
+            if (error.response.data.status === "cancelled") {
+              //if the process is completely cancelled.
+            }
+          } else if (error.request) {
+            console.log(error.request);
+            toast({
+              title: "Team Finalization couldn't be done.",
+              description:
+                "Could not do the the Team Finalization. Please try again later.",
+              status: "error",
+              duration: 6000,
+              isClosable: true,
+            });
+          } else {
+            toast({
+              title: "Team Finalization not done. Try again later",
+              description: error.message,
+              status: "error",
+              duration: 6000,
+              isClosable: true,
+            });
+          }
+          console.log("error config", error.config);
+        
+          console.log("error response data:", error.response.data);
+          console.log("error config:", error.config);
+        }
+      };
+        
       
       const handleFinalizeCancel = () => {
         setIsFinalizeModalOpen(false);
@@ -97,7 +174,7 @@ const ApplicationProjectCard = ({
         <ModalContent>
           <ModalHeader backgroundColor={"#f5f1f9"}>Applications for {project.title}</ModalHeader>
           <ModalBody maxHeight="70vh" overflowY="auto">
-            {project.applications.map((application) => (
+            {project.applications.map((application, index) => (
                 <Box key={application._id} borderBottomWidth="1px" pb="4" mb="4">
                 <Text fontWeight="bold">Team Bio: </Text>
                 <Text  mb="2">{application.teamBackground}</Text>
@@ -117,7 +194,8 @@ const ApplicationProjectCard = ({
                 size={'md'}
                 colorScheme="purple"
                 variant={"outline"}
-                onClick={handleFinalizeClick}
+                onClick={() => handleFinalizeClick(index)}
+
                 >
                 Finalize Team
                 </Button>

@@ -29,7 +29,7 @@ router.get("/", async (req, res) => {
 });
 
 
-router.put('/:id', async (req, res) => {
+router.put('/finalizePHub/:id', async (req, res) => {
   try {
     const team = await Team.findById(req.params.id);
 
@@ -42,9 +42,9 @@ router.put('/:id', async (req, res) => {
     // Save the updated team information
     const updatedTeam = await team.save();
 
-    res.json(updatedTeam);
+    res.json({success: true, updatedTeam});
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ success: false, message: err.message });
   }
 });
 
