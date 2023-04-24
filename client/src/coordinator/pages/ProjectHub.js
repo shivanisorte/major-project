@@ -284,7 +284,6 @@ function ProjectHub() {
                 value={selectedPtype}
                 onChange={(e)=>setselectedPtype(e.target.value)}
                 >
-                <option value="Faculty Project">Faculty Project</option>
                 <option value="DHealth">DHealth</option>
                 <option value="CREIYA">CREIYA</option>
                 <option value="ICAR">ICAR</option>

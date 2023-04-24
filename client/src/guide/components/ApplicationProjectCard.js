@@ -24,13 +24,6 @@ const ApplicationProjectCard = ({
 
     const onViewApplications = () => {
         setIsModalOpen(true);
-        toast({
-            title: " project applications",
-            description: "This project  receive  applications.",
-            status: "success",
-            duration: 6000,
-            isClosable: true,
-          });
       };
 
      const noApplications = ()=>{
@@ -50,7 +43,7 @@ const ApplicationProjectCard = ({
       
       const handleFinalizeConfirm = () => {
         // Perform finalize team logic here
-        
+
         setIsFinalizeModalOpen(false);
       };
       

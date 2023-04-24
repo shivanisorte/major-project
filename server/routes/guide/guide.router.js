@@ -1,6 +1,7 @@
 const express = require("express");
 const Guide = require("../../models/guide.model");
 const router = express.Router();
+const Team = require("../../models/team.model");
 
 router.get("/", async (req, res) => {
   console.log(req.user);
@@ -24,6 +25,26 @@ router.get("/", async (req, res) => {
       message: error.message,
     });
     
+  }
+});
+
+
+router.put('/:id', async (req, res) => {
+  try {
+    const team = await Team.findById(req.params.id);
+
+    // Update the team information
+    team.guide = req.body.guide;
+    team.projectTitle = req.body.projectTitle;
+    team.projectDomain = req.body.projectDomain;
+    team.projectType = req.body.projectType;
+
+    // Save the updated team information
+    const updatedTeam = await team.save();
+
+    res.json(updatedTeam);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 });
 

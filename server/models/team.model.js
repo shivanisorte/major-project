@@ -38,6 +38,12 @@ const TeamSchema = new Schema({
     type: String,
     // required: [true, "project title is required "],
   },
+  projectDomain:{
+    type: String,
+  },
+  projectType:{
+    type:String,
+  },
   commits: [], // not sure what this would look like lmao
   tasks: [], // not sure what this would look like lmao
   domain: {
