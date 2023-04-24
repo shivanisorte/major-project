@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
     Box,
     Button,
@@ -24,10 +24,26 @@ const ApplicationProjectCard = ({
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isFinalizeModalOpen, setIsFinalizeModalOpen] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(99);
+    const [isFinalized, setIsFinalized]=useState(false);
+
+    useEffect(()=>{
+      setIsFinalized(project.isFinalized)
+
+    },[isFinalized]);
 
     const onViewApplications = () => {
         setIsModalOpen(true);
       };
+
+      const alreadyFinalized=()=>{
+        toast({
+          title: "This project's team is already finalized",
+          description: "Try finalizing teams for other projects.",
+          status: "error",
+          duration: 6000,
+          isClosable: true,
+        });
+      }
 
      const noApplications = ()=>{
         toast({
@@ -75,6 +91,9 @@ const ApplicationProjectCard = ({
         
           const response1 = await axios.put(`http://localhost:3001/projectHub/finalize/${project._id}`, isFinalizeData, { withCredentials: true });
           console.log(response1.data); // log the response from the server
+          setIsModalOpen(false)
+          project.isFinalized=true;
+          setIsFinalized(true);
 
           if (response.data.success === true) {
             toast({
@@ -85,7 +104,8 @@ const ApplicationProjectCard = ({
               isClosable: true,
             });
           }
-        } catch (error) {
+        } 
+        catch (error) {
           if (error.response) {
             toast({
               title:
@@ -165,16 +185,17 @@ const ApplicationProjectCard = ({
         </Text>
         </Box>
         <Button
-          backgroundColor="purple.500"
+          backgroundColor={project.isFinalized ? "green.500" : "purple.500"}
           color="white"
           borderRadius="full"
           px="6"
-          onClick={project.applications.length === 0 ? noApplications : onViewApplications}
-          _hover={{ backgroundColor: "purple.600" }}
+          onClick={project.isFinalized ? alreadyFinalized : (project.applications.length === 0 ? noApplications : onViewApplications)}
+          _hover={{ backgroundColor: project.isFinalized ? "green.600" : "purple.600" }}
           _focus={{ outline: "none" }}
         >
-          View Applications
+          {project.isFinalized ? "Team Finalized" : "View Applications"}
         </Button>
+
       </Flex>
 
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
