@@ -1,4 +1,4 @@
-import React, { useState } from "react"; 
+import React, { useState } from "react";
 import {
     Box,
     Button,
@@ -68,6 +68,14 @@ const ApplicationProjectCard = ({
          
           const response =  await axios.put(`http://localhost:3001/guide/finalizePHub/${teamId}`, putData, { withCredentials: true });
           console.log(response);
+
+          const isFinalizeData= {
+            "isFinalized": true
+        };
+        
+          const response1 = await axios.put(`http://localhost:3001/projectHub/finalize/${project._id}`, isFinalizeData, { withCredentials: true });
+          console.log(response1.data); // log the response from the server
+
           if (response.data.success === true) {
             toast({
               title: "Team Selected",
@@ -117,10 +125,10 @@ const ApplicationProjectCard = ({
             });
           }
           console.log("error config", error.config);
-        
           console.log("error response data:", error.response.data);
-          console.log("error config:", error.config);
         }
+
+
       };
         
       
