@@ -2,6 +2,7 @@ const express = require("express");
 const Guide = require("../../models/guide.model");
 const router = express.Router();
 const Team = require("../../models/team.model");
+const sendEmail = require("./../../utils/sendEmail")
 
 router.get("/", async (req, res) => {
   console.log(req.user);
@@ -42,10 +43,27 @@ router.put('/finalizePHub/:id', async (req, res) => {
     // Save the updated team information
     const updatedTeam = await team.save();
 
-    res.json({success: true, updatedTeam});
+    try {
+      const team = await Team.findById(req.params.id).populate('students', 'name email');
+      const project = {
+        title: team.projectTitle,
+        domain: team.projectDomain,
+        projectType: team.projectType,
+      };
+      const guide = await Guide.findById(team.guide, 'name email phno');
+      if (!team) {
+        return res.status(404).json({ success: false, message: 'Team not found' });
+      }
+      sendEmail(team.students, project, guide);
+      res.status(200).json({ success: true, updatedTeam });
+    } catch (error) {
+      console.error('Error sending email:', error);
+      res.status(500).json({ message: 'Server error ' + error.message, success: false });
+    }
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
   }
 });
+
 
 module.exports = router;

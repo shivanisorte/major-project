@@ -10,8 +10,14 @@ import {
     ModalHeader,
     ModalBody,
     ModalFooter,
+    ModalCloseButton,
+    Table,
+    Tbody,
+    Tr,
+    Td,
   } from "@chakra-ui/react";
 import axios from 'axios';
+
 
   
 
@@ -25,6 +31,8 @@ const ApplicationProjectCard = ({
     const [isFinalizeModalOpen, setIsFinalizeModalOpen] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(99);
     const [isFinalized, setIsFinalized]=useState(false);
+    const [isTeamDetailsOpen, setisTeamDetailsOpen] = useState(false);
+    const [team, setTeam] = useState([]);
 
     useEffect(()=>{
       setIsFinalized(project.isFinalized)
@@ -55,6 +63,18 @@ const ApplicationProjectCard = ({
           });
 
      }
+
+     const getStudentsInfo = async (index) => {
+      try {
+        const response = await axios.get(`http://localhost:3001/projectHub/studentsInfoFromTeam/${project.applications[index].teamId}`);
+        console.log( response.data);
+        setTeam(response.data.students)
+        setisTeamDetailsOpen(true);
+        
+      } catch (error) {
+        console.error(error);
+      }
+    }
 
      const handleFinalizeClick = (index) => {
       setSelectedIndex(index);
@@ -216,6 +236,7 @@ const ApplicationProjectCard = ({
                 colorScheme="purple" 
                 mr={3} 
                 variant={"ghost"}
+                onClick={() =>getStudentsInfo(index)}
                 size={'md'}>
                 Team Details
                 </Button>
@@ -259,6 +280,44 @@ const ApplicationProjectCard = ({
         </ModalFooter>
       </ModalContent>
     </Modal>
+
+
+
+    <Modal isOpen={isTeamDetailsOpen} onClose={() => setisTeamDetailsOpen(false)}>
+  <ModalOverlay />
+  <ModalContent
+    maxWidth={['80%','80%','80%','60%']}
+
+    margin="auto"
+  >
+    <ModalHeader>Team Details</ModalHeader>
+    <ModalCloseButton />
+    <ModalBody>
+      <div style={{ overflowX: "auto" }}>
+        <Table>
+          <Tbody>
+            {team.map((student) => (
+              <Tr key={student._id}>
+                <Td>{student.name}</Td>
+                <Td>{student.email}</Td>
+                <Td>{student.rno}</Td>
+                <Td>{student.erno}</Td>
+                <Td>{student.phno}</Td>
+              </Tr>
+            ))}
+          </Tbody>
+        </Table>
+      </div>
+    </ModalBody>
+    <ModalFooter>
+      <Button colorScheme="purple" mr={3} onClose={() => setisTeamDetailsOpen(false)}>
+        Close
+      </Button>
+    </ModalFooter>
+  </ModalContent>
+</Modal>
+
+
 
 
     </Box>

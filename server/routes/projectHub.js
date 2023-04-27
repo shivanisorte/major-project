@@ -152,6 +152,23 @@ router.post("/", async (req, res) => {
           return res.status(500).json({ success: false, message: 'Server error' });
         }
       });
+
+
+      router.get("/studentsInfoFromTeam/:teamId", async (req, res) => {
+        try {
+          const teamId = req.params.teamId;
+          const team = await Team.findById(teamId).populate('students', 'name email rno erno phno');
+          if (!team) {
+            return res.status(404).json({ success: false, message: "Team not found" });
+          }
+          res.status(200).json({ students: team.students, success: true });
+        } catch (error) {
+          console.error("Error getting students:", error);
+          res.status(500).json({ message: "Server error " + error.message, success: false });
+        }
+      });
+
+      
       
 
 
