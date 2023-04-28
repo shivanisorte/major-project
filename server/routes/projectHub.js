@@ -23,7 +23,8 @@ router.post("/", async (req, res) => {
         technologies,
         contact,
         otherDetails, 
-        status
+        status,
+        guide,
     } =  req.body;
 
     try{
@@ -36,7 +37,8 @@ router.post("/", async (req, res) => {
             status,
             technologies,
             contact,
-            otherDetails
+            otherDetails,
+            guide,
         });
 
         const projectResp = await project.save();

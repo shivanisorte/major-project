@@ -30,6 +30,23 @@ router.get("/", async (req, res) => {
 });
 
 
+router.get("/allguidesdropdown", async (req, res) => {
+  console.log(req.user);
+  try {
+    const guides = await Guide.find({}, '_id name');
+    res.status(200).json({ success: true, message: "All Guides found", guides: guides });
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({
+      success: false,
+      message: error.message,
+    });
+  }
+});
+
+
+
+
 router.put('/finalizePHub/:id', async (req, res) => {
   try {
     const team = await Team.findById(req.params.id);

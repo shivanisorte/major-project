@@ -27,12 +27,14 @@ import {
   ButtonGroup,
   IconButton, 
 } from '@chakra-ui/react';
+import { MdFilterList } from "react-icons/md";
 
 import { AddIcon } from "@chakra-ui/icons";
 
 import getUploadedByCoord from "../../utils/getUploadedByCoord";
 
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 
 
@@ -66,6 +68,9 @@ function ProjectHub() {
   const [selectedPtype, setselectedPtype] = useState('');
   const [selectedPstatus, setselectedPstatus] = useState('');
 
+  const [projectGuide, setProjectGuide] = useState('');
+  const [guides, setGuides] = useState([]);
+
 
   const [allProjectsButtonColor, setAllProjectsButtonColor] = useState("purple");
   const [yourProjectsButtonColor, setYourProjectsButtonColor] = useState("gray");
@@ -80,6 +85,17 @@ function ProjectHub() {
           setProjects(resp.data.projects);
         }
         getUploadedByCoord(setUploadedBy, toast);
+
+        axios.get('http://localhost:3001/guide/allguidesdropdown', { withCredentials: true })
+        .then(response => {
+          console.log(response.data);
+          setGuides(response.data.guides);
+          // handle the response data here
+        })
+        .catch(error => {
+          console.log(error);
+          // handle the error here
+        });
 
       }
       catch(error){
@@ -135,6 +151,7 @@ function ProjectHub() {
       technologies: technologies,
       contact: contact,
       otherDetails:otherDetails,
+      guide:projectGuide,
       status: 'Open'
     };
     onClose();
@@ -173,6 +190,7 @@ function ProjectHub() {
     setselectedPtype('');
     setseletedPDomain('');
   }
+
 
 
   // Filter projects based on the value of displayOnlyYourProjects
@@ -227,6 +245,19 @@ function ProjectHub() {
         <Heading as="h1" size="xl" my={8}>
           Project Hub
         </Heading>
+        <IconButton
+        icon={<MdFilterList/>}
+        border='2px'
+        borderColor='white'
+        color={'purple.600'}
+        background={'white'}
+        fontSize={'30px'}
+        position="absolute"
+        boxShadow='base'
+        right="4"
+        zIndex="1"
+        onClick={onFilterModalOpen}
+      />
       </Center>
 
       <Center>
@@ -241,12 +272,15 @@ function ProjectHub() {
           fontSize={["xs", "md", "md", "lg"]}
           onClick={handleDisplayYourProjects}
           >Your Projects</Button>
+          <Link to={"../applications"}>
           <Button 
           colorScheme="purple" 
           variant={'outline'}
           fontSize={["xs", "md", "md", "lg"]}
-          onClick={onFilterModalOpen}
-          >Apply Filters</Button>
+          // onClick={onFilterModalOpen}
+          >Applications
+          </Button>
+          </Link>
     </ButtonGroup>
       </Center>
 
@@ -373,6 +407,24 @@ function ProjectHub() {
                 <option value="Others">Others</option>
                 </Select>
               </FormControl>
+
+              <FormControl>
+                <FormLabel>Guide</FormLabel>
+                <Select
+                  placeholder="Select Guide"
+                  value={projectGuide}
+                  onChange={(e) => setProjectGuide(e.target.value)}
+                  isRequired
+                >
+                {guides.map(guide => (
+                <option key={guide._id} value={guide._id}>{guide.name}</option>
+                ))}
+
+                </Select>
+              </FormControl>
+
+
+
               <FormControl>
                 <FormLabel>Description</FormLabel>
                 <Textarea

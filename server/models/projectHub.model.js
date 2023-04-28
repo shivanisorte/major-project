@@ -68,6 +68,11 @@ const ProjectHubSchema = new mongoose.Schema({
   isFinalized:{
     type: Boolean,
     default: false,
+  },
+  guide:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Guide",
+    required:false,
   }
 
 });
