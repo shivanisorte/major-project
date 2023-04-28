@@ -379,7 +379,6 @@ function ProjectHub() {
                 onChange={(e)=>setProjectType(e.target.value)}
                 isRequired
                 >
-                  <option value="Faculty Project">Faculty Project</option>
                   <option value="DHealth">DHealth</option>
                   <option value="CREIYA">CREIYA</option>
                   <option value="ICAR">ICAR</option>

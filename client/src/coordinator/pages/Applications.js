@@ -5,10 +5,12 @@ import ApplicationProjectCard from '../components/ApplicationProjectCard';
 import { Center, Heading, useToast } from '@chakra-ui/react';
 
 
+
 const Applications = () => {
   const [projects, setProjects] = useState([]);
   const [yourProjects, setYourProjects] = useState([]);
   const [uploadBy, setUploadBy] = useState('');
+  const [guides, setGuides] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,6 +28,16 @@ const Applications = () => {
           console.log(response.data.coordinator._id);
           setUploadBy(response.data.coordinator._id);
         }
+
+        axios.get('http://localhost:3001/guide/allguidesdropdown', { withCredentials: true })
+        .then(guideResponse => {
+          console.log(guideResponse.data);
+          setGuides(guideResponse.data.guides);
+        })
+        .catch(error => {
+          console.log(error);
+          // handle the error here
+        });
 
       } catch (error) {
         if (error.response) {
@@ -87,12 +99,12 @@ const Applications = () => {
         </Center>
     {yourProjects ? (
       yourProjects.map((project) => (
-        // <ApplicationProjectCard
-        //   project={project}
-        //   toast={toast}
-        //   coordinator={uploadBy}
-        // />
-        console.log("hi")
+        <ApplicationProjectCard
+          project={project}
+          toast={toast}
+          guide={project.guide}
+          guides = {guides}
+        />
       ))
     ) : (
       <div>Loading...</div> 
