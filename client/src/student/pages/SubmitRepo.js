@@ -16,7 +16,10 @@ function SubmitRepo() {
   };
 
   return (
-    <>
+    <div style={{ 
+      background: "linear-gradient(16deg, rgba(255, 255, 255, 1) 20%, rgba(183, 148, 244, 0.4) 80.1%)",
+    }}>
+    
       <AppNav></AppNav>
 
       <Box
@@ -26,7 +29,7 @@ function SubmitRepo() {
         flexDirection="column"
         justifyContent="center"
         alignItems="center"
-        height="70vh"
+        height="87vh"
       >
         <VStack spacing={6}>
           <Heading as="h1" size="2xl">
@@ -38,13 +41,15 @@ function SubmitRepo() {
             style={{ display: "flex", flexDirection: "row" }}
           >
             <Input
-              name="repositoryUrl"
-              placeholder="Enter your repository URL"
-              size="lg"
-              mr={2}
-              value={repositoryUrl}
-              onChange={handleChange}
-            />
+            name="repositoryUrl"
+            placeholder="Enter your repository URL"
+            size={["md","md","lg","lg"]}
+            mr={2}
+            value={repositoryUrl}
+            onChange={handleChange}
+            borderColor="black"
+          />
+
             <Button type="submit" colorScheme="purple" size="lg">
               Submit
             </Button>
@@ -53,7 +58,7 @@ function SubmitRepo() {
           <Text fontSize={['md','md','lg','xl']}>Project Finalized - Project XYZ</Text>
           </Center>
           <Text fontSize={['sm','sm','md','lg']}>
-            Need help creating a repository on Github? Check out the{" "}
+            Need help creating a repository on GitHub? Check out the{" "}
             <Link
               href="https://docs.github.com/en/github-ae@latest/get-started/quickstart/create-a-repo"
               color="blue.500"
@@ -65,7 +70,7 @@ function SubmitRepo() {
           </Text>
         </VStack>
       </Box>
-    </>
+    </div>
   );
 }
 

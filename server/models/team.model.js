@@ -70,6 +70,12 @@ const TeamSchema = new Schema({
     },
     max: 101,
   },
+
+  repoLink: {
+    type: String,
+    required: false
+  },
+
 });
 
 const Team = mongoose.model("Team", TeamSchema);
