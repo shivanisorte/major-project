@@ -1,15 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AppNav from "../../components/AppNav";
 import { Box, Heading, Input, Button, Text, Link, VStack, Center } from "@chakra-ui/react";
+import axios from "axios";
 
 function SubmitRepo() {
   const [repositoryUrl, setRepositoryUrl] = useState("");
+  const [teamId, setTeamId] = useState("");
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3001/student/", { withCredentials: true })
+      .then((response) => {
+        setTeamId(response.data.student.team);
+        console.log(response.data.student.team)
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(repositoryUrl);
-    // give to mongodb
-  };
+    const repoData = {
+      repoLink: repositoryUrl
+    };
+    axios.put(`http://localhost:3001/student/studentsubmitrepo/${teamId}`, repoData)
+    .then(response => {
+      console.log(response.data);
+      // Handle success response
+    })
+    .catch(error => {
+      console.error(error);
+      // Handle error response
+    });
+    };
 
   const handleChange = (event) => {
     setRepositoryUrl(event.target.value);

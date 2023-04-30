@@ -26,7 +26,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.post("/studentsubmitrepo/:teamId", async (req, res) => {
+router.put("/studentsubmitrepo/:teamId", async (req, res) => {
   const { teamId } = req.params;
   const { repoLink } = req.body;
   try {
