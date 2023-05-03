@@ -57,8 +57,8 @@ const guideSchema = Schema({
     required: true,
   },
   bachelors: {
-     type: Boolean,
-     required: true,
+    type: Boolean,
+    required: true,
   },
   masters: {
     type: Boolean,
@@ -74,6 +74,12 @@ const guideSchema = Schema({
   },
 
   teams: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Team",
+    },
+  ],
+  panelMemberOf: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Team",
