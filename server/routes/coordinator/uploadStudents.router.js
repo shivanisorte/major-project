@@ -18,7 +18,7 @@ const router = express.Router();
 router.post("/", upload.single("students"), async function (req, res) {
   const respObject = await readStudentSheet("uploads/student-data.xlsx");
   fs.unlinkSync("uploads/student-data.xlsx");
-  res.json(respObject);
+  res.status(respObject.success === true ? 201 : 500).json(respObject);
 });
 
 module.exports = router;

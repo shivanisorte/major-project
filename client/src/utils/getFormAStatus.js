@@ -20,8 +20,8 @@ export default async function getFormAStatus(
     setNStudents(response.data.nStudents);
     setStudentApproval(response.data.studentApproval);
     setTeamSubmission(response.data.teamSubmission);
-    if (response.data.formA.length !== 0) {
-      setProjects(response.data.formA);
+    if (response.data.formA.data.length !== 0) {
+      setProjects(response.data.formA.data);
     }
   } catch (error) {
     console.log(error);
