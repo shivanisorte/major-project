@@ -9,7 +9,6 @@ export default async function submitFormAApproval(
   toast
 ) {
   try {
-    console.log(formA);
     const response = await axios.post(
       "http://localhost:3001/student/formA/approve",
       { teamId, nStudents, formA },

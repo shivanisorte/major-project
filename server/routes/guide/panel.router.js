@@ -2,6 +2,7 @@ const express = require("express");
 const Guide = require("../../models/guide.model");
 const router = express.Router();
 const Team = require("../../models/team.model");
+const totalNumberOfCurrentPanelMembers = require("../../utils/totalNumberOfCurrentPanelMembers");
 
 router.post("/", async (req, res) => {
   if (req.user) {
@@ -80,28 +81,5 @@ router.get("/status", async (req, res) => {
     res.status(403).json({ success: false, message: "Please login again" });
   }
 });
-
-async function totalNumberOfCurrentPanelMembers() {
-  try {
-    const n = await Team.aggregate([
-      {
-        $group: {
-          _id: "null",
-          count: { $sum: { $size: "$formA.panel" } },
-        },
-      },
-      {
-        $project: {
-          _id: 0,
-          count: 1,
-        },
-      },
-    ]);
-
-    return n[0].count;
-  } catch (error) {
-    console.log(error);
-  }
-}
 
 module.exports = router;
