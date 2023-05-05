@@ -47,6 +47,7 @@ const cards = [
 const Card = ({ title, subtitle }) => {
   return (
     <Box
+    bg={'white'}
       borderWidth="1px"
       borderRadius="lg"
       overflow="hidden"
@@ -129,6 +130,35 @@ export default function Sidebar() {
         </GridItem>
       ))}
     </Grid>
+
+    <Flex direction={{ base: "column", md: "row" }} justifyContent="space-between" mt={8} mx={6}>
+    <Box w={{ base: "100%", md: "67%" }} h="400px" bg="yellow" rounded="md" boxShadow="sm" p={4} borderWidth="1px" borderRadius="lg">
+      {/* Add content for graph one here */}
+    </Box>
+    <Box w={{ base: "100%", md: "30%" }} h="400px" bg="blue" rounded="md" boxShadow="sm" p={4} mt={{ base: 8, md: 0 }} borderWidth="1px" borderRadius="lg">
+      {/* Add content for graph two here */}
+    </Box>
+  </Flex>
+
+  
+  <Flex direction={{ base: "column", md: "row" }} justifyContent="space-between" my={8} mx={6}>
+      <Box w={{ base: "100%", md: "30%" }}  h="300px" bg="green" rounded="md" boxShadow="sm" p={4} borderWidth="1px" borderRadius="lg"></Box>
+      <Box w={{ base: "100%", md: "30%" }}  h="300px" bg="pink" rounded="md" boxShadow="sm" p={4} mt={{ base: 8, md: 0 }} borderWidth="1px" borderRadius="lg"></Box>
+      <Box w={{ base: "100%", md: "30%" }}  h="300px" bg="orange" rounded="md" boxShadow="sm" p={4} mt={{ base: 8, md: 0 }} borderWidth="1px" borderRadius="lg"></Box>
+    </Flex>
+
+
+    <Flex direction={{ base: "column", md: "row" }} justifyContent="space-between" mt={8} mx={6}>
+    <Box w={{ base: "100%", md: "49%" }} h="400px" bg="red" rounded="md" boxShadow="sm" p={4} borderWidth="1px" borderRadius="lg">
+      {/* Add content for graph one here */}
+    </Box>
+    <Box w={{ base: "100%", md: "49%" }} h="400px" bg="blue" rounded="md" boxShadow="sm" p={4} mt={{ base: 8, md: 0 }}  mb={10} borderWidth="1px" borderRadius="lg">
+      {/* Add content for graph two here */}
+    </Box>
+  </Flex>
+
+  
+
         
       </Box>
     </Box>

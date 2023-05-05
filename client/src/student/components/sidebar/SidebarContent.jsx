@@ -74,7 +74,7 @@ const SidebarContent = ({ ...props }) => {
       <Flex px="4" py="5" align="center">
       <Image src={motionLogo} h={8} w={8} ml={3}/>
         <Text
-          fontSize="3xl"
+          fontSize="2xl"
           ml="2"
           color={useColorModeValue('brand.500', 'white')}
           fontWeight="semibold"
