@@ -60,7 +60,20 @@ const ProjectHubSchema = new mongoose.Schema({
   applications: [{
     type: applicationSchema,
     required: false
-  }]
+  }],
+  selectedTeam:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Teams",
+  },
+  isFinalized:{
+    type: Boolean,
+    default: false,
+  },
+  guide:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Guide",
+    required:false,
+  }
 
 });
 

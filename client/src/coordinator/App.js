@@ -6,6 +6,7 @@ import Login from "../components/Login";
 import ProjectHub from "./pages/ProjectHub";
 
 import logo from "./../assets/coordinator.png";
+import Applications from "./pages/Applications";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         ></Route>
         <Route path="/dashboard" element={<Dashboard></Dashboard>}></Route>
         <Route path="/projecthub" element={<ProjectHub></ProjectHub>}></Route>
+        <Route path="/applications" element={<Applications></Applications>}></Route>
       </Routes>
     </div>
   );
