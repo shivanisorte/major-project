@@ -41,8 +41,13 @@ const StudentSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Guide",
   },
+  isFormAApproved: {
+    type: Boolean,
+    default: false,
+  },
   isTopicFinalised: {
     type: Boolean,
+    default: false,
   },
 });
 

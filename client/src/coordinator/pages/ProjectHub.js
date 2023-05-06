@@ -3,9 +3,6 @@ import addProject from '../../utils/addProject';
 import AppNav from '../../components/AppNav';
 import ProjectCard from './../../components/ProjectCard';
 
-
-import { Link } from "react-router-dom";
-
 import {
   Button,
   FormControl,
@@ -23,20 +20,21 @@ import {
   Center,
   Heading,
   SimpleGrid,
+  Text,
   useToast,
   ModalCloseButton,
   ModalFooter,
   ButtonGroup,
   IconButton, 
 } from '@chakra-ui/react';
+import { MdFilterList } from "react-icons/md";
 
 import { AddIcon } from "@chakra-ui/icons";
 
-import getUploadedByGuide from "../../utils/getUploadByGuide";
+import getUploadedByCoord from "../../utils/getUploadedByCoord";
 
 import axios from 'axios';
-
-import { MdFilterList } from "react-icons/md";
+import { Link } from 'react-router-dom';
 
 
 
@@ -70,6 +68,9 @@ function ProjectHub() {
   const [selectedPtype, setselectedPtype] = useState('');
   const [selectedPstatus, setselectedPstatus] = useState('');
 
+  const [projectGuide, setProjectGuide] = useState('');
+  const [guides, setGuides] = useState([]);
+
 
   const [allProjectsButtonColor, setAllProjectsButtonColor] = useState("purple");
   const [yourProjectsButtonColor, setYourProjectsButtonColor] = useState("gray");
@@ -83,7 +84,18 @@ function ProjectHub() {
         if(resp.data.success===true){
           setProjects(resp.data.projects);
         }
-        getUploadedByGuide(setUploadedBy, toast);
+        getUploadedByCoord(setUploadedBy, toast);
+
+        axios.get('http://localhost:3001/guide/allguidesdropdown', { withCredentials: true })
+        .then(response => {
+          console.log(response.data);
+          setGuides(response.data.guides);
+          // handle the response data here
+        })
+        .catch(error => {
+          console.log(error);
+          // handle the error here
+        });
 
       }
       catch(error){
@@ -139,6 +151,7 @@ function ProjectHub() {
       technologies: technologies,
       contact: contact,
       otherDetails:otherDetails,
+      guide:projectGuide,
       status: 'Open'
     };
     onClose();
@@ -177,6 +190,7 @@ function ProjectHub() {
     setselectedPtype('');
     setseletedPDomain('');
   }
+
 
 
   // Filter projects based on the value of displayOnlyYourProjects
@@ -231,7 +245,6 @@ function ProjectHub() {
         <Heading as="h1" size="xl" my={8}>
           Project Hub
         </Heading>
-
         <IconButton
         icon={<MdFilterList/>}
         border='2px'
@@ -305,7 +318,6 @@ function ProjectHub() {
                 value={selectedPtype}
                 onChange={(e)=>setselectedPtype(e.target.value)}
                 >
-                <option value="Faculty Project">Faculty Project</option>
                 <option value="DHealth">DHealth</option>
                 <option value="CREIYA">CREIYA</option>
                 <option value="ICAR">ICAR</option>
@@ -367,7 +379,10 @@ function ProjectHub() {
                 onChange={(e)=>setProjectType(e.target.value)}
                 isRequired
                 >
-                  <option value="Faculty Project">Faculty Project</option>
+                  <option value="DHealth">DHealth</option>
+                  <option value="CREIYA">CREIYA</option>
+                  <option value="ICAR">ICAR</option>
+                  <option value="Others">Others</option>
 
                 </Select>
               </FormControl>
@@ -391,6 +406,24 @@ function ProjectHub() {
                 <option value="Others">Others</option>
                 </Select>
               </FormControl>
+
+              <FormControl>
+                <FormLabel>Guide</FormLabel>
+                <Select
+                  placeholder="Select Guide"
+                  value={projectGuide}
+                  onChange={(e) => setProjectGuide(e.target.value)}
+                  isRequired
+                >
+                {guides.map(guide => (
+                <option key={guide._id} value={guide._id}>{guide.name}</option>
+                ))}
+
+                </Select>
+              </FormControl>
+
+
+
               <FormControl>
                 <FormLabel>Description</FormLabel>
                 <Textarea
@@ -440,7 +473,7 @@ function ProjectHub() {
           <ProjectCard 
           project={project} 
           key={index} 
-          buttonval={displayOnlyYourProjects ? 'Update' : 'View Details'} 
+          buttonval={displayOnlyYourProjects ? 'Update' : 'View Details'}
           setProjects={setProjects}
           
           />
@@ -463,6 +496,7 @@ function ProjectHub() {
     zIndex="1"
     onClick={onOpen}
   />
+      
     </Box>
 
     </div>

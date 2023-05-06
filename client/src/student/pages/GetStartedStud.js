@@ -25,6 +25,7 @@ const GetStartedStud = ({ image, buttonText, heading }) => {
             align={"center"}
           >
             {" "}
+            <Link to="../projectHub">
             <Button
               width="2xs"
               rightIcon={<BiChevronRight />}
@@ -33,6 +34,7 @@ const GetStartedStud = ({ image, buttonText, heading }) => {
             >
               {buttonText[0]}
             </Button>
+            </Link>
             <Link to="../formA">
               <Button
                 width="2xs"

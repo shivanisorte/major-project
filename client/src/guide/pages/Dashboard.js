@@ -17,7 +17,7 @@ function Dashboard() {
   return (
     <>
       {guide ? (
-        guide.team.length > 0 ? (
+        guide.teams.length > 0 ? (
           <>
             <AppNav></AppNav>
             "Hello Guide"
@@ -28,7 +28,8 @@ function Dashboard() {
             <GetStartedGuide
               heading={"You haven't been alloted a team yet"}
               image={gsimage}
-              buttonText={["Go to Project Hub", "Contact Coordinator"]}
+              // buttonText={["Go to Project Hub", "Contact Coordinator"]}
+              buttonText={["Go to Project Hub", "Join a panel"]}
             ></GetStartedGuide>
           </>
         )
