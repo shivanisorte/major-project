@@ -11,6 +11,7 @@ const authRouter = require("./routes/auth");
 const projectHubRouter =  require("./routes/projectHub");
 const teamsRouter = require("./routes/team")
 const { initializeDBConnection } = require("./db/db.connect");
+const errorHandler = require("./middlewares/errorHandler");
 
 const whitelist = ["http://localhost:3000"];
 
@@ -33,6 +34,9 @@ app.use("/student", studentRouter);
 app.use("/guide", guideRouter);
 app.use("/projectHub", projectHubRouter);
 app.use("/teams", teamsRouter);
+
+// Error handler
+app.use(errorHandler)
 
 app.listen(port, () => {
   console.log(`Server started at http://localhost:${port}`);
