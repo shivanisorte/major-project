@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from "react";
 import AppNav from "../../components/AppNav";
-import { Box, Heading, Input, Button, Text, Link, VStack, Center } from "@chakra-ui/react";
+import { Box, Heading, Input, Button, Text, Link, VStack, Center, Image } from "@chakra-ui/react";
 import axios from "axios";
 import { useToast } from '@chakra-ui/react';
+import done from "./../../assets/done.png"
 
 function SubmitRepo() {
   const [repositoryUrl, setRepositoryUrl] = useState("");
+  const [projectTitle, setProjectTitle]= useState('');
+  const [projectDomain, setProjectDomain]= useState('');
+  const [repoSub, setRepoSub] = useState(false);
   const [teamId, setTeamId] = useState("");
   const toast = useToast();
+  
 
   useEffect(() => {
     console.log('hvghv')
@@ -15,12 +20,41 @@ function SubmitRepo() {
       .get("http://localhost:3001/student/", { withCredentials: true })
       .then((response) => {
         setTeamId(response.data.student.team);
-        console.log(response.data.student.team)
+        console.log(response.data.student.team);
       })
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  
+    const fetchTeamData = async (teamId) => {
+      if (teamId) {
+        try {
+          const response = await axios.get(`http://localhost:3001/student/getdata/${teamId}`, { withCredentials: true });
+          const { success, team, message } = response.data;
+  
+          if (success) {
+            // Team data retrieval successful
+            console.log('Team:', team);
+            if(team.repoLink){
+              setRepoSub(true);
+            }
+            setProjectTitle(team.projectTitle)
+            setProjectDomain(team.projectDomain)
+            // Process team data as needed
+          } else {
+            // Team not found or other error
+            console.error(message);
+          }
+        } catch (error) {
+          // Error during API call
+          console.error('Error:', error.message);
+        }
+      }
+    };
+  
+    fetchTeamData(teamId);
+  }, [teamId]);
+  
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -88,30 +122,57 @@ function SubmitRepo() {
         height="87vh"
       >
         <VStack spacing={6}>
+        {repoSub ? (
+          <>
+          <Heading as="h1" size="2xl">
+            Repository Submitted ✅
+          </Heading>
+
+          <Image
+            maxWidth={["300px", "300px"]}
+            src={done}
+            alt="get started coordinator img"
+            my={3}
+            ml={4}
+          />
+
+          </>
+        ) : (
+          <>
           <Heading as="h1" size="2xl">
             Submit your GitHub repository
           </Heading>
           <form
-            my={6}
-            onSubmit={handleSubmit}
-            style={{ display: "flex", flexDirection: "row" }}
-          >
-            <Input
-            name="repositoryUrl"
-            placeholder="Enter your repository URL"
-            size={["md","md","lg","lg"]}
-            mr={2}
-            value={repositoryUrl}
-            onChange={handleChange}
-            borderColor="black"
-          />
+          my={6}
+          onSubmit={handleSubmit}
+          style={{ display: "flex", flexDirection: "row" }}
+        >
+          <Input
+          name="repositoryUrl"
+          placeholder="Enter your repository URL"
+          size={["md","md","lg","lg"]}
+          mr={2}
+          value={repositoryUrl}
+          onChange={handleChange}
+          borderColor="black"
+        />
 
-            <Button type="submit" colorScheme="purple" size="lg">
-              Submit
-            </Button>
-          </form>
+          <Button type="submit" colorScheme="purple" size="lg">
+            Submit
+          </Button>
+        </form>
+        </>
+        )}
+
+
+
+          
+          
           <Center>
-          <Text fontSize={['md','md','lg','xl']}>Project Finalized - Project XYZ</Text>
+          <Text fontSize={['md','md','lg','xl']}>Project Finalized - {projectTitle}</Text>
+          </Center>
+          <Center>
+          <Text fontSize={['md','md','lg','xl']}>Project Domain - {projectDomain}</Text>
           </Center>
           <Text fontSize={['sm','sm','md','lg']}>
             Need help creating a repository on GitHub? Check out the{" "}
