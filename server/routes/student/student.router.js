@@ -54,4 +54,31 @@ router.put("/studentsubmitrepo/:teamId", async (req, res) => {
 });
 
 
+router.get("/getdata/:teamId", async (req, res) => {
+  try {
+    const teamId = req.params.teamId;
+
+    const team = await Team.findById(teamId).populate('students', '-password'); // Use .populate() to populate the students field and exclude the password field
+
+    if (!team) {
+      return res.status(404).json({
+        success: false,
+        message: "Team not found.",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Team found",
+      team: team,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Internal server error.",
+    });
+  }
+});
+
+
 module.exports = router;
