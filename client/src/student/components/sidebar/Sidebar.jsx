@@ -19,6 +19,8 @@ import { FaBell } from 'react-icons/fa';
 import { AiOutlineHome } from 'react-icons/ai'; 
 import { FiMenu } from 'react-icons/fi';
 import SidebarContent from './SidebarContent';
+import { Octokit } from "@octokit/rest";
+import { useEffect, useState } from 'react';
 
 
 const cards = [
@@ -67,6 +69,75 @@ const Card = ({ title, subtitle }) => {
 
 export default function Sidebar() {
   const { isOpen, onClose, onOpen } = useDisclosure();
+  const [commits, setCommits]=useState([]);
+  const octokit = new Octokit({
+    auth: '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',
+  });
+  
+
+  useEffect(()=>{
+    //Using Octokit to make a GET request
+    const getCommitData = async () => {
+      try {
+          const commitData = await octokit.request(`GET /repos/{owner}/{repo}/commits`, {
+              owner:'shivanisorte',
+              repo:'testing',
+              per_page:100,
+              headers: {
+                  'X-GitHub-Api-Version': '2022-11-28'
+              }
+          })
+          console.log(commitData.data);
+          // setCommitData(commitData);
+           setCommits(commitData.data);
+
+          const frequencyCount = {
+            Sunday: 0,
+            Monday: 0,
+            Tuesday: 0,
+            Wednesday: 0,
+            Thursday: 0,
+            Friday: 0,
+            Saturday: 0
+          };
+
+          // Get the current date and time
+const currentDate = new Date();
+
+// Get the start and end dates for the current week
+const startOfWeek = new Date(currentDate.setDate(currentDate.getDate() - currentDate.getDay()));
+const endOfWeek = new Date(currentDate.setDate(currentDate.getDate() - currentDate.getDay() + 6));
+
+// Iterate over the commits
+commits.forEach(commit => {
+  // Extract the commit date
+  const commitDate = new Date(commit.commit.author.date);
+
+  // Check if the commit date is within the current week
+  if (commitDate >= startOfWeek && commitDate <= endOfWeek) {
+    // Get the day of the week for the commit date
+    const dayOfWeek = commitDate.toLocaleDateString('en-US', { weekday: 'long' });
+
+    // Increment the frequency count for the corresponding day of the week
+    frequencyCount[dayOfWeek]++;
+  }
+},[]);
+
+// Display the frequency count for each day of the week
+Object.entries(frequencyCount).forEach(([day, count]) => {
+  console.log(`${day}: ${count}`);
+});
+
+
+
+      }
+      catch (error) {
+          console.error(error);
+      }
+      
+  }
+  getCommitData();
+  })
   
   
 

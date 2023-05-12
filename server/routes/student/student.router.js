@@ -29,6 +29,7 @@ router.get("/", async (req, res) => {
 router.put("/studentsubmitrepo/:teamId", async (req, res) => {
   const { teamId } = req.params;
   const { repoLink } = req.body;
+  console.log(teamId)
   try {
     const team = await Team.findById(teamId);
     if (!team) {

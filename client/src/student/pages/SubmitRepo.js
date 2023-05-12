@@ -2,12 +2,15 @@ import React, { useState, useEffect } from "react";
 import AppNav from "../../components/AppNav";
 import { Box, Heading, Input, Button, Text, Link, VStack, Center } from "@chakra-ui/react";
 import axios from "axios";
+import { useToast } from '@chakra-ui/react';
 
 function SubmitRepo() {
   const [repositoryUrl, setRepositoryUrl] = useState("");
   const [teamId, setTeamId] = useState("");
+  const toast = useToast();
 
   useEffect(() => {
+    console.log('hvghv')
     axios
       .get("http://localhost:3001/student/", { withCredentials: true })
       .then((response) => {
@@ -21,18 +24,46 @@ function SubmitRepo() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    if (repositoryUrl.trim() === '') {
+      // Display a toast message when the repository URL is empty
+      toast({
+        title: 'Empty Repository URL',
+        description: 'Please enter a valid repository URL',
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
+      return;
+    }
+
+
     console.log(repositoryUrl);
     const repoData = {
       repoLink: repositoryUrl
     };
-    axios.put(`http://localhost:3001/student/studentsubmitrepo/${teamId}`, repoData)
+    axios.put(`http://localhost:3001/student/studentsubmitrepo/${teamId}`, repoData, { withCredentials: true } )
     .then(response => {
       console.log(response.data);
+      toast({
+        title: 'Added Repository URL',
+        description: 'Successfully added repository URL',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      });
       // Handle success response
     })
     .catch(error => {
       console.error(error);
       // Handle error response
+      toast({
+        title: 'Error',
+        description: error,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
     });
     };
 
