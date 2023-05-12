@@ -30,6 +30,7 @@ import { BsDot } from "react-icons/bs";
 import Loading from "../../components/Loading";
 import getPanelStatus from "../../utils/getPanelStatus";
 import selectPanel from "../../utils/selectPanel";
+import PanelMemberOf from "../components/PanelMemberOf";
 
 function SelectPanel() {
   const [submissions, setSubmissions] = useState();
@@ -100,19 +101,25 @@ function SelectPanel() {
 
                     <Box width={"full"} textAlign={"center"}>
                       <Icon
-                        color={teamObject.formA.panel[0] ? "blue.400" : "grey"}
+                        color={
+                          teamObject.formA.panel[0] ? "purple.600" : "grey"
+                        }
                         fontSize={"3xl"}
                       >
                         <BsDot></BsDot>
                       </Icon>
                       <Icon
-                        color={teamObject.formA.panel[1] ? "blue.400" : "grey"}
+                        color={
+                          teamObject.formA.panel[1] ? "purple.600" : "grey"
+                        }
                         fontSize={"3xl"}
                       >
                         <BsDot></BsDot>
                       </Icon>
                       <Icon
-                        color={teamObject.formA.panel[2] ? "blue.400" : "grey"}
+                        color={
+                          teamObject.formA.panel[2] ? "purple.600" : "grey"
+                        }
                         fontSize={"3xl"}
                       >
                         <BsDot></BsDot>
@@ -128,7 +135,7 @@ function SelectPanel() {
                         }
                         ml={2}
                         variant={"solid"}
-                        colorScheme="blue"
+                        colorScheme="purple"
                         onClick={() => {
                           onOpen();
                           setTeamPanelSelected(teamObject._id);
@@ -146,9 +153,13 @@ function SelectPanel() {
             <Spinner></Spinner>
           )
         ) : (
-          <Heading m={2} textAlign={"center"}>
-            You have completed panel selection!
-          </Heading>
+          <>
+            <Heading size={"md"} mt={5} textAlign={"center"}>
+              You have completed panel selection. Please finalize the topics
+              now.
+            </Heading>
+            <PanelMemberOf toast={toast} />
+          </>
         )
       ) : (
         <>
