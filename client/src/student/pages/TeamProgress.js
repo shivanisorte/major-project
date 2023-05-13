@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import AppNav from "../../components/AppNav";
-import { Box, Heading, Input, Button, VStack, Grid, GridItem, IconButton } from "@chakra-ui/react";
+import { Box, Heading, Input, Button, VStack, Grid, GridItem, IconButton, useToast } from "@chakra-ui/react";
 import { CloseIcon, AddIcon } from "@chakra-ui/icons";
 
 function TeamProgress () {
+
+    const toast = useToast();
 
     const [sprints, setSprints] = useState([
         { number: 1, tasks: [{name: "Task 1"}] },
@@ -42,6 +44,16 @@ function TeamProgress () {
             return newSprints;
         });
     };
+
+    const handleToast = () => {
+        toast({
+            title: "Project Plan Created.",
+            description: "Your project plan has been created.",
+            status: "success",
+            duration: 9000,
+            isClosable: true,
+        })
+    }
     
     return (
     <>
@@ -199,7 +211,7 @@ function TeamProgress () {
                     backgroundColor={"#AA77FF"}
                     color={"white"}
                     size="md"
-                    onClick={() => handleCreatePlan(0)}
+                    onClick={handleToast}
                 >
                     Submit
                 </Button>
