@@ -11,11 +11,22 @@ import {
   CardFooter,
   CardHeader,
   Input,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  ModalHeader,
+  ModalContent,
+  ModalOverlay,
+  Modal,
+  useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 
 function LastPhase({ toast }) {
   const [reviewButton, setReviewButton] = useState(true);
   const [submissionButton, setSubmissionButton] = useState(true);
+  const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <Box>
       {" "}
@@ -95,6 +106,51 @@ function LastPhase({ toast }) {
           </Button>
         </CardBody>
       </Card>
+      <Box m={3} textAlign={"center"}>
+        <Link to="../all-teams">
+          <Button m={"0rem 1rem"} colorScheme="purple">
+            View all teams
+          </Button>
+        </Link>
+
+        <Button onClick={onOpen}>Schedule Webinar</Button>
+      </Box>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent width="90vw">
+          <ModalHeader>Schedule a webinar</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Box>
+              <Input m={1} placeholder="Title"></Input>
+              <Input m={1} placeholder="By"></Input>
+              <Input m={1} placeholder="Description"></Input>
+              <Input m={1} type="datetime-local" placeholder="When"></Input>
+            </Box>
+          </ModalBody>
+
+          <ModalFooter justifyContent={"center"}>
+            <Button
+              w={"50%"}
+              onClick={() => {
+                onClose();
+                toast({
+                  title: "Scheduled!",
+                  description:
+                    "You have scheduled a webinar. A mail has been sent to everyone!",
+                  status: "success",
+                  duration: 6000,
+                  isClosable: true,
+                });
+              }}
+              colorScheme="purple"
+              mr={3}
+            >
+              Schedule
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Box>
   );
 }
