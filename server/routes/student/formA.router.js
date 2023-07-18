@@ -12,7 +12,7 @@ router.post("/approve", async (req, res) => {
       const team = await Team.findById(teamId);
       if (student.isFormAApproved === false && team) {
         student.isFormAApproved = true;
-        team.formA = formA;
+        team.formA.data = formA;
         team.formAApproval = Number(team.formAApproval) + 100 / nStudents;
         team.validateSync();
         await team.save();
@@ -36,23 +36,27 @@ router.post("/approve", async (req, res) => {
 });
 
 router.post("/submit", async (req, res) => {
-  const { teamId } = req.body;
-  try {
-    const team = await Team.findById(teamId);
-    if (team && team.formAApproval >= 100) {
-      team.isFormASubmitted = true;
-      await team.save();
-      return res
-        .status(201)
-        .json({ success: true, message: "formA submitted!" });
+  if (req.user) {
+    const { teamId } = req.body;
+    try {
+      const team = await Team.findById(teamId);
+      if (team && team.formAApproval >= 100) {
+        team.isFormASubmitted = true;
+        await team.save();
+        return res
+          .status(201)
+          .json({ success: true, message: "formA submitted!" });
+      }
+      res.status(404).json({
+        success: false,
+        message: "Maybe 100% approval has not been achieved. Please try again.",
+      });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ success: false, message: err.message });
     }
-    res.status(404).json({
-      success: false,
-      message: "Maybe 100% approval has not been achieved. Please try again.",
-    });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ success: false, message: err.message });
+  } else {
+    res.status(403).json({ success: false, message: "Please login again" });
   }
 });
 
@@ -62,7 +66,6 @@ router.post("/edit", async (req, res) => {
       const { teamId } = req.body;
       const student = await Student.findOne({ phno: req.user });
       const team = await Team.findById(teamId);
-      console.log(student);
       if (student && team) {
         student.isFormAApproved = false;
         team.formAApproval = 0;
@@ -91,13 +94,13 @@ router.post("/edit", async (req, res) => {
 });
 
 router.get("/form-a-status", async (req, res) => {
-  try {
-    if (req.user != null) {
+  if (req.user != null) {
+    try {
       const phno = req.user;
       const student = await Student.findOne({ phno: phno })
         .populate("team")
         .exec();
-      console.log(student);
+
       res.json({
         teamId: student.team._id,
         studentApproval: student.isFormAApproved,
@@ -106,9 +109,34 @@ router.get("/form-a-status", async (req, res) => {
         nStudents: student.team.students.length,
         formA: student.team.formA,
       });
+    } catch (err) {
+      res.status(500).json({ success: false, message: err.message });
     }
-  } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+  } else {
+    res.status(403).json({ success: false, message: "Please login again" });
+  }
+});
+
+router.get("/", async (req, res) => {
+  if (req.user != null) {
+    try {
+      const data = await Team.find(
+        {},
+
+        "formA"
+      );
+
+      if (data) {
+        console.log(data);
+        return res.status(200).json({ success: true, formA: data });
+      }
+      res.status(404).json({ success: false, message: "Try again later" });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ success: false, message: err.message });
+    }
+  } else {
+    res.status(403).json({ success: false, message: "Please login again" });
   }
 });
 

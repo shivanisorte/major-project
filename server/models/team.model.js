@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
-const formASchema = new mongoose.Schema({
+const formADataSchema = new mongoose.Schema({
   title: String,
-  projectDomain: {
+  domain: {
     type: String,
     enum: [
       "Artificial Intelligence",
@@ -21,6 +21,16 @@ const formASchema = new mongoose.Schema({
   technical: String,
   futureScope: String,
   applicability: String,
+});
+
+const formASchema = new mongoose.Schema({
+  panel: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Guide",
+    },
+  ],
+  data: [formADataSchema],
 });
 
 const TeamSchema = new Schema({
@@ -50,13 +60,13 @@ const TeamSchema = new Schema({
     type: String,
     // required: true,
   },
-  isProjectHubApplied:{
+  isProjectHubApplied: {
     type: Boolean,
     default: false,
   },
   formA: {
-    type: [formASchema],
-    default: [],
+    type: formASchema,
+    default: { panel: [], data: [] },
   },
   isFormASubmitted: { type: Boolean, default: false },
   formAApproval: {
