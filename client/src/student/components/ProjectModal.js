@@ -38,7 +38,7 @@ const ProjectModal = ({ project, isOpen, toggleModal, teamId, toast, setIsProjec
   const alreadyApplied=()=>{
     toast({
       title: "You have already applied",
-      description: "You can apply to only project in Project Hub",
+      description: "You can apply to only one project in Project Hub",
       status: "error",
       duration: 6000,
       isClosable: true,
