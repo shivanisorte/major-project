@@ -37,6 +37,7 @@ const LandNav = ({ colors }) => {
                 _hover={{
                   color: colors[2],
                 }}
+                to="/about"
               >
                 About App
               </Link>
