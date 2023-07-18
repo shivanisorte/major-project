@@ -1,6 +1,7 @@
 const express = require("express");
 const Student = require("../../models/student.model");
 const router = express.Router();
+const Team = require("./../../models/team.model")
 
 router.get("/", async (req, res) => {
   console.log(req.user);
@@ -24,5 +25,60 @@ router.get("/", async (req, res) => {
     });
   }
 });
+
+router.put("/studentsubmitrepo/:teamId", async (req, res) => {
+  const { teamId } = req.params;
+  const { repoLink } = req.body;
+  console.log(teamId)
+  try {
+    const team = await Team.findById(teamId);
+    if (!team) {
+      return res.status(404).json({
+        success: false,
+        message: "Team not found",
+      });
+    }
+    team.repoLink = repoLink;
+    await team.save();
+    res.status(200).json({
+      success: true,
+      message: "Repository link added successfully",
+      team: team,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+});
+
+
+router.get("/getdata/:teamId", async (req, res) => {
+  try {
+    const teamId = req.params.teamId;
+
+    const team = await Team.findById(teamId).populate('students', '-password'); // Use .populate() to populate the students field and exclude the password field
+
+    if (!team) {
+      return res.status(404).json({
+        success: false,
+        message: "Team not found.",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Team found",
+      team: team,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Internal server error.",
+    });
+  }
+});
+
 
 module.exports = router;

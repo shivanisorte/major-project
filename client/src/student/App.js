@@ -8,6 +8,7 @@ import SubmitRepo from "./pages/SubmitRepo";
 import logo from "./../assets/student.png";
 
 import FormA from "./pages/FormA";
+import StudDashboard from "./pages/StudDashboard";
 
 
 
@@ -24,6 +25,7 @@ function App() {
         <Route path="/formA" element={<FormA></FormA>}></Route>
         <Route path="/projecthub" element={<ProjectHub></ProjectHub>}></Route>
         <Route path="/submitrepo" element={<SubmitRepo></SubmitRepo>}></Route>
+        <Route path="/studdashboard" element={<StudDashboard></StudDashboard>}></Route>
       </Routes>
     </>
   );

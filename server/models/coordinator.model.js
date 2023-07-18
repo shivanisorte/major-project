@@ -7,6 +7,18 @@ const CoordinatorSchema = new Schema({
     type: Number,
     required: [true, "phone number is required "],
   },
+  isStudSubmitted: {
+    type: Boolean,
+    default: false,
+  },
+  isGuideSubmitted: {
+    type: Boolean,
+    default: false,
+  },
+  phase: {
+    type: Number,
+    default: 1,
+  },
 });
 
 const Coordinator = mongoose.model("Coordinator", CoordinatorSchema);

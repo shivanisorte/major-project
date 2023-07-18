@@ -1,5 +1,11 @@
 import axios from "axios";
-export default async function getCoordinator(navigate, toast, setCoordinator) {
+export default async function getCoordinator(
+  navigate,
+  toast,
+  setCoordinator,
+  setCurrentPhase,
+  setActiveStep
+) {
   try {
     const response = await axios.get("http://localhost:3001/coordinator", {
       withCredentials: true,
@@ -7,6 +13,8 @@ export default async function getCoordinator(navigate, toast, setCoordinator) {
     if (response.data.success === true) {
       console.log(response.data.coordinator);
       setCoordinator(response.data.coordinator);
+      setCurrentPhase(response.data.coordinator.phase);
+      setActiveStep(response.data.coordinator.phase - 1);
     }
   } catch (error) {
     navigate("../login", { replace: true });
