@@ -18,7 +18,7 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 import { BiChevronRight } from "react-icons/bi";
-// import { useNavigate } from "react-router-dom";
+import proceedToNextPhase from "../../utils/proceedToNextPhase";
 
 const GetStartedCoord = ({
   image,
@@ -26,6 +26,7 @@ const GetStartedCoord = ({
   heading,
   isStudSubmitted,
   isGuideSubmitted,
+  setCurrentPhase,
 }) => {
   //for student
   const [studentSelectedFile, setstudentSelectedFile] = useState(null);
@@ -63,7 +64,7 @@ const GetStartedCoord = ({
 
   return (
     <div>
-      <Flex minH="90vh" justify="center" direction="column">
+      <Flex justify="center" direction="column">
         <Box maxW="lg" mx="auto" textAlign="center">
           <Heading fontSize={{ base: "3xl", md: "3xl", lg: "3xl" }}>
             {heading}
@@ -86,9 +87,7 @@ const GetStartedCoord = ({
               rightIcon={<BiChevronRight />}
               colorScheme="purple"
               fontSize={["l", "l", "xl", "xl"]}
-
               isDisabled={isLoading || isStudSubmitted}
-              
             >
               {buttonText[0]}
             </Button>
@@ -174,6 +173,19 @@ const GetStartedCoord = ({
           ></Spinner>
         </Box>
       </Flex>
+      <Button
+        position={"absolute"}
+        right={0}
+        bottom={0}
+        m={3}
+        p={5}
+        colorScheme="purple"
+        variant={"solid"}
+        isDisabled={isStudSubmitted === false || isGuideSubmitted === false}
+        onClick={() => proceedToNextPhase(toast, setCurrentPhase)}
+      >
+        Next
+      </Button>
     </div>
   );
 };

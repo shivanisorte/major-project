@@ -82,4 +82,26 @@ router.get("/status", async (req, res) => {
   }
 });
 
+router.get("/members-of", async (req, res) => {
+  if (req.user) {
+    const guideObj = await Guide.findOne({ phno: req.user }, "panelMemberOf")
+      .populate("panelMemberOf")
+      .exec();
+    console.log(guideObj);
+    if (guideObj === null) {
+      return res.status(404).json({
+        success: false,
+        message: "Guide not found. Please login again.",
+      });
+    }
+    res.status(200).json({
+      success: true,
+      message: "Guide found",
+      panelMemberOf: guideObj.panelMemberOf,
+    });
+  } else {
+    res.status(403).json({ success: false, message: "Please login again" });
+  }
+});
+
 module.exports = router;
